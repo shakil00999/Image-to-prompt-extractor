@@ -3,100 +3,709 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>স্মার্ট প্রস্তুতি কুইজ</title>
+    <title data-i18n="appTitle">স্মার্ট প্রস্তুতি কুইজ</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700;800&family=Inter:wght@400;600;700;800;900&family=Poppins:wght@400;600;700;800&display=swap');
+        
         :root {
-            --green: #58CC02; --blue: #1CB0F6; --red: #EF4444; --yellow: #FFD700;
-            --dark-bg: #1F2937; --medium-bg: #374151; --light-text: #E5E7EB;
+            /* Modern Color Palette */
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --secondary-dark: #db2777;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            
+            /* Gradients */
+            --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gradient-success: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            --gradient-warm: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            --gradient-cool: linear-gradient(135deg, #30cfd0 0%, #330867 100%);
+            --gradient-sunset: linear-gradient(135deg, #ff6b6b 0%, #feca57 50%, #48dbfb 100%);
+            
+            /* Dark theme colors */
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --text-muted: #94a3b8;
         }
-        body { font-family: 'Baloo Da 2', 'Inter', sans-serif; background-color: var(--dark-bg); color: var(--light-text); }
-        .container-main { max-width: 900px; margin: 0 auto; }
-        .bg-duolingo-green { background-color: var(--green); }
-        .hover\:bg-duolingo-green-dark:hover { background-color: #4CAF02; }
-        .text-duolingo-green { color: var(--green); }
-        .bg-duolingo-blue { background-color: var(--blue); }
-        .text-duolingo-blue { color: var(--blue); }
-        .text-golden { color: var(--yellow); text-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
 
-        /* Modal & Pop-up Styles */
-        .modal-backdrop {
-            position: fixed; inset: 0; z-index: 50;
-            display: flex; align-items: center; justify-content: center;
-            background-color: rgba(0, 0, 0, 0.6);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', 'Baloo Da 2', 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            animation: backgroundShift 20s ease infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes backgroundShift {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .container-main {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Glassmorphism Effects */
+        .glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-strong {
+            background: rgba(30, 41, 59, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Modern Buttons */
+        .btn-gradient {
+            background: var(--gradient-primary);
+            border: none;
+            color: white;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .btn-gradient:hover::before {
+            left: 100%;
+        }
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Sidebar Menu */
+        .sidebar-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 60%;
+            max-width: 500px;
+            transform: translateX(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 100;
+        }
+
+        .sidebar-menu.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
             backdrop-filter: blur(8px);
-            opacity: 0; pointer-events: none;
-            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            z-index: 99;
         }
-        .modal-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+        .sidebar-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-content {
+            height: 100%;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-secondary);
+        }
+
+        .sidebar-content::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar-content::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+
+        .sidebar-content::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            margin: 0.5rem 1rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .menu-item:hover::before {
+            opacity: 0.2;
+        }
+
+        .menu-item:hover {
+            transform: translateX(8px);
+        }
+
+        .menu-item i {
+            font-size: 1.5rem;
+            width: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .menu-item span {
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .lang-section {
+            padding: 1rem 1.5rem;
+            margin: 1rem;
+            border-radius: 1rem;
+        }
+
+        .lang-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin: 0.5rem 0;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .lang-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+
+        .lang-btn.active {
+            background: var(--gradient-primary);
+            border-color: var(--primary);
+        }
+
+        .lang-btn .flag {
+            font-size: 1.5rem;
+        }
+
+        /* Modal Animations */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(12px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease-in-out;
+        }
+
+        .modal-backdrop.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
         .modal-card {
-            background-color: var(--medium-bg);
-            border: 1px solid rgba(255,255,255,0.1);
-            transform: scale(0.95);
-            transition: transform 0.3s ease-in-out;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
-        .modal-backdrop.visible .modal-card { transform: scale(1); }
+
+        .modal-backdrop.visible .modal-card {
+            transform: scale(1) translateY(0);
+        }
 
         /* Input Container */
-        #input-container { transition: max-height 0.5s ease-in-out; max-height: 5rem; overflow: hidden; }
-        #input-container.expanded { max-height: 30rem; }
+        #input-container {
+            transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-height: 5rem;
+            overflow: hidden;
+        }
 
-        /* Animations */
+        #input-container.expanded {
+            max-height: 30rem;
+        }
+
+        /* Enhanced Animations */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); }
+            20%, 40%, 60%, 80% { transform: translateX(8px); }
         }
-        .shake { animation: shake 0.5s ease-in-out; }
+
+        .shake {
+            animation: shake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
+        }
 
         @keyframes glow {
-            0% { box-shadow: 0 0 5px var(--green), 0 0 10px var(--green); }
-            50% { box-shadow: 0 0 20px var(--green), 0 0 30px var(--green); }
-            100% { box-shadow: 0 0 5px var(--green), 0 0 10px var(--green); }
+            0% { 
+                box-shadow: 0 0 5px var(--success), 0 0 10px var(--success);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 0 20px var(--success), 0 0 40px var(--success);
+                transform: scale(1.05);
+            }
+            100% { 
+                box-shadow: 0 0 5px var(--success), 0 0 10px var(--success);
+                transform: scale(1);
+            }
         }
+
         .glow {
-            border-color: var(--green) !important;
+            border-color: var(--success) !important;
+            background: var(--gradient-success) !important;
             color: white !important;
-            background-color: #16a34a !important;
-            transform: scale(1.05);
             animation: glow 1.5s infinite;
         }
-        
-        /* Quiz Progress Bar */
-        #progress-bar-inner { transition: width 0.5s ease-out; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .float-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Progress Bar */
+        #progress-bar-inner {
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--gradient-success);
+        }
 
         /* Custom Scrollbar */
-        #image-previews-container { scrollbar-width: thin; scrollbar-color: var(--blue) var(--medium-bg); }
-        #image-previews-container::-webkit-scrollbar { height: 6px; }
-        #image-previews-container::-webkit-scrollbar-track { background: var(--medium-bg); }
-        #image-previews-container::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+        #image-previews-container {
+            scrollbar-width: thin;
+            scrollbar-color: var(--primary) var(--bg-secondary);
+        }
 
-        .spinner { border: 8px solid #f3f3f3; border-top-color: var(--green); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        
-        .q-count-btn.selected { background-color: var(--blue); color: white; border-color: var(--blue); }
+        #image-previews-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        #image-previews-container::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+            border-radius: 10px;
+        }
+
+        #image-previews-container::-webkit-scrollbar-thumb {
+            background: var(--gradient-primary);
+            border-radius: 10px;
+        }
+
+        /* Spinner */
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.1);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Quiz Option Buttons */
+        .quiz-option {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .quiz-option::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(99, 102, 241, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .quiz-option:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Question Count Buttons */
+        .q-count-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 2px solid var(--bg-tertiary);
+            font-weight: 600;
+            padding: 0.75rem 1.5rem;
+            border-radius: 9999px;
+            transition: all 0.3s ease;
+        }
+
+        .q-count-btn:hover {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .q-count-btn.selected {
+            background: var(--gradient-primary);
+            border-color: var(--primary);
+            color: white;
+            box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+        }
+
+        /* Video Container */
+        .video-placeholder {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%; /* 16:9 aspect ratio */
+            background: var(--bg-secondary);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Icon Buttons */
+        .icon-btn {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .icon-btn::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: var(--gradient-primary);
+            opacity: 0;
+            transition: opacity 0.3s;
+            z-index: -1;
+        }
+
+        .icon-btn:hover::after {
+            opacity: 1;
+        }
+
+        .icon-btn:hover {
+            transform: scale(1.1) rotate(5deg);
+            color: white;
+        }
+
+        /* Image Preview Cards */
+        .image-preview-card {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .image-preview-card:hover {
+            transform: scale(1.05) rotate(2deg);
+            z-index: 10;
+        }
+
+        /* API Key Input */
+        .api-input {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            width: 100%;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .api-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+
+        .api-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* History Styles */
+        .history-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .history-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--gradient-primary);
+        }
+
+        .history-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateX(5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .performance-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-perfect { background: var(--gradient-success); color: white; }
+        .badge-excellent { background: var(--gradient-primary); color: white; }
+        .badge-good { background: var(--gradient-warm); color: white; }
+        .badge-try-again { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #f87171; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .empty-history {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .empty-history i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Main Content (Can be dimmed) -->
-    <div id="main-content-wrapper" class="transition-filter duration-300">
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay" onclick="toggleSidebar(false)"></div>
+
+    <!-- Sidebar Menu -->
+    <div id="sidebar-menu" class="sidebar-menu glass-strong">
+        <div class="sidebar-content">
+            <!-- Header -->
+            <div class="p-6 border-b border-gray-700">
+                <div class="flex justify-between items-center">
+                    <h2 class="text-2xl font-bold gradient-text" data-i18n="menuTitle">মেনু</h2>
+                    <button onclick="toggleSidebar(false)" class="text-gray-400 hover:text-white transition p-2 hover:bg-gray-700 rounded-full">
+                        <i class="fas fa-times text-xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Language Section -->
+            <div class="lang-section glass mt-4">
+                <h3 class="text-sm font-semibold text-gray-400 mb-3 px-1" data-i18n="selectLanguage">ভাষা নির্বাচন করুন</h3>
+                <div class="space-y-2">
+                    <div class="lang-btn active" onclick="changeLanguage('bn')" data-lang="bn">
+                        <span class="flag">🇧🇩</span>
+                        <span data-i18n="langBengali">বাংলা</span>
+                    </div>
+                    <div class="lang-btn" onclick="changeLanguage('en')" data-lang="en">
+                        <span class="flag">🇬🇧</span>
+                        <span data-i18n="langEnglish">English</span>
+                    </div>
+                    <div class="lang-btn" onclick="changeLanguage('hi')" data-lang="hi">
+                        <span class="flag">🇮🇳</span>
+                        <span data-i18n="langHindi">हिन्दी</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Menu Items -->
+            <div class="mt-4">
+                <div class="menu-item glass" onclick="showHistoryModal(); toggleSidebar(false);">
+                    <i class="fas fa-history" style="color: var(--primary-light)"></i>
+                    <span data-i18n="quizHistory">কুইজ হিস্টোরি</span>
+                </div>
+                <div class="menu-item glass" onclick="showApiKeyModal()">
+                    <i class="fas fa-key" style="color: var(--warning)"></i>
+                    <span data-i18n="apiKeySetup">API কি সেটআপ</span>
+                </div>
+                <div class="menu-item glass" onclick="resetApp(); toggleSidebar(false);">
+                    <i class="fas fa-sync-alt" style="color: var(--success)"></i>
+                    <span data-i18n="newStart">নতুন শুরু</span>
+                </div>
+                <div class="menu-item glass" onclick="toggleCreatorModal(true); toggleSidebar(false);">
+                    <i class="fas fa-info-circle" style="color: var(--info)"></i>
+                    <span data-i18n="aboutApp">অ্যাপ সম্পর্কে</span>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 mt-8 text-center text-sm text-gray-400">
+                <p>Version 3.0.0</p>
+                <p class="mt-2" data-i18n="poweredBy">Powered by AI</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div id="main-content-wrapper" class="transition-all duration-300">
         <header class="w-full container-main px-4 pt-6 flex justify-between items-center mb-10">
-            <div onclick="toggleMenuModal(true)" class="p-2 cursor-pointer rounded-full hover:bg-gray-700 transition"><div class="space-y-1.5"><div class="h-0.5 w-6 bg-gray-400 rounded"></div><div class="h-0.5 w-5 bg-gray-400 rounded"></div><div class="h-0.5 w-4 bg-gray-400 rounded"></div></div></div>
-            <div onclick="toggleCreatorModal(true)" class="p-2 cursor-pointer relative rounded-full hover:ring-2 ring-[var(--blue)] transition"><i class="fas fa-user-circle text-3xl text-duolingo-blue"></i><span class="absolute top-0 right-0 h-3 w-3 rounded-full bg-red-500 border-2 border-gray-900"></span></div>
+            <div onclick="toggleSidebar(true)" class="icon-btn p-3 cursor-pointer rounded-full glass transition">
+                <div class="space-y-1.5">
+                    <div class="h-0.5 w-6 bg-gray-300 rounded"></div>
+                    <div class="h-0.5 w-5 bg-gray-300 rounded"></div>
+                    <div class="h-0.5 w-4 bg-gray-300 rounded"></div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <div onclick="toggleCreatorModal(true)" class="icon-btn p-2 cursor-pointer relative rounded-full glass transition">
+                    <i class="fas fa-user-circle text-3xl" style="color: var(--secondary)"></i>
+                    <span class="absolute top-0 right-0 h-3 w-3 rounded-full bg-red-500 border-2 border-gray-900 pulse-animation"></span>
+                </div>
+            </div>
         </header>
 
         <main class="container-main flex-grow flex flex-col items-center justify-start px-4 pb-16">
-            <div class="mb-8 text-center"><h2 class="text-4xl font-extrabold text-golden py-2 px-6 rounded-xl border border-golden/50 mb-2" style="font-family: 'Baloo Da 2', cursive;">আল্লাহু আকবার</h2><p class="text-lg text-gray-400">আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু</p></div>
-            <h1 class="text-6xl md:text-8xl font-extrabold text-center mb-12 text-gray-200">স্মার্ট প্রস্তুতি</h1>
+            <div class="mb-8 text-center float-animation">
+                <h2 class="text-4xl md:text-5xl font-extrabold gradient-text py-2 px-6 rounded-xl mb-2" style="font-family: 'Baloo Da 2', cursive;" data-i18n="greeting">
+                    আল্লাহু আকবার
+                </h2>
+                <p class="text-lg text-gray-400" data-i18n="welcomeMsg">আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু</p>
+            </div>
+            
+            <h1 class="text-6xl md:text-8xl font-extrabold text-center mb-12 gradient-text" data-i18n="appTitle">স্মার্ট প্রস্তুতি</h1>
+            
             <div class="w-full max-w-2xl px-2">
-                <div class="video-placeholder rounded-xl shadow-lg">
-                    <div id="video-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800/80 rounded-xl transition hover:bg-gray-800/60 cursor-pointer" onclick="mockVideoPlay()">
-                        <svg class="play-button w-24 h-24 text-duolingo-green opacity-90" fill="currentColor" viewBox="0 0 24 24"><path d="M6 3.5l12 7.5-12 7.5z"></path></svg>
-                        <h3 class="text-3xl font-bold text-gray-50 mt-4">ভিডিও টিউটোরিয়াল</h3>
-                        <p class="text-gray-300 mt-1">দ্রুত শুরু করার নির্দেশিকা</p>
+                <div class="video-placeholder">
+                    <div id="video-overlay" class="absolute inset-0 flex flex-col items-center justify-center glass-strong rounded-xl transition hover:bg-opacity-50 cursor-pointer" onclick="mockVideoPlay()">
+                        <svg class="play-button w-24 h-24 text-white opacity-90 float-animation" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M6 3.5l12 7.5-12 7.5z"></path>
+                        </svg>
+                        <h3 class="text-3xl font-bold text-gray-50 mt-4" data-i18n="videoTitle">ভিডিও টিউটোরিয়াল</h3>
+                        <p class="text-gray-300 mt-1" data-i18n="videoSubtitle">দ্রুত শুরু করার নির্দেশিকা</p>
                     </div>
                     <div id="video-player" class="absolute inset-0 hidden bg-black rounded-xl p-4">
                         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="rounded-lg"></iframe>
@@ -107,40 +716,529 @@
     </div>
 
     <!-- Bottom Input Bar -->
-    <div id="input-wrapper" class="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-gray-900/90 backdrop-blur-sm shadow-2xl z-40 transition-filter duration-300">
-        <div class="container-main"><div id="input-container" class="bg-gray-800 rounded-3xl p-3 flex flex-col"><div id="main-controls" class="flex items-center justify-between w-full h-14"><div class="flex items-center space-x-2"><button onclick="document.getElementById('gallery-upload').click()" class="p-3 text-duolingo-green hover:bg-gray-700 rounded-full transition hover:scale-110" title="গ্যালারি থেকে ছবি"><i class="fas fa-plus text-xl"></i></button><input type="file" id="gallery-upload" accept="image/*" multiple class="hidden" onchange="addFilesAndUpdate(this.files, this)"><button onclick="document.getElementById('camera-upload').click()" class="p-3 bg-duolingo-blue/20 text-duolingo-blue hover:bg-duolingo-blue hover:text-white rounded-full transition-all hover:scale-110 shadow-lg" title="ক্যামেরা থেকে ছবি"><i class="fas fa-camera text-xl"></i></button><input type="file" id="camera-upload" accept="image/*" capture="environment" class="hidden" onchange="addFilesAndUpdate(this.files, this)"></div><div class="flex-grow mx-4 text-gray-400 italic text-center">ছবি আপলোড করে কুইজ তৈরি করুন...</div><button id="start-quiz-button" onclick="showQuestionCountModal()" class="bg-duolingo-green text-white font-bold py-2 px-5 rounded-full shadow-lg hover:bg-duolingo-green-dark transition disabled:bg-gray-500" disabled>Start Quiz</button></div><div id="image-previews-container" class="mt-4 flex flex-wrap gap-3 overflow-y-auto px-2 py-1"></div><p id="error-message" class="text-center text-red-400 font-semibold mt-2 hidden"></p></div></div>
+    <div id="input-wrapper" class="fixed bottom-0 left-0 right-0 p-4 md:p-6 glass-strong z-40 transition-all duration-300">
+        <div class="container-main">
+            <div id="input-container" class="glass rounded-3xl p-3 flex flex-col">
+                <div id="main-controls" class="flex items-center justify-between w-full h-14">
+                    <div class="flex items-center space-x-2">
+                        <button onclick="document.getElementById('gallery-upload').click()" class="icon-btn p-3 text-white hover:bg-opacity-80 rounded-full transition" style="background: var(--gradient-success)" data-i18n-title="galleryBtn">
+                            <i class="fas fa-plus text-xl"></i>
+                        </button>
+                        <input type="file" id="gallery-upload" accept="image/*" multiple class="hidden" onchange="addFilesAndUpdate(this.files, this)">
+                        
+                        <button onclick="document.getElementById('camera-upload').click()" class="icon-btn p-3 text-white hover:bg-opacity-80 rounded-full transition shadow-lg" style="background: var(--gradient-primary)" data-i18n-title="cameraBtn">
+                            <i class="fas fa-camera text-xl"></i>
+                        </button>
+                        <input type="file" id="camera-upload" accept="image/*" capture="environment" class="hidden" onchange="addFilesAndUpdate(this.files, this)">
+                    </div>
+                    
+                    <div class="flex-grow mx-4 text-gray-400 italic text-center" data-i18n="uploadPrompt">
+                        ছবি আপলোড করে কুইজ তৈরি করুন...
+                    </div>
+                    
+                    <button id="start-quiz-button" onclick="showQuestionCountModal()" class="btn-gradient font-bold py-2 px-6 rounded-full shadow-lg transition disabled:opacity-50 disabled:cursor-not-allowed" disabled data-i18n="startQuizBtn">
+                        Start Quiz
+                    </button>
+                </div>
+                
+                <div id="image-previews-container" class="mt-4 flex flex-wrap gap-3 overflow-y-auto px-2 py-1"></div>
+                <p id="error-message" class="text-center text-red-400 font-semibold mt-2 hidden"></p>
+            </div>
+        </div>
     </div>
     
     <!-- MODALS & POP-UPS -->
-    <!-- Menu Modal -->
-    <div id="menu-modal" class="modal-backdrop"><div class="modal-card w-full max-w-md p-8 rounded-3xl"><div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6"><h3 class="text-2xl font-extrabold text-duolingo-blue">প্রস্তুতি যাচাই কুইজ</h3><button onclick="toggleMenuModal(false)" class="text-gray-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button></div><ul class="space-y-3"><li onclick="resetApp()" class="p-3 rounded-xl hover:bg-gray-700 cursor-pointer font-semibold flex items-center"><i class="fas fa-sync-alt mr-3 text-duolingo-green w-5"></i> New Start</li></ul></div></div>
+    <!-- Quiz History Modal -->
+    <div id="history-modal" class="modal-backdrop">
+        <div class="modal-card glass-strong w-full max-w-3xl p-6 md:p-8 rounded-3xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
+                <h3 class="text-2xl font-extrabold gradient-text" data-i18n="quizHistory">কুইজ হিস্টোরি</h3>
+                <button onclick="toggleHistoryModal(false)" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Stats Summary -->
+            <div id="history-stats" class="stats-grid"></div>
+
+            <!-- History List -->
+            <div class="flex-1 overflow-y-auto pr-2" style="max-height: calc(90vh - 250px);">
+                <div class="flex justify-between items-center mb-4">
+                    <h4 class="text-lg font-bold text-white" data-i18n="recentQuizzes">সাম্প্রতিক কুইজ</h4>
+                    <button onclick="clearAllHistory()" class="text-sm text-red-400 hover:text-red-300 transition" data-i18n="clearAll">
+                        সব মুছুন
+                    </button>
+                </div>
+                <div id="history-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div id="api-key-modal" class="modal-backdrop">
+        <div class="modal-card glass-strong w-full max-w-md p-8 rounded-3xl">
+            <div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6">
+                <h3 class="text-2xl font-extrabold gradient-text" data-i18n="apiKeySetup">API কি সেটআপ</h3>
+                <button onclick="toggleApiKeyModal(false)" class="text-gray-400 hover:text-white transition">
+                    <i class="fas fa-times text-2xl"></i>
+                </button>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-2" data-i18n="apiKeyLabel">
+                        Google Gemini API Key
+                    </label>
+                    <input 
+                        type="text" 
+                        id="api-key-input" 
+                        class="api-input"
+                        placeholder="AIzaSy..."
+                        data-i18n-placeholder="apiKeyPlaceholder"
+                    />
+                    <p class="text-xs text-gray-400 mt-2" data-i18n="apiKeyHelp">
+                        আপনার API কি সংরক্ষিত থাকবে এই ডিভাইসে
+                    </p>
+                </div>
+
+                <div class="glass p-4 rounded-xl">
+                    <h4 class="text-sm font-semibold text-gray-300 mb-2 flex items-center gap-2">
+                        <i class="fas fa-info-circle text-blue-400"></i>
+                        <span data-i18n="howToGetKey">কিভাবে API Key পাবেন?</span>
+                    </h4>
+                    <ol class="text-sm text-gray-400 space-y-1 list-decimal list-inside">
+                        <li data-i18n="step1">ai.google.dev ভিজিট করুন</li>
+                        <li data-i18n="step2">"Get API Key" বাটনে ক্লিক করুন</li>
+                        <li data-i18n="step3">নতুন API Key তৈরি করুন</li>
+                        <li data-i18n="step4">এখানে পেস্ট করুন</li>
+                    </ol>
+                </div>
+
+                <div class="flex gap-3">
+                    <button onclick="saveApiKey()" class="flex-1 btn-gradient py-3 rounded-xl font-semibold" data-i18n="saveBtn">
+                        সংরক্ষণ করুন
+                    </button>
+                    <button onclick="clearApiKey()" class="px-4 glass hover:bg-red-500 hover:bg-opacity-20 rounded-xl font-semibold transition" data-i18n="clearBtn">
+                        মুছুন
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Creator Modal -->
-    <div id="creator-modal" class="modal-backdrop"><div class="modal-card bg-white w-full max-w-xs p-6 rounded-3xl text-center text-gray-800 relative"><button onclick="toggleCreatorModal(false)" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fas fa-times text-xl"></i></button><i class="fas fa-crown text-4xl text-yellow-500 mb-4"></i><h3 class="text-2xl font-bold mb-1">ক্রিয়েটরের তথ্য</h3><p class="text-sm text-gray-600 mb-4">নির্মাতা:</p><div class="space-y-2"><p class="font-bold text-duolingo-blue">Md. Developer</p><p class="text-sm">Version: 2.0.0</p></div><button onclick="toggleCreatorModal(false)" class="mt-6 w-full py-2 bg-duolingo-green text-white font-semibold rounded-xl hover:bg-duolingo-green-dark">বন্ধ করুন</button></div></div>
+    <div id="creator-modal" class="modal-backdrop">
+        <div class="modal-card glass-strong w-full max-w-xs p-6 rounded-3xl text-center relative">
+            <button onclick="toggleCreatorModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+            <i class="fas fa-crown text-5xl mb-4" style="color: var(--warning)"></i>
+            <h3 class="text-2xl font-bold mb-1 text-white" data-i18n="creatorInfo">ক্রিয়েটরের তথ্য</h3>
+            <p class="text-sm text-gray-400 mb-4" data-i18n="creatorLabel">নির্মাতা:</p>
+            <div class="space-y-2">
+                <p class="font-bold gradient-text">Md. Developer</p>
+                <p class="text-sm text-gray-300">Version: 3.0.0</p>
+            </div>
+            <button onclick="toggleCreatorModal(false)" class="mt-6 w-full py-3 btn-gradient text-white font-semibold rounded-xl" data-i18n="closeBtn">
+                বন্ধ করুন
+            </button>
+        </div>
+    </div>
+
     <!-- Question Count Modal -->
-    <div id="question-count-modal" class="modal-backdrop"><div class="modal-card w-full max-w-md p-8 rounded-3xl text-center"><h3 class="text-2xl font-bold text-white mb-6">কতগুলো প্রশ্ন তৈরি করতে চান?</h3><div class="flex justify-center items-center gap-3 mb-6"><button onclick="selectQuestionCount(5, this)" class="q-count-btn selected font-bold py-2 px-5 rounded-full transition">৫</button><button onclick="selectQuestionCount(10, this)" class="q-count-btn font-bold py-2 px-5 rounded-full transition">১০</button><button onclick="selectQuestionCount(15, this)" class="q-count-btn font-bold py-2 px-5 rounded-full transition">১৫</button><input id="custom-q-count" type="number" min="1" max="20" class="w-24 text-center bg-gray-700 border-2 border-gray-600 rounded-full focus:ring-duolingo-blue focus:border-duolingo-blue" placeholder="অন্যান্য" oninput="selectQuestionCount(this.value, this)"></div><input type="hidden" id="question-count" value="5"><button onclick="handleStart()" class="w-full bg-duolingo-blue text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#169ad3] transition text-lg">চালিয়ে যান</button></div></div>
+    <div id="question-count-modal" class="modal-backdrop">
+        <div class="modal-card glass-strong w-full max-w-md p-8 rounded-3xl text-center">
+            <h3 class="text-2xl font-bold text-white mb-6" data-i18n="questionCountTitle">কতগুলো প্রশ্ন তৈরি করতে চান?</h3>
+            <div class="flex justify-center items-center gap-3 mb-6 flex-wrap">
+                <button onclick="selectQuestionCount(5, this)" class="q-count-btn selected">৫</button>
+                <button onclick="selectQuestionCount(10, this)" class="q-count-btn">১০</button>
+                <button onclick="selectQuestionCount(15, this)" class="q-count-btn">১৫</button>
+                <input id="custom-q-count" type="number" min="1" max="20" class="w-24 text-center glass border-2 border-gray-600 rounded-full focus:ring-2 focus:ring-purple-500 focus:border-transparent px-3 py-2 text-white" data-i18n-placeholder="otherOption" placeholder="অন্যান্য" oninput="selectQuestionCount(this.value, this)">
+            </div>
+            <input type="hidden" id="question-count" value="5">
+            <button onclick="handleStart()" class="w-full btn-gradient text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg" data-i18n="continueBtn">
+                চালিয়ে যান
+            </button>
+        </div>
+    </div>
+
     <!-- Processing & Quiz Modal -->
     <div id="game-modal" class="modal-backdrop">
-        <div id="processing-screen" class="modal-card w-full max-w-2xl hidden flex-col justify-between rounded-3xl overflow-hidden">
-            <div class="banner-container p-6 shadow-2xl"><div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"><div class="flex flex-col md:flex-row items-center justify-between gap-6"><div class="text-center md:text-left"><h3 class="text-2xl font-bold text-white">আপনার বিজ্ঞাপন এখানে</h3><p class="text-white/80">আপনার ব্যবসাকে প্রসারিত করুন</p></div><img src="https://placehold.co/300x120/1CB0F6/FFFFFF?text=AD+BANNER" alt="Advertisement" class="rounded-lg shadow-lg"></div></div></div>
-            <div class="flex-grow flex items-center justify-center p-8"><div class="text-center"><div class="spinner mx-auto mb-8"></div><h2 class="text-3xl font-bold text-white mb-6 pulse-animation">⚡ AI পেজ বিশ্লেষণ করছে...</h2><p class="text-blue-200">অনুগ্রহ করে অপেক্ষা করুন...</p></div></div>
+        <div id="processing-screen" class="modal-card glass-strong w-full max-w-2xl hidden flex-col justify-between rounded-3xl overflow-hidden">
+            <div class="banner-container p-6 shadow-2xl">
+                <div class="glass rounded-2xl p-6 border border-white/20">
+                    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="text-center md:text-left">
+                            <h3 class="text-2xl font-bold text-white" data-i18n="adTitle">আপনার বিজ্ঞাপন এখানে</h3>
+                            <p class="text-white/80" data-i18n="adSubtitle">আপনার ব্যবসাকে প্রসারিত করুন</p>
+                        </div>
+                        <img src="https://placehold.co/300x120/667eea/FFFFFF?text=AD+BANNER" alt="Advertisement" class="rounded-lg shadow-lg">
+                    </div>
+                </div>
+            </div>
+            <div class="flex-grow flex items-center justify-center p-8">
+                <div class="text-center">
+                    <div class="spinner mx-auto mb-8"></div>
+                    <h2 class="text-3xl font-bold text-white mb-6 pulse-animation" data-i18n="processingMsg">⚡ AI পেজ বিশ্লেষণ করছে...</h2>
+                    <p class="text-blue-200" data-i18n="waitMsg">অনুগ্রহ করে অপেক্ষা করুন...</p>
+                </div>
+            </div>
         </div>
-        <div id="quiz-screen" class="modal-card w-full max-w-3xl hidden flex-col rounded-3xl p-6 md:p-8 text-gray-800 bg-gray-100">
-            <div class="flex justify-between items-center mb-4"><p class="text-xl font-bold text-duolingo-blue">প্রশ্ন <span id="current-q-index">1</span> / <span id="total-q-count">5</span></p><button onclick="resetApp()" class="text-gray-500 hover:text-red-500 transition"><i class="fas fa-times-circle text-2xl"></i></button></div>
-            <div class="w-full bg-gray-300 rounded-full h-2.5 mb-4"><div id="progress-bar-inner" class="bg-duolingo-green h-2.5 rounded-full"></div></div>
-            <p id="question-text" class="text-xl md:text-2xl font-bold text-gray-800 p-5 mb-6 bg-white rounded-xl shadow-inner"></p>
+
+        <div id="quiz-screen" class="modal-card glass-strong w-full max-w-3xl hidden flex-col rounded-3xl p-6 md:p-8">
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-xl font-bold gradient-text">
+                    <span data-i18n="questionLabel">প্রশ্ন</span> <span id="current-q-index">1</span> / <span id="total-q-count">5</span>
+                </p>
+                <button onclick="resetApp()" class="text-gray-400 hover:text-red-500 transition">
+                    <i class="fas fa-times-circle text-2xl"></i>
+                </button>
+            </div>
+            <div class="w-full bg-gray-700 rounded-full h-3 mb-4">
+                <div id="progress-bar-inner" class="h-3 rounded-full"></div>
+            </div>
+            <p id="question-text" class="text-xl md:text-2xl font-bold text-white p-5 mb-6 glass rounded-xl"></p>
             <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </div>
-        <div id="results-screen" class="modal-card w-full max-w-md hidden flex-col items-center justify-center rounded-3xl p-8 text-center bg-white text-gray-800">
-            <h2 id="results-title" class="text-4xl font-extrabold text-duolingo-green mb-4">অভিনন্দন! 🎉</h2>
-            <p class="text-xl text-gray-700 mb-6">আপনার চূড়ান্ত স্কোর:</p>
-            <div class="inline-block bg-duolingo-green/10 p-6 rounded-full border-4 border-duolingo-green mb-6"><p class="text-6xl font-extrabold text-duolingo-green"><span id="final-score-percent">0</span><span class="text-3xl">%</span></p></div>
-            <p id="performance-message" class="text-xl font-semibold text-gray-800 mb-8"></p>
-            <button onclick="resetApp()" class="w-full py-3 text-lg font-semibold rounded-xl bg-duolingo-blue text-white hover:bg-[#169ad3] transition">আবার চেষ্টা করুন</button>
+
+        <div id="results-screen" class="modal-card glass-strong w-full max-w-md hidden flex-col items-center justify-center rounded-3xl p-8 text-center">
+            <h2 id="results-title" class="text-4xl font-extrabold mb-4" style="color: var(--success)" data-i18n="congratsTitle">অভিনন্দন! 🎉</h2>
+            <p class="text-xl text-gray-300 mb-6" data-i18n="finalScoreLabel">আপনার চূড়ান্ত স্কোর:</p>
+            <div class="inline-block glass p-6 rounded-full border-4 mb-6" style="border-color: var(--success)">
+                <p class="text-6xl font-extrabold" style="color: var(--success)">
+                    <span id="final-score-percent">0</span><span class="text-3xl">%</span>
+                </p>
+            </div>
+            <p id="performance-message" class="text-xl font-semibold text-white mb-8"></p>
+            <button onclick="resetApp()" class="w-full py-3 text-lg font-semibold rounded-xl btn-gradient text-white" data-i18n="tryAgainBtn">
+                আবার চেষ্টা করুন
+            </button>
         </div>
     </div>
 
     <script type="module">
-        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${"AIzaSyBUd0XZUgyHUMU40IoTqf_RY7JaSXANLBo"}`;
+        // Multi-language Support
+        const translations = {
+            bn: {
+                appTitle: 'স্মার্ট প্রস্তুতি কুইজ',
+                greeting: 'আল্লাহু আকবার',
+                welcomeMsg: 'আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু',
+                videoTitle: 'ভিডিও টিউটোরিয়াল',
+                videoSubtitle: 'দ্রুত শুরু করার নির্দেশিকা',
+                uploadPrompt: 'ছবি আপলোড করে কুইজ তৈরি করুন...',
+                startQuizBtn: 'Start Quiz',
+                menuTitle: 'মেনু',
+                newStart: 'নতুন শুরু',
+                aboutApp: 'অ্যাপ সম্পর্কে',
+                creatorInfo: 'ক্রিয়েটরের তথ্য',
+                creatorLabel: 'নির্মাতা:',
+                closeBtn: 'বন্ধ করুন',
+                questionCountTitle: 'কতগুলো প্রশ্ন তৈরি করতে চান?',
+                otherOption: 'অন্যান্য',
+                continueBtn: 'চালিয়ে যান',
+                adTitle: 'আপনার বিজ্ঞাপন এখানে',
+                adSubtitle: 'আপনার ব্যবসাকে প্রসারিত করুন',
+                processingMsg: '⚡ AI পেজ বিশ্লেষণ করছে...',
+                waitMsg: 'অনুগ্রহ করে অপেক্ষা করুন...',
+                questionLabel: 'প্রশ্ন',
+                congratsTitle: 'অভিনন্দন! 🎉',
+                finalScoreLabel: 'আপনার চূড়ান্ত স্কোর:',
+                tryAgainBtn: 'আবার চেষ্টা করুন',
+                galleryBtn: 'গ্যালারি থেকে ছবি',
+                cameraBtn: 'ক্যামেরা থেকে ছবি',
+                selectLanguage: 'ভাষা নির্বাচন করুন',
+                langBengali: 'বাংলা',
+                langEnglish: 'English',
+                langHindi: 'हिन्दी',
+                quizHistory: 'কুইজ হিস্টোরি',
+                recentQuizzes: 'সাম্প্রতিক কুইজ',
+                clearAll: 'সব মুছুন',
+                totalQuizzes: 'মোট কুইজ',
+                averageScore: 'গড় স্কোর',
+                bestScore: 'সেরা স্কোর',
+                noHistory: 'কোনো হিস্টোরি নেই',
+                noHistoryMsg: 'আপনি এখনো কোনো কুইজ সম্পন্ন করেননি',
+                startFirstQuiz: 'প্রথম কুইজ শুরু করুন',
+                questionsCount: 'প্রশ্ন',
+                scoreLabel: 'স্কোর',
+                today: 'আজ',
+                yesterday: 'গতকাল',
+                daysAgo: 'দিন আগে',
+                justNow: 'এইমাত্র',
+                deleteEntry: 'মুছুন',
+                confirmClearAll: 'আপনি কি সমস্ত হিস্টোরি মুছতে চান?',
+                apiKeySetup: 'API কি সেটআপ',
+                apiKeyLabel: 'Google Gemini API Key',
+                apiKeyPlaceholder: 'AIzaSy...',
+                apiKeyHelp: 'আপনার API কি সংরক্ষিত থাকবে এই ডিভাইসে',
+                howToGetKey: 'কিভাবে API Key পাবেন?',
+                step1: 'ai.google.dev ভিজিট করুন',
+                step2: '"Get API Key" বাটনে ক্লিক করুন',
+                step3: 'নতুন API Key তৈরি করুন',
+                step4: 'এখানে পেস্ট করুন',
+                saveBtn: 'সংরক্ষণ করুন',
+                clearBtn: 'মুছুন',
+                poweredBy: 'Powered by AI',
+                apiKeySaved: 'API Key সংরক্ষিত হয়েছে!',
+                apiKeyCleared: 'API Key মুছে ফেলা হয়েছে!',
+                resultPerfect: 'অবিশ্বাস্য!',
+                resultPerfectMsg: 'আপনি সবগুলো প্রশ্নের সঠিক উত্তর দিয়েছেন!',
+                resultGreat: 'চমৎকার!',
+                resultGreatMsg: 'আপনার প্রস্তুতি প্রায় নিখুঁত।',
+                resultGood: 'খুব ভালো!',
+                resultGoodMsg: 'অনুশীলন চালিয়ে যান, আপনি সফল হবেনই।',
+                resultTryAgain: 'আবার চেষ্টা করুন!',
+                resultTryAgainMsg: 'প্রতিটি ভুলই নতুন কিছু শেখার সুযোগ।',
+            },
+            en: {
+                appTitle: 'Smart Preparation Quiz',
+                greeting: 'Welcome',
+                welcomeMsg: 'Ready to test your knowledge?',
+                videoTitle: 'Video Tutorial',
+                videoSubtitle: 'Quick start guide',
+                uploadPrompt: 'Upload images to create quiz...',
+                startQuizBtn: 'Start Quiz',
+                menuTitle: 'Menu',
+                newStart: 'New Start',
+                aboutApp: 'About App',
+                creatorInfo: 'Creator Info',
+                creatorLabel: 'Developer:',
+                closeBtn: 'Close',
+                questionCountTitle: 'How many questions do you want?',
+                otherOption: 'Other',
+                continueBtn: 'Continue',
+                adTitle: 'Your Ad Here',
+                adSubtitle: 'Expand your business',
+                processingMsg: '⚡ AI analyzing images...',
+                waitMsg: 'Please wait...',
+                questionLabel: 'Question',
+                congratsTitle: 'Congratulations! 🎉',
+                finalScoreLabel: 'Your Final Score:',
+                tryAgainBtn: 'Try Again',
+                galleryBtn: 'Gallery',
+                cameraBtn: 'Camera',
+                selectLanguage: 'Select Language',
+                langBengali: 'বাংলা',
+                langEnglish: 'English',
+                langHindi: 'हिन्दी',
+                quizHistory: 'Quiz History',
+                recentQuizzes: 'Recent Quizzes',
+                clearAll: 'Clear All',
+                totalQuizzes: 'Total Quizzes',
+                averageScore: 'Avg Score',
+                bestScore: 'Best Score',
+                noHistory: 'No History',
+                noHistoryMsg: 'You haven\'t completed any quiz yet',
+                startFirstQuiz: 'Start your first quiz',
+                questionsCount: 'Questions',
+                scoreLabel: 'Score',
+                today: 'Today',
+                yesterday: 'Yesterday',
+                daysAgo: 'days ago',
+                justNow: 'Just now',
+                deleteEntry: 'Delete',
+                confirmClearAll: 'Do you want to clear all history?',
+                apiKeySetup: 'API Key Setup',
+                apiKeyLabel: 'Google Gemini API Key',
+                apiKeyPlaceholder: 'AIzaSy...',
+                apiKeyHelp: 'Your API key will be saved on this device',
+                howToGetKey: 'How to get API Key?',
+                step1: 'Visit ai.google.dev',
+                step2: 'Click "Get API Key" button',
+                step3: 'Create new API Key',
+                step4: 'Paste it here',
+                saveBtn: 'Save',
+                clearBtn: 'Clear',
+                poweredBy: 'Powered by AI',
+                apiKeySaved: 'API Key saved!',
+                apiKeyCleared: 'API Key cleared!',
+                resultPerfect: 'Incredible!',
+                resultPerfectMsg: 'You answered all questions correctly!',
+                resultGreat: 'Excellent!',
+                resultGreatMsg: 'Your preparation is almost perfect.',
+                resultGood: 'Very Good!',
+                resultGoodMsg: 'Keep practicing, you will succeed.',
+                resultTryAgain: 'Try Again!',
+                resultTryAgainMsg: 'Every mistake is an opportunity to learn.',
+            },
+            hi: {
+                appTitle: 'स्मार्ट तैयारी क्विज़',
+                greeting: 'स्वागत है',
+                welcomeMsg: 'अपना ज्ञान परखने के लिए तैयार हैं?',
+                videoTitle: 'वीडियो ट्यूटोरियल',
+                videoSubtitle: 'त्वरित शुरुआत गाइड',
+                uploadPrompt: 'क्विज़ बनाने के लिए छवियां अपलोड करें...',
+                startQuizBtn: 'क्विज़ शुरू करें',
+                menuTitle: 'मेनू',
+                newStart: 'नई शुरुआत',
+                aboutApp: 'ऐप के बारे में',
+                creatorInfo: 'निर्माता की जानकारी',
+                creatorLabel: 'डेवलपर:',
+                closeBtn: 'बंद करें',
+                questionCountTitle: 'आप कितने प्रश्न चाहते हैं?',
+                otherOption: 'अन्य',
+                continueBtn: 'जारी रखें',
+                adTitle: 'आपका विज्ञापन यहां',
+                adSubtitle: 'अपने व्यवसाय का विस्तार करें',
+                processingMsg: '⚡ AI छवियों का विश्लेषण कर रहा है...',
+                waitMsg: 'कृपया प्रतीक्षा करें...',
+                questionLabel: 'प्रश्न',
+                congratsTitle: 'बधाई हो! 🎉',
+                finalScoreLabel: 'आपका अंतिम स्कोर:',
+                tryAgainBtn: 'फिर से कोशिश करें',
+                galleryBtn: 'गैलरी',
+                cameraBtn: 'कैमरा',
+                selectLanguage: 'भाषा चुनें',
+                langBengali: 'বাংলা',
+                langEnglish: 'English',
+                langHindi: 'हिन्दी',
+                quizHistory: 'क्विज़ हिस्ट्री',
+                recentQuizzes: 'हाल की क्विज़',
+                clearAll: 'सभी साफ़ करें',
+                totalQuizzes: 'कुल क्विज़',
+                averageScore: 'औसत स्कोर',
+                bestScore: 'सर्वश्रेष्ठ स्कोर',
+                noHistory: 'कोई हिस्ट्री नहीं',
+                noHistoryMsg: 'आपने अभी तक कोई क्विज़ पूरा नहीं किया है',
+                startFirstQuiz: 'अपनी पहली क्विज़ शुरू करें',
+                questionsCount: 'प्रश्न',
+                scoreLabel: 'स्कोर',
+                today: 'आज',
+                yesterday: 'कल',
+                daysAgo: 'दिन पहले',
+                justNow: 'अभी',
+                deleteEntry: 'हटाएं',
+                confirmClearAll: 'क्या आप सभी हिस्ट्री साफ़ करना चाहते हैं?',
+                apiKeySetup: 'API Key सेटअप',
+                apiKeyLabel: 'Google Gemini API Key',
+                apiKeyPlaceholder: 'AIzaSy...',
+                apiKeyHelp: 'आपकी API key इस डिवाइस पर सेव होगी',
+                howToGetKey: 'API Key कैसे प्राप्त करें?',
+                step1: 'ai.google.dev पर जाएं',
+                step2: '"Get API Key" बटन पर क्लिक करें',
+                step3: 'नई API Key बनाएं',
+                step4: 'यहां पेस्ट करें',
+                saveBtn: 'सेव करें',
+                clearBtn: 'साफ़ करें',
+                poweredBy: 'Powered by AI',
+                apiKeySaved: 'API Key सेव हो गई!',
+                apiKeyCleared: 'API Key साफ़ हो गई!',
+                resultPerfect: 'अविश्वसनीय!',
+                resultPerfectMsg: 'आपने सभी प्रश्नों का सही उत्तर दिया!',
+                resultGreat: 'उत्कृष्ट!',
+                resultGreatMsg: 'आपकी तैयारी लगभग परफेक्ट है।',
+                resultGood: 'बहुत अच्छा!',
+                resultGoodMsg: 'अभ्यास जारी रखें, आप सफल होंगे।',
+                resultTryAgain: 'फिर से कोशिश करें!',
+                resultTryAgainMsg: 'हर गलती सीखने का एक अवसर है।',
+            }
+        };
+
+        let currentLang = localStorage.getItem('quizLang') || 'bn';
+        let customApiKey = localStorage.getItem('geminiApiKey') || null;
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('quizLang', lang);
+            
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key]) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key]) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            // Update title attributes
+            document.querySelectorAll('[data-i18n-title]').forEach(el => {
+                const key = el.getAttribute('data-i18n-title');
+                if (translations[lang][key]) {
+                    el.title = translations[lang][key];
+                }
+            });
+
+            // Update document title
+            document.title = translations[lang].appTitle;
+
+            // Update active language in sidebar
+            document.querySelectorAll('.lang-btn').forEach(opt => {
+                opt.classList.remove('active');
+                if (opt.getAttribute('data-lang') === lang) {
+                    opt.classList.add('active');
+                }
+            });
+        }
+
+        // Initialize language on load
+        changeLanguage(currentLang);
+
+        // Sidebar Functions
+        window.toggleSidebar = (show) => {
+            const sidebar = document.getElementById('sidebar-menu');
+            const overlay = document.getElementById('sidebar-overlay');
+            
+            if (show) {
+                sidebar.classList.add('open');
+                overlay.classList.add('visible');
+            } else {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('visible');
+            }
+        };
+
+        // API Key Management
+        window.showApiKeyModal = () => {
+            toggleSidebar(false);
+            const modal = document.getElementById('api-key-modal');
+            const input = document.getElementById('api-key-input');
+            modal.classList.add('visible');
+            input.value = customApiKey || '';
+        };
+
+        window.toggleApiKeyModal = (show) => {
+            const modal = document.getElementById('api-key-modal');
+            if (show) {
+                modal.classList.add('visible');
+            } else {
+                modal.classList.remove('visible');
+            }
+        };
+
+        window.saveApiKey = () => {
+            const input = document.getElementById('api-key-input');
+            const key = input.value.trim();
+            if (key) {
+                localStorage.setItem('geminiApiKey', key);
+                customApiKey = key;
+                alert(translations[currentLang].apiKeySaved);
+                toggleApiKeyModal(false);
+            }
+        };
+
+        window.clearApiKey = () => {
+            localStorage.removeItem('geminiApiKey');
+            customApiKey = null;
+            document.getElementById('api-key-input').value = '';
+            alert(translations[currentLang].apiKeyCleared);
+        };
+
+        // Make changeLanguage global
+        window.changeLanguage = changeLanguage;
+
+        const DEFAULT_API_KEY = "AIzaSyBUd0XZUgyHUMU40IoTqf_RY7JaSXANLBo";
+        const getApiUrl = () => {
+            const apiKey = customApiKey || DEFAULT_API_KEY;
+            return `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+        };
+
         let quizData = [], currentQuestionIndex = 0, score = 0, filesArray = [], base64Images = [], imageMimeTypes = [];
         let audioCtx, correctSound, incorrectSound;
 
@@ -169,7 +1267,6 @@
             if (audioCtx) return;
             try {
                 audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                // Correct Sound (ascending notes)
                 correctSound = () => {
                     const oscillator = audioCtx.createOscillator();
                     const gainNode = audioCtx.createGain();
@@ -178,13 +1275,12 @@
                     oscillator.type = 'sine';
                     gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
                     gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.01);
-                    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
-                    oscillator.frequency.linearRampToValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    oscillator.frequency.linearRampToValueAtTime(659.25, audioCtx.currentTime + 0.1);
                     gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
                     oscillator.start(audioCtx.currentTime);
                     oscillator.stop(audioCtx.currentTime + 0.2);
                 };
-                // Incorrect Sound (dissonant buzz)
                 incorrectSound = () => {
                     const oscillator = audioCtx.createOscillator();
                     const gainNode = audioCtx.createGain();
@@ -203,7 +1299,6 @@
         }
         document.body.addEventListener('click', initAudio, { once: true });
 
-
         // --- UI Control ---
         const showModal = (modal, show) => modal.classList.toggle('visible', show);
         const showGameScreen = (screen) => {
@@ -216,7 +1311,6 @@
             dom.mainWrapper.classList.toggle('blur-sm', dim);
             dom.inputWrapper.classList.toggle('blur-sm', dim);
         };
-        window.toggleMenuModal = (show) => showModal(document.getElementById('menu-modal'), show);
         window.toggleCreatorModal = (show) => showModal(document.getElementById('creator-modal'), show);
         
         // --- Video Player Logic ---
@@ -224,7 +1318,6 @@
             dom.videoOverlay.classList.add('hidden');
             dom.videoPlayer.classList.remove('hidden');
             const iframe = dom.videoPlayer.querySelector('iframe');
-            // Using postMessage for better control over YouTube iframe
             if (iframe && iframe.contentWindow) {
                 iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
             }
@@ -255,8 +1348,9 @@
             imageMimeTypes = filesArray.map(file => file.type);
             urls.forEach((url, i) => {
                 const w = document.createElement('div');
-                w.className = 'group relative w-24 h-24 border-2 border-[var(--blue)] rounded-xl shrink-0 shadow-md hover:shadow-xl transition-all hover:scale-105 bg-gray-700';
-                w.innerHTML = `<img src="${url}" class="w-full h-full object-cover rounded-lg"><button class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs hover:bg-red-600 transition-all shadow-lg z-10 opacity-0 group-hover:opacity-100"><i class="fas fa-times"></i></button><div class="absolute bottom-1 left-1 bg-duolingo-blue text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">${i + 1}</div>`;
+                w.className = 'image-preview-card group relative w-24 h-24 border-2 rounded-xl shrink-0 shadow-lg glass';
+                w.style.borderColor = 'var(--primary)';
+                w.innerHTML = `<img src="${url}" class="w-full h-full object-cover rounded-lg"><button class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs hover:bg-red-600 transition-all shadow-lg z-10 opacity-0 group-hover:opacity-100"><i class="fas fa-times"></i></button><div class="absolute bottom-1 left-1 text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md" style="background: var(--gradient-primary)">${i + 1}</div>`;
                 w.querySelector('button').onclick = e => { e.stopPropagation(); filesArray.splice(i, 1); updateImagePreviews(); };
                 dom.previews.appendChild(w);
             });
@@ -284,19 +1378,21 @@
             showGameScreen(dom.processingScreen);
             
             const qCount = dom.qCountInput.value;
-            const prompt = `You are an expert Bengali educator. Analyze all provided images. Synthesize the information to generate ${qCount} insightful MCQs. Response MUST be a valid JSON array of objects: {"question": "...", "options": ["...", "...", "...", "..."], "answer": "..."}.`;
+            const langMap = { bn: 'Bengali', en: 'English', hi: 'Hindi' };
+            const targetLang = langMap[currentLang] || 'Bengali';
+            const prompt = `You are an expert ${targetLang} educator. Analyze all provided images. Synthesize the information to generate ${qCount} insightful MCQs in ${targetLang} language. Response MUST be a valid JSON array of objects: {"question": "...", "options": ["...", "...", "...", "..."], "answer": "..."}.`;
             const payload = { contents: [{ parts: [{ text: prompt }, ...base64Images.map((img, i) => ({ inlineData: { mimeType: imageMimeTypes[i], data: img } }))] }] };
 
             try {
-                const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                const res = await fetch(getApiUrl(), { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
                 if (!res.ok) throw new Error(`API Error: ${res.status}`);
                 const result = await res.json();
                 const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
                 quizData = JSON.parse(text.replace(/```json|```/g, '').trim());
-                if (!quizData || quizData.length === 0) throw new Error("AI প্রশ্ন তৈরি করতে পারেনি।");
+                if (!quizData || quizData.length === 0) throw new Error("AI could not generate questions.");
                 displayQuestion();
             } catch (e) {
-                dom.errorMsg.textContent = `ত্রুটি: ${e.message}`;
+                dom.errorMsg.textContent = `Error: ${e.message}`;
                 dom.errorMsg.classList.remove('hidden');
                 resetApp();
             }
@@ -318,7 +1414,8 @@
             shuffledOptions.forEach(opt => {
                 const btn = document.createElement('button');
                 btn.textContent = opt;
-                btn.className = 'quiz-option p-4 text-left font-semibold text-gray-700 bg-white rounded-xl border-2 border-gray-200 transition-all duration-200 hover:border-[var(--blue)] hover:bg-blue-50';
+                btn.className = 'quiz-option p-4 text-left font-semibold text-white glass rounded-xl border-2 transition-all duration-200';
+                btn.style.borderColor = 'var(--bg-tertiary)';
                 btn.onclick = () => selectAnswer(opt, q.answer, btn);
                 optionsContainer.appendChild(btn);
             });
@@ -336,7 +1433,7 @@
             } else {
                 if(incorrectSound) incorrectSound();
                 btn.classList.add('shake');
-                btn.style.backgroundColor = '#fee2e2'; // Light red
+                btn.style.backgroundColor = '#dc2626';
                 allBtns.forEach(b => {
                     if (b.textContent === correct) b.classList.add('glow');
                 });
@@ -350,13 +1447,158 @@
             const percentage = Math.round((score / quizData.length) * 100);
             document.getElementById('final-score-percent').textContent = percentage;
             let title, msg;
-            if (percentage === 100) { title = "অবিশ্বাস্য!"; msg = "আপনি সবগুলো প্রশ্নের সঠিক উত্তর দিয়েছেন!"; }
-            else if (percentage >= 80) { title = "চমৎকার!"; msg = "আপনার প্রস্তুতি প্রায় নিখুঁত।"; }
-            else if (percentage >= 50) { title = "খুব ভালো!"; msg = "অনুশীলন চালিয়ে যান, আপনি সফল হবেনই।"; }
-            else { title = "আবার চেষ্টা করুন!"; msg = "প্রতিটি ভুলই নতুন কিছু শেখার সুযোগ।"; }
+            const t = translations[currentLang];
+            if (percentage === 100) { title = t.resultPerfect; msg = t.resultPerfectMsg; }
+            else if (percentage >= 80) { title = t.resultGreat; msg = t.resultGreatMsg; }
+            else if (percentage >= 50) { title = t.resultGood; msg = t.resultGoodMsg; }
+            else { title = t.resultTryAgain; msg = t.resultTryAgainMsg; }
             document.getElementById('results-title').textContent = title;
             document.getElementById('performance-message').textContent = msg;
+            
+            // Save to history
+            saveQuizHistory(score, quizData.length, percentage);
         }
+
+        // --- Quiz History Management ---
+        function saveQuizHistory(scoreVal, total, percentage) {
+            const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+            const entry = {
+                id: Date.now(),
+                date: new Date().toISOString(),
+                score: scoreVal,
+                total: total,
+                percentage: percentage,
+                language: currentLang
+            };
+            history.unshift(entry);
+            // Keep only last 30 entries
+            if (history.length > 30) history.pop();
+            localStorage.setItem('quizHistory', JSON.stringify(history));
+        }
+
+        function getQuizHistory() {
+            return JSON.parse(localStorage.getItem('quizHistory') || '[]');
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffTime = Math.abs(now - date);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            const t = translations[currentLang];
+            
+            if (diffTime < 60000) return t.justNow;
+            if (diffDays === 0) return t.today;
+            if (diffDays === 1) return t.yesterday;
+            return `${diffDays} ${t.daysAgo}`;
+        }
+
+        function getPerformanceBadge(percentage) {
+            const t = translations[currentLang];
+            if (percentage === 100) return { class: 'badge-perfect', text: t.resultPerfect };
+            if (percentage >= 80) return { class: 'badge-excellent', text: t.resultGreat };
+            if (percentage >= 50) return { class: 'badge-good', text: t.resultGood };
+            return { class: 'badge-try-again', text: t.resultTryAgain };
+        }
+
+        window.showHistoryModal = () => {
+            const modal = document.getElementById('history-modal');
+            const history = getQuizHistory();
+            
+            // Update stats
+            const statsContainer = document.getElementById('history-stats');
+            const t = translations[currentLang];
+            
+            if (history.length > 0) {
+                const totalQuizzes = history.length;
+                const avgScore = Math.round(history.reduce((acc, h) => acc + h.percentage, 0) / totalQuizzes);
+                const bestScore = Math.max(...history.map(h => h.percentage));
+                
+                statsContainer.innerHTML = `
+                    <div class="stat-card">
+                        <div class="stat-value">${totalQuizzes}</div>
+                        <div class="stat-label" data-i18n="totalQuizzes">${t.totalQuizzes}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${avgScore}%</div>
+                        <div class="stat-label" data-i18n="averageScore">${t.averageScore}</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">${bestScore}%</div>
+                        <div class="stat-label" data-i18n="bestScore">${t.bestScore}</div>
+                    </div>
+                `;
+            } else {
+                statsContainer.innerHTML = '';
+            }
+            
+            // Update history list
+            const listContainer = document.getElementById('history-list');
+            if (history.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="empty-history">
+                        <i class="fas fa-history"></i>
+                        <p class="text-xl font-bold mb-2" data-i18n="noHistory">${t.noHistory}</p>
+                        <p class="mb-4" data-i18n="noHistoryMsg">${t.noHistoryMsg}</p>
+                        <button onclick="toggleHistoryModal(false)" class="btn-gradient px-6 py-2 rounded-full" data-i18n="startFirstQuiz">${t.startFirstQuiz}</button>
+                    </div>
+                `;
+            } else {
+                listContainer.innerHTML = history.map(entry => {
+                    const badge = getPerformanceBadge(entry.percentage);
+                    return `
+                        <div class="history-card">
+                            <div class="flex justify-between items-start mb-2">
+                                <div class="flex-1">
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="performance-badge ${badge.class}">${badge.text}</span>
+                                        <span class="text-xs text-gray-400">${formatDate(entry.date)}</span>
+                                    </div>
+                                    <div class="text-sm text-gray-400">
+                                        <span data-i18n="questionsCount">${t.questionsCount}</span>: ${entry.total}
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold gradient-text">${entry.percentage}%</div>
+                                    <div class="text-xs text-gray-400">
+                                        <span data-i18n="scoreLabel">${t.scoreLabel}</span>: ${entry.score}/${entry.total}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex justify-end">
+                                <button onclick="deleteHistoryEntry(${entry.id})" class="text-xs text-red-400 hover:text-red-300 transition" data-i18n="deleteEntry">${t.deleteEntry}</button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+            
+            modal.classList.add('visible');
+        };
+
+        window.toggleHistoryModal = (show) => {
+            const modal = document.getElementById('history-modal');
+            if (show) {
+                modal.classList.add('visible');
+            } else {
+                modal.classList.remove('visible');
+            }
+        };
+
+        window.deleteHistoryEntry = (id) => {
+            const history = getQuizHistory();
+            const updated = history.filter(h => h.id !== id);
+            localStorage.setItem('quizHistory', JSON.stringify(updated));
+            showHistoryModal(); // Refresh
+        };
+
+        window.clearAllHistory = () => {
+            const t = translations[currentLang];
+            if (confirm(t.confirmClearAll)) {
+                localStorage.removeItem('quizHistory');
+                showHistoryModal(); // Refresh
+            }
+        };
 
         window.resetApp = () => {
             quizData = []; currentQuestionIndex = 0; score = 0; filesArray = [];
@@ -374,1282 +1616,3 @@
     </script>
 </body>
 </html>
-
-            border-radius: 50%;
-            border: 5px solid rgba(255, 255, 255, 0.2);
-            border-top: 5px solid #06b6d4; /* Cyan-500 accent */
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .drop-zone {
-            border: 2px dashed #374151; /* Darker border */
-            transition: background-color 0.2s, border-color 0.2s;
-        }
-        .drop-zone--over {
-            background-color: rgba(6, 182, 212, 0.1); /* Cyan-500/10 hover */
-            border-color: #06b6d4; /* Cyan-500 */
-        }
-        .drop-zone__input {
-            display: none;
-        }
-        .gradient-text {
-            /* Electric Cyan to Sky Blue Gradient */
-            background: linear-gradient(to right, #00ffff, #06b6d4, #38bdf8); 
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-fill-color: transparent;
-        }
-        /* Custom scrollbar for result div */
-        #result-wrapper::-webkit-scrollbar, .modal-content::-webkit-scrollbar {
-            width: 8px;
-        }
-        #result-wrapper::-webkit-scrollbar-thumb, .modal-content::-webkit-scrollbar-thumb {
-            background-color: #374151; /* bg-gray-700 */
-            border-radius: 10px;
-        }
-        
-        /* --- Styles for "Read More" overflow control --- */
-        .result-collapsed-content {
-            max-height: 160px; /* Reduced from 200px */
-            overflow: hidden;
-            position: relative;
-            transition: max-height 0.5s ease-in-out; 
-            /* Dark theme mask */
-            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
-        }
-        .result-text-full {
-            transition: max-height 0.5s ease-in-out;
-        }
-        
-        /* Dawah Specific Styling (Warm/Earthy/Green tone) */
-        .dawah-box {
-            background-color: #27302f; /* Dark forest green/black mix */
-            border: 2px solid #10b981; /* Emerald-500 */
-            color: #d1fae5; /* Light mint text */
-        }
-
-        /* Modal Styles */
-        .modal-backdrop {
-            transition: opacity 0.3s ease-in-out;
-        }
-        .modal-container {
-            transform: scale(0.95);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            max-width: 90vw;
-            max-height: 90vh;
-        }
-        .modal-open .modal-container {
-            transform: scale(1);
-        }
-        .modal-content {
-            flex-grow: 1;
-            overflow-y: auto;
-        }
-        .list-disc-custom {
-            list-style-type: disc;
-            margin-left: 1.5em;
-        }
-
-        /* Privacy Reminder Toast Style */
-        #privacyReminderModal {
-            transition: opacity 0.3s ease-in-out;
-        }
-    </style>
-</head>
-<body class="text-gray-100 flex items-center justify-center min-h-screen p-4">
-
-    <!-- Settings Icon (Top Right) -->
-    <button id="settingsBtn" onclick="openModal('apiKeyModal')" class="absolute top-6 right-6 p-2 bg-gray-800/50 hover:bg-gray-700/70 text-cyan-400 rounded-full transition duration-300 transform hover:scale-110 ring-1 ring-gray-700 z-20">
-        <!-- Settings Icon -->
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.82 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.82 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.82-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.82-3.31 2.37-2.37.996.608 2.222.094 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
-    </button>
-
-    <main class="w-full max-w-6xl bg-black/40 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 p-6 md:p-8 relative">
-        <!-- Header Section -->
-        <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold gradient-text">AI Image Prompt Generator</h1>
-            <p class="text-gray-400 mt-2 max-w-2xl mx-auto">Upload an image and generate a detailed prompt by analyzing its artistic features for the AI model.</p>
-            <!-- Security Message Box -->
-            <p class="mt-4 text-center bg-lime-700/30 text-lime-300 py-2 px-4 rounded-lg max-w-xl mx-auto ring-1 ring-lime-600/50 text-sm font-medium">
-                This is a client-side tool. Your image is sent to Google's AI server for processing. <a href="#" onclick="openModal('privacyPolicyModal'); return false;" class="underline font-bold text-lime-100 hover:text-white transition">Read the Privacy Policy.</a>
-            </p>
-        </header>
-        
-        <!-- Main Content: Upload and Result -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-            <!-- Left Panel: Image Upload -->
-            <div class="flex flex-col items-center justify-center bg-black/30 rounded-xl p-4 ring-1 ring-gray-700 h-full shadow-lg hover:shadow-xl transition duration-300">
-                <input type="file" id="fileInput" accept="image/*" class="drop-zone__input">
-                <div id="dropZone" class="drop-zone w-full rounded-xl p-6 text-center cursor-pointer flex-grow flex flex-col justify-center">
-                    <div id="upload-prompt-content">
-                        <!-- Icon color adjusted to light gray -->
-                        <svg class="mx-auto h-10 w-10 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true"><path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-                        <p class="mt-2 text-gray-400 text-sm"><span class="font-semibold text-cyan-400">Click to Upload</span> or Drag and Drop</p>
-                        <p class="text-xs text-gray-500 mt-1">(Max 10MB)</p>
-                    </div>
-                    <div id="preview-container" class="w-full hidden flex-grow flex items-center justify-center">
-                        <img id="imagePreview" class="rounded-lg max-h-64 object-contain shadow-md ring-1 ring-cyan-500/50" alt="Image Preview"/>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Right Panel: Result -->
-            <div class="bg-black/30 rounded-xl p-4 flex flex-col ring-1 ring-gray-700 shadow-lg hover:shadow-xl transition duration-300">
-                <div class="flex justify-between items-center mb-3">
-                    <h2 class="text-lg font-semibold text-white" id="resultTitle">Analysis Result</h2>
-                    <!-- Copy Button adjusted for ONLY "Copy" text -->
-                    <button id="copyButton" class="hidden items-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold py-2 px-3 rounded-lg transition duration-300 disabled:opacity-50" onclick="copyToClipboard()" disabled>
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
-                        <span id="copyButtonText">Copy</span>
-                    </button>
-                </div>
-                
-                <!-- Result Wrapper -->
-                <div id="result-wrapper" class="bg-gray-900/80 text-gray-300 rounded-md p-4 flex-grow overflow-y-auto min-h-[16rem] flex flex-col justify-center relative ring-1 ring-gray-800">
-                    <div id="loader" class="custom-loader hidden self-center"></div>
-                    <p id="placeholderText" class="text-gray-500 text-center">আপনার জেনারেট করা প্রম্পট এখানে দেখা যাবে... (Your generated prompt will appear here...)</p>
-                    
-                    <!-- Result Container with Collapse Logic -->
-                    <div id="resultContainer" class="result-text-full">
-                        <div id="resultContent" class="whitespace-pre-wrap text-sm text-gray-300">
-                            <p id="resultText"></p>
-                        </div>
-                    </div>
-                    
-                    <!-- Read More/Less Button adjusted for cyan accent -->
-                    <button id="readMoreBtn" onclick="toggleReadMore()" class="text-xs font-semibold mt-3 p-1 rounded transition duration-150 text-cyan-400 hover:text-cyan-300 hidden self-start">
-                        <span id="readMoreText">Read More</span> <svg class="w-3 h-3 inline-block transform transition-transform duration-300" id="readMoreIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-                    </button>
-
-                    <p id="errorText" class="text-red-400 text-center hidden"></p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Action Button Section & Creator Button -->
-        <div class="mt-6 flex flex-col sm:flex-row justify-center items-center gap-4">
-            <!-- Generate Button: Power Gradient (Electric Cyan/Sky) -->
-            <button id="generateBtn" class="bg-gradient-to-r from-cyan-500 to-sky-500 hover:from-cyan-600 hover:to-sky-600 text-white font-bold py-3 px-8 rounded-full text-lg transition duration-300 transform hover:scale-105 shadow-xl shadow-cyan-500/30 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none" disabled>
-                Generate Prompt
-            </button>
-            
-            <!-- Creator and Policy Buttons in a group -->
-            <div class="flex gap-4">
-                <button id="creatorBtn" onclick="openModal('creatorModal')" class="bg-gray-700/50 hover:bg-gray-600/70 text-gray-300 font-medium py-3 px-6 rounded-full text-md transition duration-300 transform hover:scale-[1.03] shadow-md ring-1 ring-gray-600">
-                    Creator
-                </button>
-                <!-- New Privacy Policy Button -->
-                <button id="policyBtn" onclick="openModal('privacyPolicyModal')" class="bg-gray-700/50 hover:bg-gray-600/70 text-gray-300 font-medium py-3 px-6 rounded-full text-md transition duration-300 transform hover:scale-[1.03] shadow-md ring-1 ring-gray-600">
-                    Privacy Policy
-                </button>
-            </div>
-        </div>
-        
-        <!-- New Section for Prompt Refinement/Halal Transformation -->
-        <div id="refinementSection" class="mt-6 bg-black/30 rounded-xl p-5 ring-1 ring-gray-700 shadow-2xl hidden">
-            <h2 class="text-xl font-bold text-cyan-400 mb-3 flex items-center gap-2" id="refinementTitle">
-                ✨ Prompt Refinement
-            </h2>
-            <p class="text-gray-400 mb-3 text-sm" id="refinementDescription">
-                Enter your instruction below to modify the generated prompt (e.g., "Change the style to a watercolor painting" or "Add a cyberpunk neon background").
-            </p>
-            
-            <div class="flex flex-col sm:flex-row gap-3">
-                <input type="text" id="refinementInput" placeholder="Enter your desired modification here..." class="flex-grow bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-500 outline-none transition duration-200">
-                <button id="refineBtn" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-6 rounded-lg text-md transition duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:transform-none" disabled>
-                    ✨ Refine Prompt
-                </button>
-            </div>
-        </div>
-
-
-    </main>
-    
-    <!-- Floating History Button -->
-    <button id="historyBtn" class="fixed bottom-6 right-6 bg-cyan-600 text-white rounded-full shadow-2xl transition duration-300 hover:bg-cyan-700 transform hover:scale-105 flex items-center justify-center gap-2 px-4 py-3 ring-4 ring-cyan-500/50 text-sm font-semibold">
-        <!-- Clock Icon for History -->
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-        <span>History</span>
-    </button>
-
-    <!-- Privacy Reminder Pop-up (Small, auto-closing modal) -->
-    <div id="privacyReminderModal" class="hidden fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 p-3 bg-gray-800 rounded-lg shadow-xl ring-2 ring-cyan-500/50 text-sm text-center transition-opacity duration-300" style="width: auto; max-width: 90%;">
-        <p class="font-medium text-white flex items-center gap-2 justify-center">
-            <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-2-6h4m0 0V8m0 0v1m0 0V8a2 2 0 00-2-2H7a2 2 0 00-2 2v1m10 0v1m-2-1H7m12 10a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            Your images are processed by Google servers for AI analysis.
-        </p>
-    </div>
-
-    <!-- History Modal -->
-    <div id="historyModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-backdrop bg-black bg-opacity-75 flex items-center justify-center p-4">
-        <div class="modal-container bg-gray-900 rounded-2xl shadow-2xl relative flex flex-col w-full md:w-3/4 lg:w-1/2 ring-1 ring-gray-700">
-            <!-- Modal Header -->
-            <div class="p-5 border-b border-gray-700 sticky top-0 bg-gray-900 z-10 flex justify-between items-center">
-                <h3 class="text-xl font-bold text-white">Prompt History</h3>
-                <button onclick="closeModal('historyModal')" class="text-gray-400 hover:text-white transition duration-150">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <!-- Modal Body (Scrollable Content) -->
-            <div id="historyList" class="p-6 modal-content flex-grow space-y-4">
-                <p id="emptyHistory" class="text-center text-gray-500">No prompts saved yet.</p>
-                <!-- History Items will be injected here -->
-            </div>
-        </div>
-    </div>
-    
-    <!-- Creator Modal -->
-    <div id="creatorModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-backdrop bg-black bg-opacity-75 flex items-center justify-center p-4">
-        <div class="modal-container bg-gray-900 rounded-2xl shadow-2xl relative w-full max-w-sm md:max-w-md ring-1 ring-cyan-500/20">
-            <!-- Modal Header -->
-            <div class="p-5 border-b border-gray-700/50 flex justify-between items-center">
-                <h3 class="text-xl font-bold text-white">Creator Profile</h3>
-                <button onclick="closeModal('creatorModal')" class="text-gray-400 hover:text-white transition duration-150">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <!-- Creator Card Content -->
-            <div class="p-8 text-center">
-                <!-- Profile Image -->
-                <img src="https://placehold.co/128x128/06b6d4/ffffff?text=AS" alt="Creator Profile" class="w-32 h-32 rounded-full mx-auto object-cover border-4 border-cyan-500/70 shadow-xl"/>
-                
-                <h4 class="text-2xl font-bold text-white mt-4">Al Shakil</h4>
-                <p class="text-md text-cyan-400 mb-4">Digital Enthusiast</p>
-
-                <!-- Skills -->
-                <div class="flex flex-wrap justify-center gap-2 mb-6">
-                    <!-- Skills badges updated for dark theme/cyan colors -->
-                    <span class="bg-cyan-900/50 text-cyan-200 text-xs font-medium px-3 py-1 rounded-full ring-1 ring-cyan-600">Affiliate Marketing</span>
-                    <span class="bg-cyan-900/50 text-cyan-200 text-xs font-medium px-3 py-1 rounded-full ring-1 ring-cyan-600">Low-Level Prompt Engineer</span>
-                </div>
-                
-                <!-- Contact Button -->
-                <a href="https://www.facebook.com/al.shakil03" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-xl transition duration-300 shadow-lg shadow-blue-500/30">
-                    <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.99 3.65 9.13 8.44 9.8v-7H7.9v-2.8h2.54V9.61c0-2.52 1.49-3.91 3.77-3.91 1.09 0 2.05.19 2.32.28v2.7h-1.57c-1.24 0-1.48.59-1.48 1.46v1.94h2.95l-.48 2.8h-2.47v7C18.35 21.13 22 16.99 22 12z"/></svg>
-                    <span>Contact on Facebook</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- API Key Setup Modal -->
-    <div id="apiKeyModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-backdrop bg-black bg-opacity-75 flex items-center justify-center p-4">
-        <div class="modal-container bg-gray-900 rounded-2xl shadow-2xl relative flex flex-col w-full max-w-md ring-1 ring-cyan-500/20">
-            <!-- Modal Header -->
-            <div class="p-5 border-b border-gray-700 sticky top-0 bg-gray-900 z-10 flex justify-between items-center">
-                <h3 class="text-xl font-bold text-white flex items-center gap-2">
-                    <svg class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2v6a2 2 0 01-2 2h-6a2 2 0 01-2-2V9a2 2 0 012-2h6zM13 10V7h2V5H9v2h2v3m4 4v3h-4v2h4v-5z"></path></svg>
-                    API Key Setup
-                </h3>
-                <button onclick="closeModal('apiKeyModal')" class="text-gray-400 hover:text-white transition duration-150">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <!-- Modal Body (API Key Input) -->
-            <div class="p-6 modal-content space-y-4">
-                <p class="text-sm text-gray-400">Your Gemini API Key is required for image analysis and prompt generation.</p>
-
-                <div class="flex flex-col gap-3">
-                    <input type="password" id="apiKeyInputModal" placeholder="Paste your Gemini API Key here (e.g., AIza...)" class="flex-grow bg-gray-800 text-white p-3 rounded-lg border border-gray-700 focus:border-cyan-500 outline-none transition duration-200">
-                    <button id="saveKeyBtnModal" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300 transform hover:scale-[1.02]">
-                        Save/Update
-                    </button>
-                </div>
-                <p id="keyStatusModal" class="mt-2 text-sm text-center font-medium"></p>
-
-                <hr class="border-gray-700">
-
-                <button id="toggleGuideBtn" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center gap-2">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                    How to get your API Key
-                </button>
-
-                <!-- Guideline Section (Initially Hidden) -->
-                <div id="guideContent" class="hidden bg-gray-800 p-4 rounded-lg space-y-3 ring-1 ring-cyan-500/10">
-                    <p class="font-semibold text-white">Follow these steps to create your key:</p>
-                    <ol class="list-decimal list-inside text-sm text-gray-300 space-y-2">
-                        <li>Go to the <a href="https://ai.google.dev/gemini-api/docs/api-key" target="_blank" class="text-cyan-400 hover:text-cyan-300 underline font-medium">Google AI Studio Get API Key page</a>.</li>
-                        <li>Log in with your Google account.</li>
-                        <li>Click the **"Create API Key"** button.</li>
-                        <li>Copy the generated key.</li>
-                        <li>Paste it into the input field above and click **"Save/Update"**.</li>
-                        <li>You are ready to generate prompts!</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <!-- New Privacy Policy Modal -->
-    <div id="privacyPolicyModal" class="hidden fixed inset-0 z-50 overflow-y-auto modal-backdrop bg-black bg-opacity-75 flex items-center justify-center p-4">
-        <div class="modal-container bg-gray-900 rounded-2xl shadow-2xl relative flex flex-col w-full md:w-3/4 lg:w-1/2 ring-1 ring-gray-700">
-            <!-- Modal Header -->
-            <div class="p-5 border-b border-gray-700 sticky top-0 bg-gray-900 z-10 flex justify-between items-center">
-                <h3 class="text-xl font-bold text-white">Privacy Policy</h3>
-                <button onclick="closeModal('privacyPolicyModal')" class="text-gray-400 hover:text-white transition duration-150">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                </button>
-            </div>
-            
-            <!-- Modal Body (Policy Content) -->
-            <div class="p-6 modal-content flex-grow space-y-4 text-sm text-gray-300">
-                <h4 class="text-lg font-bold text-cyan-400">1. Information Collection and Use</h4>
-                <p>This application uses the Google Gemini API for image analysis and prompt generation. The image you upload is sent directly to Google's servers for processing. We **DO NOT** store these images on our own servers.</p>
-
-                <h4 class="text-lg font-bold text-cyan-400">2. API Key</h4>
-                <p>Your Gemini API Key is stored client-side in your browser's local storage. This key is used solely for communicating with the Google API and is never transmitted to us or any other third-party servers.</p>
-
-                <h4 class="text-lg font-bold text-cyan-400">3. Prompt History</h4>
-                <p>Generated prompts are temporarily saved in your browser's local storage to allow you easy access. You can clear this data at any time from the History section.</p>
-
-                <h4 class="text-lg font-bold text-cyan-400">4. Cookies</h4>
-                <p>This application only uses local storage to save user preferences (like the API key); no tracking cookies are utilized.</p>
-
-                <p class="mt-6 font-medium text-center text-gray-400">By using this tool, you consent to our privacy policy.</p>
-            </div>
-        </div>
-    </div>
-
-
-    <script>
-        // Constants and Globals
-        const API_URL = "https://generativelanguage.googleapis.com/v1beta/models/";
-        const VISION_MODEL = 'gemini-2.5-flash-preview-05-20'; 
-        const TEXT_MODEL = 'gemini-2.5-flash-preview-05-20';   
-        const API_KEY_STORAGE_KEY = 'geminiApiKey';
-        const DEFAULT_API_KEY = 'AIzaSyCOPiifSCFkBlq7AuWTtvfWvoNy5b8hMo0'; 
-        
-        // --- System Prompt for Image Analysis (UPDATED FOR IDENTITY PRESERVATION) ---
-        const SYSTEM_PROMPT = `Analyze the provided image in extreme detail. The final output must be a single, cohesive, high-quality prompt suitable for advanced text-to-image models like the **nano banana model**.
-
-**Instructions for the Output Prompt (Mandatory):**
-1. **Identity & Realism (Crucial):** Maintain an objective, descriptive third-person tone. The prompt MUST describe the main subject's appearance, pose, and emotion with the **explicit goal of preserving the identity/likeness seen in the image**. Inject powerful realism modifiers like **Photorealistic, Ultra-detailed, High Fidelity** seamlessly throughout the prompt structure.
-2. **Micro-details:** Describe every visible layer of clothing, pose, accessories, textures, colors, and environment details with absolute specificity, leaving nothing vague or general.
-3. **Technical Specifications:** Explicitly specify the lighting setup (e.g., Volumetric lighting, rim light, subsurface scattering), composition (e.g., eye-level medium close-up, shallow depth of field), specific color palette, and camera specifics (e.g., CineStill 800T, 85mm lens, f/1.4, cinematic color grading).
-4. **Output Format:** Synthesize all extracted details into one single, highly evocative, cohesive paragraph. End the prompt with this exact string: "A professional studio photograph, preserving subject's identity with 99%+ nano-level facial accuracy, authentic skin tones, hyper-detailed eyes, ultra-detailed, highly realistic, context-aware body realism with refined micro-details in light, shadow, and depth, masterpiece."`;
-
-        // --- System Prompt for Prompt Refinement (Phase 4 - Normal Refinement) ---
-        const REFINE_SYSTEM_PROMPT = `You are a world-class AI Prompt Engineer. Your task is to take a detailed, existing AI image generation prompt (the 'Original Prompt') and professionally modify it based on the user's short 'Refinement Instruction'.
-
-Rules:
-1. Preserve all technical details (like camera settings, lighting, technical terms) from the Original Prompt unless directly contradicted by the instruction.
-2. Integrate the Refinement Instruction seamlessly and creatively into the Original Prompt to create a new, high-quality, single-paragraph prompt.
-3. The final output must be ONE SINGLE PARAGRAPH. Do NOT use bullet points, numbered lists, or conversational text. Only output the new, refined prompt text.`;
-
-        // --- System Prompt for Islamic Check (Phase 2) ---
-        const ISLAMIC_CHECK_SYSTEM_PROMPT = `Act as an expert in Islamic Fiqh (jurisprudence) concerning visual representations and apparel. Analyze the provided image *strictly* for permissibility (Halal) or prohibition (Haram) based on widely accepted Sunnī Islamic standards.
-
-Focus on the following criteria:
-1.  **Awrah (Modesty):** For women, check if the image shows exposed hair, neck, chest, arms, or tight/revealing clothing (lack of Hijab/Jilbab). For men, check for clothing above the ankles or tight/revealing clothing of Awrah (navel to knees), or golden jewelry (if visible).
-2.  **Prohibitions:** Check for visible tattoos, idols, polytheistic/Satanic symbols, or items associated with major sins (e.g., alcohol, explicit nudity).
-3.  **Imagery:** Check for explicit depiction of animate beings (as some schools of thought prohibit making images of animate life) - treat this as a secondary, soft criteria unless the image is clearly an idol.
-
-Your output MUST be a JSON object conforming to the provided schema. Do not output anything else.
-
-JSON Schema:
-{
-  "verdict": "HALAL" | "HARAM",
-  "reasons_bn": "A bulleted list of the specific reasons for the verdict in respectful, brief Bengali, where each point is separated by a newline character.",
-  "quran_hadith_bn": "A very short, gentle, and relevant Quranic verse (with Surah:Ayat reference) or a well-known Hadith (with source like Bukhari/Muslim) citation in clear Bengali, relating to the reasons given."
-}
-`;
-
-        // --- System Prompt for Halal Transformation (Phase 4 - Haram State) ---
-        const HALAL_TRANSFORM_PROMPT = (originalPrompt, reasons) => `The original image (which led to the prompt: "${originalPrompt}") was deemed HARAM due to the following specific reasons: ${reasons}. 
-
-The user now urgently requests a Halal-compliant AI image prompt.
-
-Your task: Generate a completely new, detailed, single-paragraph AI image generation prompt (for Midjourney/Stable Diffusion) that **explicitly REMOVES** all prohibited elements and **ADDS elements of Islamic modesty and conformity**.
-
-Specific instructions for transformation:
-1.  **For Women:** If the image contained a woman, ensure she is wearing a **full Jilbab, Abaya, or modest full-coverage dress, and a Hijab or Niqab**.
-2.  **For Men:** If the image contained a man, ensure he is wearing **modest attire** (e.g., Thawb/Jubba or loose-fitting, non-revealing clothing, and is clean of tattoos or forbidden symbols).
-3.  **General:** Remove all other forbidden items (idols, alcohol, tattoos, etc.).
-4.  **Output Format:** Output only the new, detailed, high-quality, single-paragraph Halal-compliant prompt.`;
-
-
-        // DOM Elements
-        const dropZone = document.getElementById('dropZone');
-        const fileInput = document.getElementById('fileInput');
-        const imagePreview = document.getElementById('imagePreview');
-        const previewContainer = document.getElementById('preview-container');
-        const uploadPromptContent = document.getElementById('upload-prompt-content');
-        const generateBtn = document.getElementById('generateBtn');
-        const loader = document.getElementById('loader');
-        const resultText = document.getElementById('resultText');
-        const placeholderText = document.getElementById('placeholderText');
-        const errorText = document.getElementById('errorText');
-        const copyButton = document.getElementById('copyButton');
-        const copyButtonText = document.getElementById('copyButtonText');
-        const readMoreBtn = document.getElementById('readMoreBtn');
-        const resultContainer = document.getElementById('resultContainer');
-        const readMoreText = document.getElementById('readMoreText');
-        const readMoreIcon = document.getElementById('readMoreIcon');
-        const historyBtn = document.getElementById('historyBtn');
-        const historyList = document.getElementById('historyList');
-        const emptyHistory = document.getElementById('emptyHistory');
-        const resultTitle = document.getElementById('resultTitle');
-        const privacyReminderModal = document.getElementById('privacyReminderModal');
-        
-        // Modal DOM Elements
-        const apiKeyInputModal = document.getElementById('apiKeyInputModal');
-        const saveKeyBtnModal = document.getElementById('saveKeyBtnModal');
-        const keyStatusModal = document.getElementById('keyStatusModal');
-        const toggleGuideBtn = document.getElementById('toggleGuideBtn');
-        
-        // New Refinement DOM Elements
-        const refinementSection = document.getElementById('refinementSection');
-        const refinementInput = document.getElementById('refinementInput');
-        const refineBtn = document.getElementById('refineBtn');
-        const refinementTitle = document.getElementById('refinementTitle');
-        const refinementDescription = document.getElementById('refinementDescription');
-
-
-        let uploadedFile = null;
-        let isExpanded = false;
-        const COLLAPSED_HEIGHT = 160; // Reduced height for collapsed view
-        let currentApiKey = '';
-        let currentGeneratedPrompt = ''; 
-        let currentIslamicVerdict = 'NONE'; 
-        let haramReasons = ''; 
-
-
-        // --- API Key Management (Unchanged) ---
-        function loadApiKey() {
-            if (typeof __api_key !== 'undefined' && __api_key) {
-                currentApiKey = __api_key;
-                return true;
-            }
-            const storedKey = localStorage.getItem(API_KEY_STORAGE_KEY);
-            if (storedKey) {
-                currentApiKey = storedKey;
-                return true;
-            }
-            currentApiKey = DEFAULT_API_KEY;
-            return true; 
-        }
-
-        function updateKeyStatus() {
-            loadApiKey(); 
-            const hasUserSavedKey = localStorage.getItem(API_KEY_STORAGE_KEY) || (typeof __api_key !== 'undefined' && __api_key);
-            
-            if (hasUserSavedKey && currentApiKey !== DEFAULT_API_KEY) {
-                const displayKey = currentApiKey.substring(0, 4) + '...' + currentApiKey.substring(currentApiKey.length - 4);
-                keyStatusModal.textContent = `API Key loaded: ${displayKey}. Ready to generate prompt.`;
-                keyStatusModal.className = 'mt-2 text-sm text-center text-emerald-400 font-medium';
-                apiKeyInputModal.placeholder = 'Key saved. Paste new key to update.';
-            } else {
-                keyStatusModal.textContent = "Default Key is being used. Provide your personal key for higher rate limits.";
-                keyStatusModal.className = 'mt-2 text-sm text-center text-yellow-400 font-medium';
-                apiKeyInputModal.placeholder = 'Paste your personal key (AIza...) to change the default key.';
-            }
-
-            apiKeyInputModal.value = ''; 
-            generateBtn.disabled = !uploadedFile; 
-        }
-        
-        function saveKeyModal() {
-            const key = apiKeyInputModal.value.trim();
-            if (key.length > 20 && key.startsWith('AIza')) { 
-                localStorage.setItem(API_KEY_STORAGE_KEY, key);
-                updateKeyStatus();
-                closeModal('apiKeyModal');
-                showCustomToast('API Key successfully saved!');
-            } else if (key.length > 0) {
-                showErrorInModal('Invalid Key format. Ensure you pasted a correct Gemini API Key.');
-            } else {
-                localStorage.removeItem(API_KEY_STORAGE_KEY);
-                updateKeyStatus();
-                closeModal('apiKeyModal');
-                showCustomToast('Default API Key restored.');
-            }
-        }
-        
-        function showErrorInModal(message) {
-             const tempStatus = document.getElementById('keyStatusModal');
-             tempStatus.textContent = message;
-             tempStatus.className = 'mt-2 text-sm text-center text-red-400 font-medium';
-        }
-        
-        function toggleGuide() {
-            const guideContent = document.getElementById('guideContent');
-            const isHidden = guideContent.classList.contains('hidden');
-            
-            if (isHidden) {
-                guideContent.classList.remove('hidden');
-                toggleGuideBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"></path></svg> Hide Guide';
-            } else {
-                guideContent.classList.add('hidden');
-                toggleGuideBtn.innerHTML = '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg> How to get your API Key';
-            }
-        }
-
-        // Custom Toast Notification (instead of alert)
-        function showCustomToast(message) {
-            const toast = document.createElement('div');
-            toast.textContent = message;
-            toast.style.cssText = 'position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #059669; color: white; padding: 10px 20px; border-radius: 8px; z-index: 1000; font-family: inherit; font-size: 14px; opacity: 0; transition: opacity 0.3s; box-shadow: 0 4px 12px rgba(0,0,0,0.3);';
-            document.body.appendChild(toast);
-            
-            setTimeout(() => toast.style.opacity = 1, 10);
-            
-            setTimeout(() => {
-                toast.style.opacity = 0;
-                setTimeout(() => toast.remove(), 1500);
-            }, 1500);
-        }
-
-        // --- Privacy Reminder Pop-up (New Feature) ---
-        function showPrivacyReminder() {
-            const reminderModal = document.getElementById('privacyReminderModal');
-            if (!reminderModal.classList.contains('hidden')) return; // Already visible or fading out
-
-            reminderModal.classList.remove('hidden', 'opacity-0');
-            reminderModal.classList.add('opacity-100');
-
-            // Set timeout to start fading out
-            setTimeout(() => {
-                reminderModal.classList.remove('opacity-100');
-                reminderModal.classList.add('opacity-0');
-                
-                // Set timeout to hide completely after fade out
-                setTimeout(() => {
-                    reminderModal.classList.add('hidden');
-                    reminderModal.classList.remove('opacity-0');
-                }, 300); // Duration of CSS transition
-            }, 3000); // Display for 3 seconds
-        }
-
-        // --- Utility Functions ---
-        window.openModal = function(modalId) {
-            const modal = document.getElementById(modalId);
-            modal.classList.remove('hidden');
-            if (modalId === 'apiKeyModal') { updateKeyStatus(); }
-            setTimeout(() => {
-                modal.querySelector('.modal-container').classList.add('modal-open');
-            }, 10);
-            document.body.style.overflow = 'hidden';
-        }
-
-        window.closeModal = function(modalId) {
-            const modal = document.getElementById(modalId);
-            const modalContainer = modal.querySelector('.modal-container');
-            if (modalContainer) {
-                modalContainer.classList.remove('modal-open');
-            }
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                document.body.style.overflow = '';
-            }, 300);
-        }
-
-        function fileToBase64(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = () => resolve(reader.result);
-                reader.onerror = error => reject(error);
-            });
-        }
-        
-        function showError(message) {
-            setLoadingState(false, 'generate');
-            resultText.textContent = '';
-            placeholderText.classList.add('hidden');
-            errorText.textContent = message;
-            errorText.classList.remove('hidden');
-            copyButton.classList.add('hidden');
-            copyButton.disabled = true;
-            refinementSection.classList.add('hidden');
-            resultTitle.textContent = 'Analysis Result';
-            currentIslamicVerdict = 'NONE';
-        }
-
-        function clearResult() {
-            currentGeneratedPrompt = '';
-            haramReasons = '';
-            resultText.textContent = '';
-            errorText.textContent = '';
-            errorText.classList.add('hidden');
-            placeholderText.classList.remove('hidden');
-            copyButton.classList.add('hidden');
-            copyButton.disabled = true; 
-            readMoreBtn.classList.add('hidden');
-            resultContainer.classList.remove('result-collapsed-content');
-            resultContainer.style.maxHeight = 'none';
-            resultContainer.classList.remove('dawah-box'); 
-            resultContainer.classList.add('bg-gray-900/80'); 
-            isExpanded = false;
-            refinementSection.classList.add('hidden'); 
-            refinementInput.value = ''; 
-            refineBtn.disabled = true;
-            resultTitle.textContent = 'Analysis Result';
-            currentIslamicVerdict = 'NONE';
-        }
-
-        // --- Read More Logic (Uses new COLLAPSED_HEIGHT) ---
-        window.toggleReadMore = function() {
-            isExpanded = !isExpanded;
-
-            if (isExpanded) {
-                resultContainer.classList.remove('result-collapsed-content');
-                resultContainer.style.maxHeight = resultContainer.scrollHeight + "px";
-                readMoreText.textContent = 'Read Less';
-                readMoreIcon.style.transform = 'rotate(180deg)';
-            } else {
-                resultContainer.style.maxHeight = resultContainer.scrollHeight + "px";
-                requestAnimationFrame(() => {
-                    resultContainer.classList.add('result-collapsed-content');
-                    resultContainer.style.maxHeight = COLLAPSED_HEIGHT + 'px'; 
-                });
-                
-                readMoreText.textContent = 'Read More';
-                readMoreIcon.style.transform = 'rotate(0deg)';
-            }
-        }
-        
-        function showResult(text, saveToCurrentPrompt = true, isRefined = false) {
-            const cleanedText = text.trim();
-            resultText.textContent = cleanedText;
-            errorText.classList.add('hidden');
-            placeholderText.classList.add('hidden');
-            copyButton.disabled = false;
-            copyButton.classList.remove('hidden');
-            resultContainer.classList.remove('dawah-box'); 
-            resultContainer.classList.add('bg-gray-900/80');
-            resultTitle.textContent = isRefined ? 'Refined Prompt' : 'Generated Prompt';
-
-            if (saveToCurrentPrompt) {
-                currentGeneratedPrompt = cleanedText; 
-                refinementSection.classList.remove('hidden'); 
-                
-                // Reset refinement section for normal flow
-                refinementTitle.textContent = '✨ Prompt Refinement';
-                refinementDescription.textContent = 'Enter your instruction below to modify the generated prompt (e.g., "Change the style to a watercolor painting" or "Add a cyberpunk neon background").';
-                refineBtn.textContent = '✨ Refine Prompt';
-                refineBtn.onclick = handleRefinePrompt; // Reset handler
-                
-                // Check if input is filled to enable refine button
-                refineBtn.disabled = !refinementInput.value;
-            }
-
-            // Collapse logic
-            isExpanded = false;
-            resultContainer.classList.add('result-collapsed-content');
-            resultContainer.style.maxHeight = COLLAPSED_HEIGHT + 'px'; 
-            readMoreText.textContent = 'Read More';
-            readMoreIcon.style.transform = 'rotate(0deg)';
-            readMoreBtn.classList.add('hidden');
-
-            setTimeout(() => {
-                const contentHeight = document.getElementById('resultContent').offsetHeight; 
-
-                if (contentHeight > COLLAPSED_HEIGHT + 5) { 
-                    readMoreBtn.classList.remove('hidden');
-                } else {
-                    resultContainer.classList.remove('result-collapsed-content');
-                    resultContainer.style.maxHeight = 'none';
-                }
-            }, 50); 
-        }
-
-        // --- Dawah/Haram Display Logic (Updated Feature) ---
-        function displayHaramDawah(reasons, quranHadith, originalPrompt) {
-            
-            // Store details for potential transformation
-            currentIslamicVerdict = 'HARAM';
-            haramReasons = reasons;
-            currentGeneratedPrompt = originalPrompt; 
-
-            resultTitle.textContent = '⛔ Shariah Warning';
-            placeholderText.classList.add('hidden');
-            errorText.classList.add('hidden');
-            copyButton.classList.add('hidden');
-            
-            // Apply Dawah styling
-            resultContainer.classList.remove('result-collapsed-content');
-            resultContainer.classList.remove('bg-gray-900/80');
-            resultContainer.classList.add('dawah-box');
-            resultContainer.style.maxHeight = 'none'; // Full height
-            readMoreBtn.classList.add('hidden');
-            
-            // Format reasons into bullet points
-            const reasonListHtml = reasons.split('\n').map(r => r.trim()).filter(r => r.length > 0).map(r => `<li class="mb-1">${r.startsWith('*') ? r.substring(1).trim() : r}</li>`).join('');
-
-            const dawahMessage = `
-                <h3 class="text-2xl font-bold text-red-300 mb-4 text-center">
-                    আল্লাহ্ আমাদের সঠিক পথে পরিচালিত করুন। (May Allah guide us to the right path.)
-                </h3>
-                <p class="text-md font-medium mb-4 text-center text-red-100">
-                    Your uploaded image contains elements contrary to Shariah. Therefore, AI prompt generation is not possible.
-                </p>
-                <div class="bg-gray-900/50 p-4 rounded-lg border-l-4 border-red-500 mb-6">
-                    <p class="font-semibold text-red-300 mb-2">⛔ Reasons for Prohibition:</p>
-                    <ul class="list-disc-custom text-sm text-gray-200">${reasonListHtml}</ul>
-                </div>
-                
-                <p class="text-center font-semibold text-emerald-400 mb-2 mt-4 text-sm">
-                    কোরআন ও হাদিসের দাওয়াহ: (Quran and Hadith Dawah)
-                </p>
-                
-                <div class="bg-gray-800/70 p-4 rounded-lg text-center italic text-sm">
-                    <p class="text-gray-300">
-                        ${quranHadith}
-                    </p>
-                </div>
-                <p class="mt-4 text-xs text-center text-gray-400">
-                    (Please refrain from Haram. This is an AI-driven recommendation.)
-                </p>
-            `;
-
-            resultText.innerHTML = dawahMessage;
-            resultText.classList.remove('whitespace-pre-wrap');
-            
-            // Show Refinement section for transformation
-            refinementSection.classList.remove('hidden');
-            refinementTitle.textContent = '✅ Halal Transformation';
-            refinementDescription.textContent = 'Click this button and the AI will automatically remove prohibited elements and generate a new Shariah-compliant prompt (e.g., changing attire to modest clothing).';
-            refineBtn.textContent = 'Transform to Halal Prompt';
-            refineBtn.disabled = false;
-            refinementInput.value = "Change to modest attire and setting."; 
-            refineBtn.onclick = handleHalalTransform; // Set new handler
-        }
-
-
-        // --- History Logic (Unchanged) ---
-        function getHistory() {
-            try {
-                const history = localStorage.getItem('promptHistory');
-                return history ? JSON.parse(history) : [];
-            } catch (e) {
-                console.error("Could not load history from localStorage:", e);
-                return [];
-            }
-        }
-
-        function saveHistory(prompt, imageUrl) {
-            const history = getHistory();
-            const newEntry = {
-                id: Date.now(),
-                timestamp: new Date().toLocaleString('en-US', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
-                prompt: prompt,
-                imageUrl: imageUrl 
-            };
-            history.unshift(newEntry);
-            if (history.length > 20) {
-                history.pop();
-            }
-            try {
-                localStorage.setItem('promptHistory', JSON.stringify(history));
-            } catch (e) {
-                console.error("Could not save history to localStorage:", e);
-            }
-        }
-
-        function renderHistoryModal() {
-            const history = getHistory();
-            historyList.innerHTML = ''; 
-
-            if (history.length === 0) {
-                emptyHistory.classList.remove('hidden');
-                return;
-            }
-
-            emptyHistory.classList.add('hidden');
-
-            history.forEach(item => {
-                const historyItem = document.createElement('div');
-                historyItem.className = 'bg-gray-800/70 p-4 rounded-lg flex space-x-4 hover:bg-gray-800 transition duration-150 ring-1 ring-gray-700';
-                
-                historyItem.innerHTML = `
-                    <img src="${item.imageUrl}" alt="Uploaded Image" class="w-16 h-16 object-cover rounded-md flex-shrink-0 ring-1 ring-cyan-500/50">
-                    <div class="flex-grow">
-                        <p class="text-xs text-gray-400 mb-1">${item.timestamp}</p>
-                        <p class="text-sm text-gray-200 line-clamp-3">${item.prompt}</p>
-                        <button class="mt-2 text-xs text-cyan-400 hover:text-cyan-300 font-medium" onclick="copyHistoryPrompt(${item.id})">Copy Prompt</button>
-                    </div>
-                `;
-                historyList.appendChild(historyItem);
-            });
-        }
-        
-        window.copyHistoryPrompt = (id) => {
-            const history = getHistory();
-            const item = history.find(i => i.id === id);
-            
-            if (item) {
-                const textarea = document.createElement('textarea');
-                textarea.value = item.prompt;
-                document.body.appendChild(textarea);
-                textarea.select();
-                
-                try {
-                    document.execCommand('copy');
-                    closeModal('historyModal');
-                    showCustomToast('Prompt successfully copied!');
-                } catch (err) {
-                    console.error('Copy failed using execCommand:', err);
-                    showError('Copy failed: Please copy manually.'); 
-                } finally {
-                    document.body.removeChild(textarea);
-                }
-            }
-        };
-
-
-        // --- Phase 2: Islamic Permissibility Check ---
-        async function performIslamicCheck(base64Image, mimeType) {
-            const imageParts = {
-                mimeType: mimeType,
-                data: base64Image.split(',')[1] 
-            };
-            
-            const payload = {
-                contents: [{
-                    parts: [
-                        { text: "Analyze the image for Islamic permissibility." },
-                        { inlineData: imageParts }
-                    ]
-                }],
-                systemInstruction: {
-                    parts: [{ text: ISLAMIC_CHECK_SYSTEM_PROMPT }]
-                },
-                generationConfig: {
-                    responseMimeType: "application/json",
-                    responseSchema: {
-                        type: "OBJECT",
-                        properties: {
-                            "verdict": { "type": "STRING", "enum": ["HALAL", "HARAM"] },
-                            "reasons_bn": { "type": "STRING" },
-                            "quran_hadith_bn": { "type": "STRING" }
-                        },
-                        "propertyOrdering": ["verdict", "reasons_bn", "quran_hadith_bn"]
-                    }
-                }
-            };
-            
-            const apiUrl = `${API_URL}${VISION_MODEL}:generateContent?key=${currentApiKey}`;
-            
-            const response = await fetchWithRetry(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error.message || `API Error during Islamic Check: ${response.status}`);
-            }
-
-            const result = await response.json();
-            const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-            if (!jsonText) {
-                throw new Error("Islamic check returned no readable structured data.");
-            }
-            
-            return JSON.parse(jsonText);
-        }
-
-        // --- Phase 3: AI Prompt Generation (Halal path) ---
-        async function generateAiPrompt(imageParts) {
-            const payload = {
-                contents: [{
-                    parts: [
-                        { text: "Generate the prompt based on the image's characteristics." },
-                        { inlineData: imageParts }
-                    ]
-                }],
-                systemInstruction: {
-                    parts: [{ text: SYSTEM_PROMPT }]
-                }
-            };
-
-            const apiUrl = `${API_URL}${VISION_MODEL}:generateContent?key=${currentApiKey}`;
-            
-            const response = await fetchWithRetry(apiUrl, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                throw new Error(errorData.error.message || `API Error during Prompt Generation: ${response.status}`);
-            }
-
-            const result = await response.json();
-            const generatedText = result.candidates[0]?.content?.parts?.[0]?.text;
-
-            if (!generatedText) {
-                throw new Error("No readable text response received from the API.");
-            }
-            return generatedText;
-        }
-
-
-        // --- Main Handlers ---
-
-        async function handleGenerate() {
-            loadApiKey(); 
-
-            if (!uploadedFile) {
-                showError('Please upload an image first.');
-                return;
-            }
-
-            showPrivacyReminder(); // Show reminder before generating
-
-            setLoadingState(true, 'generate', 'Verifying permissibility according to Shariah...');
-            clearResult(); 
-
-            let base64Image;
-            let initialPrompt;
-
-            try {
-                base64Image = await fileToBase64(uploadedFile);
-                const imageParts = {
-                    mimeType: uploadedFile.type,
-                    data: base64Image.split(',')[1] 
-                };
-                
-                // --- PHASE 3a: Get INITIAL prompt text (Needed for HARAM context) ---
-                setLoadingState(true, 'generate', 'Analyzing image characteristics...');
-                initialPrompt = await generateAiPrompt(imageParts);
-
-
-                // --- PHASE 2: ISLAMIC CHECK (Runs on the image itself) ---
-                setLoadingState(true, 'generate', 'Verifying image permissibility according to Islamic guidelines...');
-                const islamicCheckResult = await performIslamicCheck(base64Image, uploadedFile.type);
-                
-                if (islamicCheckResult.verdict === "HARAM") {
-                    setLoadingState(false, 'generate');
-                    displayHaramDawah(islamicCheckResult.reasons_bn, islamicCheckResult.quran_hadith_bn, initialPrompt);
-                    return; 
-                }
-
-                // --- PHASE 3b: PROMPT GENERATION (Only if HALAL is confirmed) ---
-                setLoadingState(true, 'generate', 'Generating detailed prompt for the Shariah-compliant image...');
-                
-                // Success: Show result and save to history
-                showResult(initialPrompt, true); 
-                saveHistory(initialPrompt, base64Image); 
-                currentIslamicVerdict = 'HALAL';
-                
-            } catch (error) {
-                console.error('Error:', error);
-                if (error.message.includes('API Key appears invalid') || error.message.includes('API key is invalid') || error.message.includes('API Error: 400')) {
-                     showError(`API Key appears invalid or unauthorized. Please verify and update your key via the settings icon.`);
-                } else {
-                     showError(`A problem occurred while calling the API: (${error.message})`);
-                }
-            } finally {
-                setLoadingState(false, 'generate');
-            }
-        }
-
-
-        // --- Phase 4a: Halal Transformation Handler (New Feature) ---
-        async function handleHalalTransform() {
-            loadApiKey();
-
-            if (currentIslamicVerdict !== 'HARAM' || !currentGeneratedPrompt || !haramReasons) {
-                showError('Insufficient information for transformation. Please upload the image again.');
-                return;
-            }
-
-            showPrivacyReminder(); // Show reminder before refinement
-
-            setLoadingState(true, 'refine', 'Transforming to Halal prompt...');
-
-            try {
-                const userQuery = `Original Prompt based on HARAM image: "${currentGeneratedPrompt}"`;
-                const systemPrompt = HALAL_TRANSFORM_PROMPT(currentGeneratedPrompt, haramReasons);
-                
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: systemPrompt }] }
-                };
-
-                const apiUrl = `${API_URL}${TEXT_MODEL}:generateContent?key=${currentApiKey}`;
-                
-                const response = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error.message || `API Error: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const transformedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                if (!transformedText) {
-                    throw new Error("No readable text response received from the API.");
-                }
-                
-                showResult(transformedText, true, true); // true for isRefined
-                currentIslamicVerdict = 'HALAL';
-                haramReasons = '';
-                showCustomToast('Prompt successfully transformed to Halal-compliant!');
-                
-                refinementInput.value = '';
-                refineBtn.disabled = true;
-                refineBtn.onclick = handleRefinePrompt; 
-
-            } catch (error) {
-                console.error('Halal Transformation Error:', error);
-                showError(`Halal transformation failed: (${error.message})`);
-            } finally {
-                setLoadingState(false, 'refine');
-            }
-        }
-
-
-        // --- Phase 4b: Normal Refinement Handler ---
-        async function handleRefinePrompt() {
-            loadApiKey();
-            const refinementInstruction = refinementInput.value.trim();
-
-            if (!currentGeneratedPrompt || !refinementInstruction) {
-                showError('Please generate a prompt first and provide a refinement instruction.');
-                return;
-            }
-
-            showPrivacyReminder(); // Show reminder before refinement
-
-            setLoadingState(true, 'refine', 'Refining prompt...');
-
-            try {
-                const userQuery = `Original Prompt: "${currentGeneratedPrompt}"\nRefinement Instruction: "${refinementInstruction}"`;
-                
-                const payload = {
-                    contents: [{ parts: [{ text: userQuery }] }],
-                    systemInstruction: { parts: [{ text: REFINE_SYSTEM_PROMPT }] }
-                };
-
-                const apiUrl = `${API_URL}${TEXT_MODEL}:generateContent?key=${currentApiKey}`;
-                
-                const response = await fetchWithRetry(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error.message || `API Error: ${response.status}`);
-                }
-
-                const result = await response.json();
-                const refinedText = result.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                if (!refinedText) {
-                    throw new Error("No readable text response received from the API.");
-                }
-                
-                showResult(refinedText, true, true); 
-                showCustomToast('Prompt successfully refined!');
-                
-                refinementInput.value = '';
-                refineBtn.disabled = true;
-
-            } catch (error) {
-                console.error('Refinement Error:', error);
-                showError(`Refinement failed: (${error.message})`);
-                refinementSection.classList.remove('hidden'); 
-            } finally {
-                setLoadingState(false, 'refine');
-            }
-        }
-        
-        // --- API Utility with Backoff (Unchanged) ---
-        async function fetchWithRetry(url, options, retries = 3) {
-            for (let i = 0; i < retries; i++) {
-                try {
-                    const response = await fetch(url, options);
-                    if (response.status !== 429) { 
-                        return response;
-                    }
-                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                } catch (error) {
-                    if (i === retries - 1) throw error; 
-                    const delay = Math.pow(2, i) * 1000 + Math.random() * 1000;
-                    await new Promise(resolve => setTimeout(resolve, delay));
-                }
-            }
-            throw new Error("API call failed after multiple retries.");
-        }
-
-
-        // --- Loading State and UI Update ---
-        
-        function setLoadingState(isLoading, actionType, statusMessage = '') {
-            const isReady = !!uploadedFile; 
-            
-            generateBtn.disabled = isLoading;
-            refineBtn.disabled = isLoading;
-
-            if (isLoading) {
-                loader.classList.remove('hidden');
-                placeholderText.textContent = statusMessage; 
-                placeholderText.classList.remove('hidden');
-                resultText.textContent = '';
-                errorText.classList.add('hidden');
-                copyButton.classList.add('hidden');
-                
-                if (actionType === 'generate') {
-                    generateBtn.textContent = 'Analyzing...';
-                } else if (actionType === 'refine') {
-                    refineBtn.textContent = 'Processing...'; 
-                }
-
-            } else {
-                loader.classList.add('hidden');
-                generateBtn.textContent = 'Generate Prompt';
-                
-                if (currentIslamicVerdict === 'HARAM') {
-                    refineBtn.textContent = 'Transform to Halal Prompt';
-                    refineBtn.onclick = handleHalalTransform;
-                    refineBtn.disabled = false;
-                } else if (currentIslamicVerdict === 'HALAL' && currentGeneratedPrompt) {
-                    refineBtn.textContent = '✨ Refine Prompt';
-                    refineBtn.onclick = handleRefinePrompt;
-                    refineBtn.disabled = !refinementInput.value;
-                } else {
-                    refineBtn.textContent = '✨ Refine Prompt';
-                    refineBtn.disabled = true;
-                }
-
-                copyButton.disabled = false;
-            }
-        }
-        
-        // --- Event Listeners and Initialization ---
-
-        window.copyToClipboard = function() {
-            if (resultText.textContent) {
-                const textarea = document.createElement('textarea');
-                textarea.value = resultText.textContent;
-                document.body.appendChild(textarea);
-                textarea.select();
-                try {
-                    document.execCommand('copy');
-                    copyButtonText.textContent = 'Copied!'; // Changed to Copied!
-                    setTimeout(() => {
-                        copyButtonText.textContent = 'Copy'; // Changed back to Copy
-                    }, 2000);
-                } catch (err) {
-                    console.error('Copy failed:', err);
-                    showError('Copy failed: Please copy manually.'); 
-                }
-                document.body.removeChild(textarea);
-            }
-        }
-
-        function updateThumbnail(file) {
-            uploadedFile = file;
-            const reader = new FileReader();
-            reader.onload = () => {
-                imagePreview.src = reader.result;
-                previewContainer.classList.remove('hidden');
-                uploadPromptContent.classList.add('hidden');
-                generateBtn.disabled = false; 
-                clearResult();
-                showPrivacyReminder(); // Show reminder after successful upload
-            };
-            reader.readAsDataURL(file);
-        }
-        
-        function isValidFile(file) {
-            const allowedTypes = ['image/png', 'image/jpeg', 'image/webp'];
-            const maxSize = 10 * 1024 * 1024; // 10 MB
-            if (!allowedTypes.includes(file.type)) {
-                showError("Invalid file type. Please upload PNG, JPG, or WEBP.");
-                return false;
-            }
-            if (file.size > maxSize) {
-                showError("File size is too large. Maximum 10MB allowed.");
-                return false;
-            }
-            return true;
-        }
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // 1. Initialize API Key Check
-            loadApiKey(); 
-            copyButtonText.textContent = 'Copy'; // Ensure initial button text is 'Copy'
-
-            // 2. API Key Listener (Modal buttons)
-            saveKeyBtnModal.addEventListener('click', saveKeyModal);
-            toggleGuideBtn.addEventListener('click', toggleGuide);
-            
-            // 3. Refinement Listeners 
-            refineBtn.addEventListener('click', handleRefinePrompt);
-            refinementInput.addEventListener('input', () => {
-                if (currentIslamicVerdict === 'HALAL' || currentIslamicVerdict === 'NONE') {
-                    refineBtn.disabled = !refinementInput.value.trim();
-                } 
-            });
-
-
-            // 4. Drag and Drop listeners
-            dropZone.addEventListener('click', () => fileInput.click());
-            dropZone.addEventListener('dragover', e => {
-                e.preventDefault();
-                dropZone.classList.add('drop-zone--over');
-            });
-            ['dragleave', 'dragend'].forEach(type => {
-                dropZone.addEventListener(type, () => dropZone.classList.remove('drop-zone--over'));
-            });
-            dropZone.addEventListener('drop', e => {
-                e.preventDefault();
-                if (e.dataTransfer.files.length) {
-                    const file = e.dataTransfer.files[0];
-                    if (isValidFile(file)) {
-                        fileInput.files = e.dataTransfer.files;
-                        updateThumbnail(file);
-                    }
-                }
-                dropZone.classList.remove('drop-zone--over');
-            });
-
-            // 5. File Input change
-            fileInput.addEventListener('change', () => {
-                if (fileInput.files.length > 0) {
-                    const file = fileInput.files[0];
-                    if (isValidFile(file)) {
-                        updateThumbnail(file);
-                    }
-                }
-            });
-            
-            // 6. Main Action Button
-            generateBtn.addEventListener('click', handleGenerate);
-            
-            // 7. History Button
-            historyBtn.addEventListener('click', () => {
-                renderHistoryModal();
-                openModal('historyModal');
-            });
-            
-            // Set initial state of generate button based on file presence
-            generateBtn.disabled = !uploadedFile; 
-        });
-    </script>
-</body>
-</html>
-
