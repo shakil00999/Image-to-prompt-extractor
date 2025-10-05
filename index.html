@@ -1,39 +1,380 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Image Prompt Generator - Shariah Check</title>
-    
-    <!-- START: Social Media Share / Logo Look -->
-    <meta property="og:title" content="AI Image Prompt Generator - Powered by Gemini" />
-    <meta property="og:description" content="Upload an image and generate a detailed prompt by analyzing its artistic features for the AI model." />
-    <meta property="og:image" content="https://placehold.co/1200x630/06b6d4/ffffff?text=AI+PROMPT+GENERATOR" />
-    <meta property="og:url" content="#" />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="AI Image Prompt Generator" />
-    <meta property="og:image" content="https://placehold.co/1200x630/06b6d4/ffffff?text=AI+PROMPT+GENERATOR" />
-    <!-- END: Social Media Share / Logo Look -->
-
+    <title>স্মার্ট প্রস্তুতি কুইজ</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <style>
-        body {
-            /* 2025 Modern Theme: Deep Space / Electric Cyan */
-            font-family: 'Inter', sans-serif;
-            background-color: #0a0a0c; /* Deep Space Black */
-            color: #f3f4f6; /* Light text for high contrast */
-            background-image:
-                radial-gradient(at 20% 25%, hsla(180, 80%, 25%, 0.3) 0px, transparent 50%),
-                radial-gradient(at 80% 75%, hsla(210, 70%, 30%, 0.25) 0px, transparent 50%),
-                radial-gradient(at 50% 50%, hsla(240, 60%, 15%, 0.2) 0px, transparent 50%);
+        @import url('https://fonts.googleapis.com/css2?family=Baloo+Da+2:wght@400;600;700;800&family=Inter:wght@400;600;700&display=swap');
+        :root {
+            --green: #58CC02; --blue: #1CB0F6; --red: #EF4444; --yellow: #FFD700;
+            --dark-bg: #1F2937; --medium-bg: #374151; --light-text: #E5E7EB;
         }
-        .custom-loader {
-            width: 50px;
-            height: 50px;
+        body { font-family: 'Baloo Da 2', 'Inter', sans-serif; background-color: var(--dark-bg); color: var(--light-text); }
+        .container-main { max-width: 900px; margin: 0 auto; }
+        .bg-duolingo-green { background-color: var(--green); }
+        .hover\:bg-duolingo-green-dark:hover { background-color: #4CAF02; }
+        .text-duolingo-green { color: var(--green); }
+        .bg-duolingo-blue { background-color: var(--blue); }
+        .text-duolingo-blue { color: var(--blue); }
+        .text-golden { color: var(--yellow); text-shadow: 0 0 8px rgba(255, 215, 0, 0.6); }
+
+        /* Modal & Pop-up Styles */
+        .modal-backdrop {
+            position: fixed; inset: 0; z-index: 50;
+            display: flex; align-items: center; justify-content: center;
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            opacity: 0; pointer-events: none;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .modal-backdrop.visible { opacity: 1; pointer-events: auto; }
+        .modal-card {
+            background-color: var(--medium-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            transform: scale(0.95);
+            transition: transform 0.3s ease-in-out;
+        }
+        .modal-backdrop.visible .modal-card { transform: scale(1); }
+
+        /* Input Container */
+        #input-container { transition: max-height 0.5s ease-in-out; max-height: 5rem; overflow: hidden; }
+        #input-container.expanded { max-height: 30rem; }
+
+        /* Animations */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+        .shake { animation: shake 0.5s ease-in-out; }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 5px var(--green), 0 0 10px var(--green); }
+            50% { box-shadow: 0 0 20px var(--green), 0 0 30px var(--green); }
+            100% { box-shadow: 0 0 5px var(--green), 0 0 10px var(--green); }
+        }
+        .glow {
+            border-color: var(--green) !important;
+            color: white !important;
+            background-color: #16a34a !important;
+            transform: scale(1.05);
+            animation: glow 1.5s infinite;
+        }
+        
+        /* Quiz Progress Bar */
+        #progress-bar-inner { transition: width 0.5s ease-out; }
+
+        /* Custom Scrollbar */
+        #image-previews-container { scrollbar-width: thin; scrollbar-color: var(--blue) var(--medium-bg); }
+        #image-previews-container::-webkit-scrollbar { height: 6px; }
+        #image-previews-container::-webkit-scrollbar-track { background: var(--medium-bg); }
+        #image-previews-container::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 10px; }
+
+        .spinner { border: 8px solid #f3f3f3; border-top-color: var(--green); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        
+        .q-count-btn.selected { background-color: var(--blue); color: white; border-color: var(--blue); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Main Content (Can be dimmed) -->
+    <div id="main-content-wrapper" class="transition-filter duration-300">
+        <header class="w-full container-main px-4 pt-6 flex justify-between items-center mb-10">
+            <div onclick="toggleMenuModal(true)" class="p-2 cursor-pointer rounded-full hover:bg-gray-700 transition"><div class="space-y-1.5"><div class="h-0.5 w-6 bg-gray-400 rounded"></div><div class="h-0.5 w-5 bg-gray-400 rounded"></div><div class="h-0.5 w-4 bg-gray-400 rounded"></div></div></div>
+            <div onclick="toggleCreatorModal(true)" class="p-2 cursor-pointer relative rounded-full hover:ring-2 ring-[var(--blue)] transition"><i class="fas fa-user-circle text-3xl text-duolingo-blue"></i><span class="absolute top-0 right-0 h-3 w-3 rounded-full bg-red-500 border-2 border-gray-900"></span></div>
+        </header>
+
+        <main class="container-main flex-grow flex flex-col items-center justify-start px-4 pb-16">
+            <div class="mb-8 text-center"><h2 class="text-4xl font-extrabold text-golden py-2 px-6 rounded-xl border border-golden/50 mb-2" style="font-family: 'Baloo Da 2', cursive;">আল্লাহু আকবার</h2><p class="text-lg text-gray-400">আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু</p></div>
+            <h1 class="text-6xl md:text-8xl font-extrabold text-center mb-12 text-gray-200">স্মার্ট প্রস্তুতি</h1>
+            <div class="w-full max-w-2xl px-2">
+                <div class="video-placeholder rounded-xl shadow-lg">
+                    <div id="video-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-800/80 rounded-xl transition hover:bg-gray-800/60 cursor-pointer" onclick="mockVideoPlay()">
+                        <svg class="play-button w-24 h-24 text-duolingo-green opacity-90" fill="currentColor" viewBox="0 0 24 24"><path d="M6 3.5l12 7.5-12 7.5z"></path></svg>
+                        <h3 class="text-3xl font-bold text-gray-50 mt-4">ভিডিও টিউটোরিয়াল</h3>
+                        <p class="text-gray-300 mt-1">দ্রুত শুরু করার নির্দেশিকা</p>
+                    </div>
+                    <div id="video-player" class="absolute inset-0 hidden bg-black rounded-xl p-4">
+                        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&enablejsapi=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="rounded-lg"></iframe>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bottom Input Bar -->
+    <div id="input-wrapper" class="fixed bottom-0 left-0 right-0 p-4 md:p-6 bg-gray-900/90 backdrop-blur-sm shadow-2xl z-40 transition-filter duration-300">
+        <div class="container-main"><div id="input-container" class="bg-gray-800 rounded-3xl p-3 flex flex-col"><div id="main-controls" class="flex items-center justify-between w-full h-14"><div class="flex items-center space-x-2"><button onclick="document.getElementById('gallery-upload').click()" class="p-3 text-duolingo-green hover:bg-gray-700 rounded-full transition hover:scale-110" title="গ্যালারি থেকে ছবি"><i class="fas fa-plus text-xl"></i></button><input type="file" id="gallery-upload" accept="image/*" multiple class="hidden" onchange="addFilesAndUpdate(this.files, this)"><button onclick="document.getElementById('camera-upload').click()" class="p-3 bg-duolingo-blue/20 text-duolingo-blue hover:bg-duolingo-blue hover:text-white rounded-full transition-all hover:scale-110 shadow-lg" title="ক্যামেরা থেকে ছবি"><i class="fas fa-camera text-xl"></i></button><input type="file" id="camera-upload" accept="image/*" capture="environment" class="hidden" onchange="addFilesAndUpdate(this.files, this)"></div><div class="flex-grow mx-4 text-gray-400 italic text-center">ছবি আপলোড করে কুইজ তৈরি করুন...</div><button id="start-quiz-button" onclick="showQuestionCountModal()" class="bg-duolingo-green text-white font-bold py-2 px-5 rounded-full shadow-lg hover:bg-duolingo-green-dark transition disabled:bg-gray-500" disabled>Start Quiz</button></div><div id="image-previews-container" class="mt-4 flex flex-wrap gap-3 overflow-y-auto px-2 py-1"></div><p id="error-message" class="text-center text-red-400 font-semibold mt-2 hidden"></p></div></div>
+    </div>
+    
+    <!-- MODALS & POP-UPS -->
+    <!-- Menu Modal -->
+    <div id="menu-modal" class="modal-backdrop"><div class="modal-card w-full max-w-md p-8 rounded-3xl"><div class="flex justify-between items-center border-b border-gray-700 pb-4 mb-6"><h3 class="text-2xl font-extrabold text-duolingo-blue">প্রস্তুতি যাচাই কুইজ</h3><button onclick="toggleMenuModal(false)" class="text-gray-400 hover:text-white"><i class="fas fa-times text-2xl"></i></button></div><ul class="space-y-3"><li onclick="resetApp()" class="p-3 rounded-xl hover:bg-gray-700 cursor-pointer font-semibold flex items-center"><i class="fas fa-sync-alt mr-3 text-duolingo-green w-5"></i> New Start</li></ul></div></div>
+    <!-- Creator Modal -->
+    <div id="creator-modal" class="modal-backdrop"><div class="modal-card bg-white w-full max-w-xs p-6 rounded-3xl text-center text-gray-800 relative"><button onclick="toggleCreatorModal(false)" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800"><i class="fas fa-times text-xl"></i></button><i class="fas fa-crown text-4xl text-yellow-500 mb-4"></i><h3 class="text-2xl font-bold mb-1">ক্রিয়েটরের তথ্য</h3><p class="text-sm text-gray-600 mb-4">নির্মাতা:</p><div class="space-y-2"><p class="font-bold text-duolingo-blue">Md. Developer</p><p class="text-sm">Version: 2.0.0</p></div><button onclick="toggleCreatorModal(false)" class="mt-6 w-full py-2 bg-duolingo-green text-white font-semibold rounded-xl hover:bg-duolingo-green-dark">বন্ধ করুন</button></div></div>
+    <!-- Question Count Modal -->
+    <div id="question-count-modal" class="modal-backdrop"><div class="modal-card w-full max-w-md p-8 rounded-3xl text-center"><h3 class="text-2xl font-bold text-white mb-6">কতগুলো প্রশ্ন তৈরি করতে চান?</h3><div class="flex justify-center items-center gap-3 mb-6"><button onclick="selectQuestionCount(5, this)" class="q-count-btn selected font-bold py-2 px-5 rounded-full transition">৫</button><button onclick="selectQuestionCount(10, this)" class="q-count-btn font-bold py-2 px-5 rounded-full transition">১০</button><button onclick="selectQuestionCount(15, this)" class="q-count-btn font-bold py-2 px-5 rounded-full transition">১৫</button><input id="custom-q-count" type="number" min="1" max="20" class="w-24 text-center bg-gray-700 border-2 border-gray-600 rounded-full focus:ring-duolingo-blue focus:border-duolingo-blue" placeholder="অন্যান্য" oninput="selectQuestionCount(this.value, this)"></div><input type="hidden" id="question-count" value="5"><button onclick="handleStart()" class="w-full bg-duolingo-blue text-white font-bold py-3 px-8 rounded-full shadow-lg hover:bg-[#169ad3] transition text-lg">চালিয়ে যান</button></div></div>
+    <!-- Processing & Quiz Modal -->
+    <div id="game-modal" class="modal-backdrop">
+        <div id="processing-screen" class="modal-card w-full max-w-2xl hidden flex-col justify-between rounded-3xl overflow-hidden">
+            <div class="banner-container p-6 shadow-2xl"><div class="bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20"><div class="flex flex-col md:flex-row items-center justify-between gap-6"><div class="text-center md:text-left"><h3 class="text-2xl font-bold text-white">আপনার বিজ্ঞাপন এখানে</h3><p class="text-white/80">আপনার ব্যবসাকে প্রসারিত করুন</p></div><img src="https://placehold.co/300x120/1CB0F6/FFFFFF?text=AD+BANNER" alt="Advertisement" class="rounded-lg shadow-lg"></div></div></div>
+            <div class="flex-grow flex items-center justify-center p-8"><div class="text-center"><div class="spinner mx-auto mb-8"></div><h2 class="text-3xl font-bold text-white mb-6 pulse-animation">⚡ AI পেজ বিশ্লেষণ করছে...</h2><p class="text-blue-200">অনুগ্রহ করে অপেক্ষা করুন...</p></div></div>
+        </div>
+        <div id="quiz-screen" class="modal-card w-full max-w-3xl hidden flex-col rounded-3xl p-6 md:p-8 text-gray-800 bg-gray-100">
+            <div class="flex justify-between items-center mb-4"><p class="text-xl font-bold text-duolingo-blue">প্রশ্ন <span id="current-q-index">1</span> / <span id="total-q-count">5</span></p><button onclick="resetApp()" class="text-gray-500 hover:text-red-500 transition"><i class="fas fa-times-circle text-2xl"></i></button></div>
+            <div class="w-full bg-gray-300 rounded-full h-2.5 mb-4"><div id="progress-bar-inner" class="bg-duolingo-green h-2.5 rounded-full"></div></div>
+            <p id="question-text" class="text-xl md:text-2xl font-bold text-gray-800 p-5 mb-6 bg-white rounded-xl shadow-inner"></p>
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+        <div id="results-screen" class="modal-card w-full max-w-md hidden flex-col items-center justify-center rounded-3xl p-8 text-center bg-white text-gray-800">
+            <h2 id="results-title" class="text-4xl font-extrabold text-duolingo-green mb-4">অভিনন্দন! 🎉</h2>
+            <p class="text-xl text-gray-700 mb-6">আপনার চূড়ান্ত স্কোর:</p>
+            <div class="inline-block bg-duolingo-green/10 p-6 rounded-full border-4 border-duolingo-green mb-6"><p class="text-6xl font-extrabold text-duolingo-green"><span id="final-score-percent">0</span><span class="text-3xl">%</span></p></div>
+            <p id="performance-message" class="text-xl font-semibold text-gray-800 mb-8"></p>
+            <button onclick="resetApp()" class="w-full py-3 text-lg font-semibold rounded-xl bg-duolingo-blue text-white hover:bg-[#169ad3] transition">আবার চেষ্টা করুন</button>
+        </div>
+    </div>
+
+    <script type="module">
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${"AIzaSyBUd0XZUgyHUMU40IoTqf_RY7JaSXANLBo"}`;
+        let quizData = [], currentQuestionIndex = 0, score = 0, filesArray = [], base64Images = [], imageMimeTypes = [];
+        let audioCtx, correctSound, incorrectSound;
+
+        // DOM Elements
+        const dom = {
+            mainWrapper: document.getElementById('main-content-wrapper'),
+            inputWrapper: document.getElementById('input-wrapper'),
+            inputContainer: document.getElementById('input-container'),
+            previews: document.getElementById('image-previews-container'),
+            startBtn: document.getElementById('start-quiz-button'),
+            errorMsg: document.getElementById('error-message'),
+            qCountModal: document.getElementById('question-count-modal'),
+            gameModal: document.getElementById('game-modal'),
+            processingScreen: document.getElementById('processing-screen'),
+            quizScreen: document.getElementById('quiz-screen'),
+            resultsScreen: document.getElementById('results-screen'),
+            qCountInput: document.getElementById('question-count'),
+            customQCount: document.getElementById('custom-q-count'),
+            progressBar: document.getElementById('progress-bar-inner'),
+            videoOverlay: document.getElementById('video-overlay'),
+            videoPlayer: document.getElementById('video-player'),
+        };
+
+        // --- Audio Setup ---
+        function initAudio() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                // Correct Sound (ascending notes)
+                correctSound = () => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    oscillator.type = 'sine';
+                    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.01);
+                    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime); // A4
+                    oscillator.frequency.linearRampToValueAtTime(659.25, audioCtx.currentTime + 0.1); // E5
+                    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.2);
+                };
+                // Incorrect Sound (dissonant buzz)
+                incorrectSound = () => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    oscillator.type = 'square';
+                    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    oscillator.frequency.setValueAtTime(160, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.15);
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.15);
+                };
+            } catch (e) {
+                console.error("Web Audio API is not supported in this browser.");
+            }
+        }
+        document.body.addEventListener('click', initAudio, { once: true });
+
+
+        // --- UI Control ---
+        const showModal = (modal, show) => modal.classList.toggle('visible', show);
+        const showGameScreen = (screen) => {
+            dom.processingScreen.classList.add('hidden');
+            dom.quizScreen.classList.add('hidden');
+            dom.resultsScreen.classList.add('hidden');
+            if(screen) screen.classList.remove('hidden');
+        };
+        const dimBackground = (dim) => {
+            dom.mainWrapper.classList.toggle('blur-sm', dim);
+            dom.inputWrapper.classList.toggle('blur-sm', dim);
+        };
+        window.toggleMenuModal = (show) => showModal(document.getElementById('menu-modal'), show);
+        window.toggleCreatorModal = (show) => showModal(document.getElementById('creator-modal'), show);
+        
+        // --- Video Player Logic ---
+        window.mockVideoPlay = () => {
+            dom.videoOverlay.classList.add('hidden');
+            dom.videoPlayer.classList.remove('hidden');
+            const iframe = dom.videoPlayer.querySelector('iframe');
+            // Using postMessage for better control over YouTube iframe
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+        };
+
+        const stopVideo = () => {
+            const iframe = dom.videoPlayer.querySelector('iframe');
+            if (iframe && iframe.contentWindow) {
+                 iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+            }
+            dom.videoOverlay.classList.remove('hidden');
+            dom.videoPlayer.classList.add('hidden');
+        };
+
+        // --- Image Handling ---
+        async function updateImagePreviews() {
+            dom.previews.innerHTML = '';
+            if (filesArray.length === 0) {
+                dom.inputContainer.classList.remove('expanded');
+                dom.startBtn.disabled = true;
+                return;
+            }
+            dom.inputContainer.classList.add('expanded');
+            dom.startBtn.disabled = false;
+            const readFile = file => new Promise(res => { const r = new FileReader(); r.onload = () => res(r.result); r.readAsDataURL(file); });
+            const urls = await Promise.all(filesArray.map(readFile));
+            base64Images = urls.map(url => url.split(',')[1]);
+            imageMimeTypes = filesArray.map(file => file.type);
+            urls.forEach((url, i) => {
+                const w = document.createElement('div');
+                w.className = 'group relative w-24 h-24 border-2 border-[var(--blue)] rounded-xl shrink-0 shadow-md hover:shadow-xl transition-all hover:scale-105 bg-gray-700';
+                w.innerHTML = `<img src="${url}" class="w-full h-full object-cover rounded-lg"><button class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs hover:bg-red-600 transition-all shadow-lg z-10 opacity-0 group-hover:opacity-100"><i class="fas fa-times"></i></button><div class="absolute bottom-1 left-1 bg-duolingo-blue text-white text-xs font-bold px-2 py-0.5 rounded-full shadow-md">${i + 1}</div>`;
+                w.querySelector('button').onclick = e => { e.stopPropagation(); filesArray.splice(i, 1); updateImagePreviews(); };
+                dom.previews.appendChild(w);
+            });
+        }
+        window.addFilesAndUpdate = (newFiles, input) => {
+            filesArray.push(...Array.from(newFiles).filter(file => !filesArray.some(f => f.name === file.name && f.size === file.size)));
+            updateImagePreviews();
+            if(input) input.value = null;
+        };
+
+        // --- Quiz Flow ---
+        window.showQuestionCountModal = () => showModal(dom.qCountModal, true);
+        window.selectQuestionCount = (count, el) => {
+            document.querySelectorAll('.q-count-btn').forEach(b => b.classList.remove('selected'));
+            if (el.tagName === 'BUTTON') { el.classList.add('selected'); dom.customQCount.value = ''; }
+            const val = parseInt(count, 10);
+            if (val > 0 && val <= 20) dom.qCountInput.value = val;
+        };
+
+        window.handleStart = async () => {
+            if (filesArray.length === 0) return;
+            showModal(dom.qCountModal, false);
+            showModal(dom.gameModal, true);
+            dimBackground(true);
+            showGameScreen(dom.processingScreen);
+            
+            const qCount = dom.qCountInput.value;
+            const prompt = `You are an expert Bengali educator. Analyze all provided images. Synthesize the information to generate ${qCount} insightful MCQs. Response MUST be a valid JSON array of objects: {"question": "...", "options": ["...", "...", "...", "..."], "answer": "..."}.`;
+            const payload = { contents: [{ parts: [{ text: prompt }, ...base64Images.map((img, i) => ({ inlineData: { mimeType: imageMimeTypes[i], data: img } }))] }] };
+
+            try {
+                const res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!res.ok) throw new Error(`API Error: ${res.status}`);
+                const result = await res.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                quizData = JSON.parse(text.replace(/```json|```/g, '').trim());
+                if (!quizData || quizData.length === 0) throw new Error("AI প্রশ্ন তৈরি করতে পারেনি।");
+                displayQuestion();
+            } catch (e) {
+                dom.errorMsg.textContent = `ত্রুটি: ${e.message}`;
+                dom.errorMsg.classList.remove('hidden');
+                resetApp();
+            }
+        };
+
+        function displayQuestion() {
+            showGameScreen(dom.quizScreen);
+            if (currentQuestionIndex >= quizData.length) { showResults(); return; }
+            const q = quizData[currentQuestionIndex];
+            document.getElementById('current-q-index').textContent = currentQuestionIndex + 1;
+            document.getElementById('total-q-count').textContent = quizData.length;
+            document.getElementById('question-text').textContent = q.question;
+            const progress = ((currentQuestionIndex) / quizData.length) * 100;
+            dom.progressBar.style.width = `${progress}%`;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            const shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            shuffledOptions.forEach(opt => {
+                const btn = document.createElement('button');
+                btn.textContent = opt;
+                btn.className = 'quiz-option p-4 text-left font-semibold text-gray-700 bg-white rounded-xl border-2 border-gray-200 transition-all duration-200 hover:border-[var(--blue)] hover:bg-blue-50';
+                btn.onclick = () => selectAnswer(opt, q.answer, btn);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selected, correct, btn) {
+            const allBtns = document.querySelectorAll('.quiz-option');
+            allBtns.forEach(b => b.disabled = true);
+            const isCorrect = selected === correct;
+
+            if (isCorrect) {
+                if(correctSound) correctSound();
+                btn.classList.add('glow');
+                score++;
+            } else {
+                if(incorrectSound) incorrectSound();
+                btn.classList.add('shake');
+                btn.style.backgroundColor = '#fee2e2'; // Light red
+                allBtns.forEach(b => {
+                    if (b.textContent === correct) b.classList.add('glow');
+                });
+            }
+            currentQuestionIndex++;
+            setTimeout(displayQuestion, 2000);
+        }
+
+        function showResults() {
+            showGameScreen(dom.resultsScreen);
+            const percentage = Math.round((score / quizData.length) * 100);
+            document.getElementById('final-score-percent').textContent = percentage;
+            let title, msg;
+            if (percentage === 100) { title = "অবিশ্বাস্য!"; msg = "আপনি সবগুলো প্রশ্নের সঠিক উত্তর দিয়েছেন!"; }
+            else if (percentage >= 80) { title = "চমৎকার!"; msg = "আপনার প্রস্তুতি প্রায় নিখুঁত।"; }
+            else if (percentage >= 50) { title = "খুব ভালো!"; msg = "অনুশীলন চালিয়ে যান, আপনি সফল হবেনই।"; }
+            else { title = "আবার চেষ্টা করুন!"; msg = "প্রতিটি ভুলই নতুন কিছু শেখার সুযোগ।"; }
+            document.getElementById('results-title').textContent = title;
+            document.getElementById('performance-message').textContent = msg;
+        }
+
+        window.resetApp = () => {
+            quizData = []; currentQuestionIndex = 0; score = 0; filesArray = [];
+            document.getElementById('gallery-upload').value = null;
+            document.getElementById('camera-upload').value = null;
+            updateImagePreviews();
+            showModal(dom.gameModal, false);
+            dimBackground(false);
+            dom.errorMsg.classList.add('hidden');
+            selectQuestionCount(5, document.querySelector('.q-count-btn'));
+            stopVideo();
+        };
+        
+        resetApp();
+    </script>
+</body>
+</html>
+
             border-radius: 50%;
             border: 5px solid rgba(255, 255, 255, 0.2);
             border-top: 5px solid #06b6d4; /* Cyan-500 accent */
@@ -1311,3 +1652,4 @@ Specific instructions for transformation:
     </script>
 </body>
 </html>
+
