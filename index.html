@@ -1,258 +1,1056 @@
 <!DOCTYPE html>
 <html lang="bn">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title data-i18n="appTitle">গ্লোরি কুইজ স্যুট</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-  <style>
-    :root {--bg:#050816;--grad:radial-gradient(circle at 20% 0%,rgba(99,102,241,.35),transparent 55%),radial-gradient(circle at 85% 20%,rgba(56,189,248,.3),transparent 60%),radial-gradient(circle at 5% 95%,rgba(34,197,94,.28),transparent 65%),#050816;--panel:rgba(10,15,30,.9);--panel-strong:rgba(6,12,24,.94);--glass-border:rgba(99,102,241,.28);--text:#f8fafc;--muted:#a5b4fc;--sub:#94a3b8;--accent:#6366f1;--accent2:#38bdf8;--accent3:#22c55e;--accent4:#f97316;}*{box-sizing:border-box;margin:0;padding:0;}body{font-family:'Poppins','Inter','Hind Siliguri',sans-serif;background:var(--grad);color:var(--text);min-height:100vh;overflow-x:hidden;}button{border:none;background:none;cursor:pointer;}::selection{background:rgba(99,102,241,.35);}a{color:inherit}
-    .shell{max-width:1280px;margin:0 auto;padding:2.4rem 1.2rem 6rem;display:flex;flex-direction:column;gap:2rem;} .glass{background:var(--panel);border-radius:28px;border:1px solid var(--glass-border);box-shadow:0 32px 80px rgba(2,6,23,.62);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);position:relative;overflow:hidden;} .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;background:linear-gradient(135deg,rgba(99,102,241,.45),rgba(56,189,248,.35),rgba(34,197,94,.32));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;} .floating-hub{position:fixed;top:22px;right:22px;display:flex;flex-direction:column;gap:0.8rem;z-index:40;} .floating-hub button{width:56px;height:56px;border-radius:18px;background:rgba(7,12,25,.92);border:1px solid rgba(129,140,248,.35);color:#e0e7ff;font-size:1.35rem;display:grid;place-items:center;transition:.25s;} .floating-hub button:hover{transform:translateY(-3px);box-shadow:0 14px 32px rgba(99,102,241,.35);} .floating-tip{position:absolute;right:70px;top:8px;padding:.7rem 1rem;border-radius:14px;background:rgba(7,12,25,.92);border:1px solid rgba(56,189,248,.35);color:#cbd5f5;font-size:.85rem;opacity:0;pointer-events:none;transform:translateY(6px);transition:.25s;width:190px;} .floating-hub button:hover+.floating-tip{opacity:1;transform:translateY(0);} @media(max-width:960px){.floating-hub{right:12px;top:18px;}.floating-hub button{width:50px;height:50px;font-size:1.2rem;}}
-    .header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:1.2rem;padding:1.8rem 2.2rem;} .brand{display:flex;align-items:center;gap:1rem;} .brand-icon{width:64px;height:64px;border-radius:20px;background:rgba(99,102,241,.18);border:1px solid rgba(129,140,248,.4);display:grid;place-items:center;font-size:1.8rem;color:#c7d2fe;box-shadow:0 18px 42px rgba(99,102,241,.28);} .brand-title{font-size:clamp(2rem,3vw,2.7rem);font-weight:900;background:linear-gradient(120deg,#f472b6 0%,#818cf8 45%,#38bdf8 80%,#22c55e 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;} .status-chip{display:inline-flex;align-items:center;gap:.4rem;padding:.55rem 1.1rem;border-radius:999px;background:rgba(56,189,248,.16);border:1px solid rgba(56,189,248,.35);color:#bae6fd;font-weight:600;font-size:.82rem;letter-spacing:.04em;animation:pulse 3s ease-in-out infinite;}@keyframes pulse{0%,100%{transform:scale(1);}50%{transform:scale(1.07);}}
-    .lang-switch{display:flex;gap:.65rem;} .lang-btn{padding:.6rem 1.1rem;border-radius:999px;border:1px solid rgba(148,163,184,.28);color:#cbd5f5;font-weight:600;background:rgba(10,18,32,.78);transition:.25s;} .lang-btn.active,.lang-btn:hover{color:#fff;border-color:rgba(129,140,248,.6);box-shadow:0 16px 35px rgba(99,102,241,.32);} 
-    .hero{padding:2.1rem 2rem;display:grid;gap:1.5rem;} .hero h2{font-size:clamp(2.2rem,3vw,3.2rem);font-weight:800;line-height:1.2;background:linear-gradient(120deg,#fff 0%,#c4b5fd 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;} .hero p{color:#c7d2fe;line-height:1.65;} .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;} .hero-card{position:relative;padding:1.3rem;border-radius:20px;border:1px solid rgba(129,140,248,.22);background:rgba(8,15,30,.88);min-height:170px;display:flex;flex-direction:column;gap:.55rem;box-shadow:0 18px 38px rgba(3,7,18,.62);transition:.25s;} .hero-card::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at top,rgba(129,140,248,.28),transparent 65%);opacity:0;transition:.25s;} .hero-card:hover{transform:translateY(-6px);border-color:rgba(56,189,248,.4);} .hero-card:hover::after{opacity:1;} .hero-card i{font-size:1.5rem;color:#c4b5fd;}
-    .upload{padding:1.8rem;display:grid;gap:1.3rem;} .dock{display:flex;flex-wrap:wrap;align-items:center;gap:1rem;background:rgba(7,12,25,.92);border-radius:20px;border:1px solid rgba(129,140,248,.32);padding:1.2rem;} .icon-btn{width:56px;height:56px;border-radius:18px;border:1px solid rgba(56,189,248,.35);background:rgba(56,189,248,.18);color:#e0f2fe;font-size:1.3rem;display:grid;place-items:center;transition:.25s;} .icon-btn.camera{background:rgba(129,140,248,.2);border-color:rgba(129,140,248,.38);} .icon-btn.send{background:linear-gradient(120deg,#818cf8,#6366f1,#a855f7);color:#fff;box-shadow:0 20px 45px rgba(99,102,241,.45);} .icon-btn:disabled{opacity:.45;pointer-events:none;} .icon-btn:not(:disabled):hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(56,189,248,.3);} .hint{flex:1;min-width:240px;color:var(--muted);} .preview{display:flex;gap:.85rem;overflow-x:auto;padding-bottom:.5rem;} .preview-card{position:relative;width:100px;height:100px;border-radius:18px;border:1px solid rgba(129,140,248,.3);overflow:hidden;box-shadow:0 18px 38px rgba(5,8,22,.55);} .preview-card img{width:100%;height:100%;object-fit:cover;} .preview-card button{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;background:rgba(248,113,113,.9);color:#fff;font-size:.7rem;display:grid;place-items:center;}
-    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:1.4rem;background:rgba(3,6,14,.82);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);opacity:0;pointer-events:none;transition:.3s;z-index:60;} .modal.visible{opacity:1;pointer-events:auto;} .card{width:min(520px,100%);background:var(--panel-strong);border-radius:24px;border:1px solid rgba(129,140,248,.32);box-shadow:0 32px 75px rgba(2,6,23,.72);padding:2rem;transform:translateY(18px) scale(.95);transition:.35s cubic-bezier(.34,1.56,.64,1);} .modal.visible .card{transform:translateY(0) scale(1);} .range-status{height:12px;border-radius:999px;background:linear-gradient(120deg,rgba(129,140,248,.45),rgba(56,189,248,.55));margin:1rem 0;}
-    .processing-steps{display:grid;gap:.9rem;} .step{display:grid;grid-template-columns:auto 1fr;gap:.9rem;padding:1rem;border-radius:18px;background:rgba(9,14,28,.88);border:1px solid rgba(56,189,248,.25);align-items:center;} .step .badge{width:48px;height:48px;border-radius:16px;border:1px solid rgba(129,140,248,.32);display:grid;place-items:center;background:rgba(99,102,241,.18);font-size:1.2rem;color:#c7d2fe;animation:float 3s ease-in-out infinite;} .step.active{border-color:rgba(34,197,94,.5);box-shadow:0 18px 38px rgba(34,197,94,.28);} .step.done{border-color:rgba(56,189,248,.45);} @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
-    .quiz-card{width:min(960px,100%);} .quiz-grid{display:grid;gap:1.2rem;} .mentor-zone{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem;} .mentor-display{position:relative;border-radius:22px;border:1px solid rgba(129,140,248,.3);background:radial-gradient(circle at top,rgba(129,140,248,.25),rgba(8,14,26,.92));min-height:250px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:1rem;} .mentor-body{position:relative;width:180px;aspect-ratio:3/4;background:linear-gradient(160deg,rgba(8,13,28,.95),rgba(15,23,42,.96));border-radius:24px 24px 70px 70px;border:1px solid rgba(148,163,184,.25);box-shadow:0 20px 40px rgba(5,9,26,.75);overflow:hidden;} .mentor-body::after{content:"";position:absolute;inset:0;background:linear-gradient(160deg,rgba(99,102,241,.32),rgba(14,165,233,.32));clip-path:polygon(18% 0,82% 0,100% 36%,80% 100%,20% 100%,0 36%);} .face{position:absolute;top:6%;left:50%;transform:translateX(-50%);width:64%;height:34%;background:radial-gradient(circle,#f1f5f9 0%,#cbd5f5 100%);border-radius:50% 50% 45% 45%;box-shadow:inset 0 -6px 12px rgba(8,13,24,.35);} .eyes{position:absolute;top:42%;left:50%;transform:translateX(-50%);display:flex;gap:18px;} .eyes span{width:16px;height:16px;border-radius:50%;background:radial-gradient(circle,#111827 30%,#0f172a 100%);box-shadow:0 0 0 6px rgba(255,255,255,.18);animation:blink 4.6s ease-in-out infinite;} @keyframes blink{0%,6%,12%,100%{transform:scaleY(1);}8%,10%{transform:scaleY(.1);}} .smile{position:absolute;top:58%;left:50%;transform:translateX(-50%);width:42px;height:16px;border-radius:0 0 20px 20px;border-bottom:4px solid rgba(14,165,233,.6);} .hat{position:absolute;top:-4%;left:50%;transform:translateX(-50%);width:70%;height:18%;background:linear-gradient(180deg,rgba(14,165,233,.9),rgba(14,116,233,.82));border-radius:70% 70% 0 0;box-shadow:0 14px 25px rgba(14,116,233,.4);} .stick{position:absolute;bottom:-6px;left:24%;width:10px;height:168px;border-radius:999px;background:linear-gradient(180deg,rgba(217,119,6,.9),rgba(245,158,11,.88));box-shadow:0 0 16px rgba(217,119,6,.4);transform-origin:bottom;animation:pointer 3.8s ease-in-out infinite;} @keyframes pointer{0%,100%{transform:rotate(2deg);}30%{transform:rotate(-4deg);}60%{transform:rotate(3deg);}}
-    .target{position:absolute;top:28%;right:-36px;width:132px;height:132px;border-radius:50%;border:1px dashed rgba(56,189,248,.35);display:grid;place-items:center;font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(56,189,248,.8);animation:target 4s ease-in-out infinite;} @keyframes target{0%,100%{transform:scale(1);opacity:.8;}50%{transform:scale(1.08);opacity:1;}}
-    .scoreboard{border-radius:20px;border:1px solid rgba(129,140,248,.32);background:rgba(8,15,30,.88);padding:1.4rem;display:grid;gap:1rem;} .scorebox{display:flex;align-items:center;justify-content:space-between;gap:1rem;border-radius:16px;border:1px solid rgba(99,102,241,.25);background:rgba(10,16,29,.88);padding:1rem 1.2rem;} .progress{height:14px;border-radius:999px;background:rgba(148,163,184,.18);overflow:hidden;position:relative;} .progress span{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(120deg,rgba(129,140,248,.85),rgba(56,189,248,.95));box-shadow:0 14px 30px rgba(56,189,248,.35);transform-origin:left;transform:scaleX(0);transition:.4s;} .question-panel{border-radius:22px;border:1px solid rgba(129,140,248,.32);background:rgba(9,14,28,.92);padding:1.6rem;display:grid;gap:1.1rem;position:relative;overflow:hidden;} .question-panel::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(129,140,248,.25),transparent 70%);pointer-events:none;} .question-number{display:flex;align-items:center;justify-content:space-between;gap:1rem;color:#cbd5f5;font-size:.9rem;letter-spacing:.08em;text-transform:uppercase;} .question-text{font-size:1.35rem;font-weight:600;line-height:1.6;color:#e0e7ff;text-shadow:0 4px 22px rgba(79,70,229,.35);} .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;} .option{position:relative;display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;border-radius:18px;border:1px solid rgba(148,163,184,.24);background:rgba(10,16,29,.88);color:#e2e8f0;font-weight:600;transition:.22s;overflow:hidden;} .option:hover{transform:translateY(-4px);border-color:rgba(56,189,248,.45);box-shadow:0 18px 36px rgba(56,189,248,.25);} .marker{width:34px;height:34px;border-radius:12px;border:1px solid rgba(56,189,248,.4);background:rgba(56,189,248,.18);display:grid;place-items:center;color:#bae6fd;font-size:.9rem;font-weight:700;} .option.correct{border-color:rgba(34,197,94,.6);background:linear-gradient(135deg,rgba(34,197,94,.25),rgba(16,185,129,.28));color:#d1fae5;box-shadow:0 22px 45px rgba(16,185,129,.25);animation:glow 1.2s ease forwards;} @keyframes glow{0%{box-shadow:0 0 0 rgba(34,197,94,.35);}60%{box-shadow:0 0 32px rgba(34,197,94,.6);}100%{box-shadow:0 0 12px rgba(34,197,94,.35);}} .option.wrong{border-color:rgba(239,68,68,.55);background:linear-gradient(135deg,rgba(239,68,68,.22),rgba(248,113,113,.22));color:#fee2e2;box-shadow:0 20px 42px rgba(248,113,113,.25);animation:shake .6s cubic-bezier(.36,.07,.19,.97);} @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-10px);}40%,80%{transform:translateX(10px);}}
-    .feedback{position:absolute;left:1.2rem;right:1.2rem;bottom:1.2rem;border-radius:16px;border:1px solid rgba(129,140,248,.3);background:rgba(6,12,24,.9);padding:1rem 1.2rem;display:none;align-items:center;justify-content:space-between;gap:1rem;animation:slide .32s ease;} @keyframes slide{from{transform:translateY(14px);opacity:0;}to{transform:translateY(0);opacity:1;}} .points-float{position:absolute;font-weight:700;color:#34d399;font-size:1rem;animation:floatPoints .8s ease forwards;} @keyframes floatPoints{0%{opacity:0;transform:translateY(0);}30%{opacity:1;}100%{opacity:0;transform:translateY(-40px);}}
-    .result-card{max-width:560px;text-align:center;position:relative;overflow:hidden;} .confetti{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(129,140,248,.28) 20%,transparent 20%),radial-gradient(circle,rgba(56,189,248,.22) 20%,transparent 20%),radial-gradient(circle,rgba(34,197,94,.22) 20%,transparent 20%);background-size:160px 160px,140px 140px,180px 180px;opacity:0;pointer-events:none;} .result-card.show-confetti .confetti{animation:confetti 1.8s ease forwards;} @keyframes confetti{0%{opacity:0;transform:scale(.92);}40%{opacity:1;transform:scale(1.05);}100%{opacity:0;transform:scale(1.15);}}
-    .toast{position:fixed;bottom:32px;right:32px;background:rgba(7,12,25,.92);border:1px solid rgba(34,197,94,.45);padding:.8rem 1.1rem;border-radius:16px;display:none;align-items:center;gap:.7rem;box-shadow:0 20px 42px rgba(2,6,23,.6);z-index:70;} .toast.visible{display:inline-flex;animation:toast .32s ease;} @keyframes toast{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
-    @media(max-width:860px){.shell{padding:2rem 1rem 5rem;}.header{padding:1.6rem;gap:1.4rem;flex-direction:column;align-items:flex-start;}.hero{padding:1.6rem;}.upload{padding:1.6rem;}.icon-btn{width:52px;height:52px;font-size:1.15rem;}.question-text{font-size:1.2rem;}}
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>স্মার্ট প্রস্তুতি কুইজ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --bg-900: #0f1720;
+            --bg-800: #18212b;
+            --bg-700: #212b36;
+            --bg-600: #2b3642;
+            --accent-olive: #6c7c5f;
+            --accent-blue: #6d8faa;
+            --accent-cream: #f5efe6;
+            --accent-amber: #c3a35d;
+            --muted-text: #b8c7d6;
+            --soft-shadow: 0 25px 60px rgba(8, 15, 26, 0.55);
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Hind Siliguri', 'Noto Sans Bengali', 'SolaimanLipi', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: radial-gradient(circle at top left, rgba(109, 143, 170, 0.18), transparent 45%),
+                        radial-gradient(circle at 80% 10%, rgba(108, 124, 95, 0.22), transparent 40%),
+                        var(--bg-900);
+            color: var(--accent-cream);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image: url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160"%3E%3Cg fill="none" fill-opacity="0.09"%3E%3Cpath d="M76 0h8v160h-8zM0 76h160v8H0z" fill="%23ffffff"/%3E%3C/g%3E%3C/svg%3E');
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .page-shell { position: relative; z-index: 1; }
+
+        .glass-header {
+            background: rgba(26, 36, 47, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            box-shadow: 0 25px 45px rgba(10, 14, 22, 0.4);
+            backdrop-filter: blur(12px);
+        }
+
+        .brand-mark {
+            background: linear-gradient(135deg, rgba(108, 124, 95, 0.28), rgba(109, 143, 170, 0.22));
+            border-radius: 999px;
+            display: inline-flex;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            gap: 0.65rem;
+        }
+
+        .brand-mark svg { width: 12px; height: 12px; color: var(--accent-amber); }
+
+        .hero-card {
+            position: relative;
+            border-radius: 32px;
+            background: linear-gradient(140deg, rgba(26, 35, 46, 0.92), rgba(33, 43, 54, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: var(--soft-shadow);
+            overflow: hidden;
+        }
+
+        .hero-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 10% 20%, rgba(195, 163, 93, 0.18), transparent 55%);
+            pointer-events: none;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 5.5rem);
+            line-height: 1;
+            letter-spacing: -0.04em;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            color: var(--muted-text);
+            font-size: 1.125rem;
+            max-width: 36rem;
+        }
+
+        .video-frame {
+            position: relative;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(13, 19, 27, 0.9);
+        }
+
+        .video-frame::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at center, rgba(108, 124, 95, 0.45), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.35s ease;
+        }
+
+        .video-frame:hover::before { opacity: 1; }
+
+        .video-overlay-button {
+            width: clamp(80px, 10vw, 96px);
+            height: clamp(80px, 10vw, 96px);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            background: radial-gradient(circle at 30% 30%, rgba(195, 163, 93, 0.45), rgba(108, 124, 95, 0.5));
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .video-overlay-button:hover {
+            transform: translateY(-6px) scale(1.03);
+            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.45);
+        }
+
+        .info-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.2rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-weight: 600;
+            color: var(--muted-text);
+        }
+
+        .info-chip svg { width: 16px; height: 16px; color: var(--accent-amber); }
+
+        .feature-card {
+            border-radius: 24px;
+            background: linear-gradient(145deg, rgba(17, 23, 32, 0.95), rgba(28, 38, 48, 0.8));
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 1.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.25rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top right, rgba(109, 143, 170, 0.35), transparent 65%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(195, 163, 93, 0.3);
+            box-shadow: var(--soft-shadow);
+        }
+
+        .feature-card:hover::before { opacity: 1; }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: grid;
+            place-items: center;
+            background: rgba(108, 124, 95, 0.15);
+            border: 1px solid rgba(108, 124, 95, 0.25);
+        }
+
+        .feature-icon svg { width: 22px; height: 22px; color: var(--accent-amber); }
+
+        .insight-grid {
+            display: grid;
+            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .insight-card {
+            border-radius: 20px;
+            background: rgba(26, 33, 42, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .insight-card img {
+            border-radius: 16px;
+            object-fit: cover;
+            width: 100%;
+            height: 180px;
+        }
+
+        .insight-card strong { color: var(--accent-amber); }
+
+        .timeline-step {
+            display: grid;
+            gap: 1rem;
+            position: relative;
+            padding-left: 3.5rem;
+        }
+
+        .timeline-step::before {
+            content: "";
+            position: absolute;
+            top: 0.7rem;
+            left: 1.1rem;
+            width: 1px;
+            height: calc(100% + 1.6rem);
+            background: linear-gradient(to bottom, rgba(108, 124, 95, 0.6), transparent);
+        }
+
+        .timeline-step:last-child::before { display: none; }
+
+        .timeline-bullet {
+            position: absolute;
+            left: 0;
+            top: 0.4rem;
+            width: 2.2rem;
+            height: 2.2rem;
+            border-radius: 50%;
+            background: rgba(108, 124, 95, 0.18);
+            border: 1px solid rgba(195, 163, 93, 0.4);
+            display: grid;
+            place-items: center;
+            color: var(--accent-amber);
+            font-weight: 700;
+        }
+
+        .floating-spark {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(109, 143, 170, 0.36), transparent 70%);
+            filter: blur(6px);
+            z-index: 0;
+        }
+
+        .floating-spark.spark-1 { top: -60px; left: -40px; }
+        .floating-spark.spark-2 { top: 45%; right: -70px; }
+        .floating-spark.spark-3 { bottom: -120px; left: 20%; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        [data-animate].is-visible { animation: fadeUp 0.9s ease forwards; }
+
+        @media (prefers-reduced-motion: reduce) {
+            [data-animate].is-visible { animation: none; }
+            .video-overlay-button, .feature-card { transition: none; }
+        }
+
+        .menu-button, .profile-button {
+            width: 46px;
+            height: 46px;
+            display: grid;
+            place-items: center;
+            border-radius: 50%;
+            background: rgba(24, 31, 40, 0.65);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .menu-button:hover, .profile-button:hover { border-color: rgba(195, 163, 93, 0.35); }
+
+        /* Input Container */
+        #input-wrapper {
+            background: linear-gradient(160deg, rgba(17, 24, 31, 0.96), rgba(22, 30, 38, 0.88));
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        #input-container {
+            transition: max-height 0.55s ease-in-out, padding 0.35s ease;
+            max-height: 7.5rem;
+            overflow: hidden;
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(17, 24, 32, 0.75);
+        }
+
+        #input-container.expanded { max-height: 32rem; padding-bottom: 1rem; }
+
+        #main-controls button {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+        }
+
+        #main-controls button:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px rgba(195, 163, 93, 0.25); }
+
+        #start-quiz-button {
+            background: linear-gradient(135deg, rgba(108, 124, 95, 0.9), rgba(195, 163, 93, 0.9));
+            color: #11161d;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+            box-shadow: 0 18px 35px rgba(108, 124, 95, 0.25);
+        }
+
+        #start-quiz-button:disabled {
+            background: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.35);
+            box-shadow: none;
+        }
+
+        #image-previews-container { scrollbar-width: thin; scrollbar-color: rgba(109, 143, 170, 0.45) transparent; }
+        #image-previews-container::-webkit-scrollbar { height: 6px; }
+        #image-previews-container::-webkit-scrollbar-thumb { background: rgba(109, 143, 170, 0.5); border-radius: 999px; }
+
+        .preview-tile {
+            position: relative;
+            width: 4.75rem;
+            height: 4.75rem;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(195, 163, 93, 0.28);
+            background: rgba(33, 43, 54, 0.8);
+        }
+
+        .preview-remove {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(174, 74, 74, 0.9);
+            display: grid;
+            place-items: center;
+            color: #fdf7ec;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+        }
+
+        .preview-index {
+            position: absolute;
+            left: 8px;
+            bottom: 8px;
+            background: rgba(109, 143, 170, 0.8);
+            color: #0d131b;
+            font-weight: 700;
+            padding: 0.1rem 0.55rem;
+            border-radius: 999px;
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(10, 15, 22, 0.7);
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-backdrop.visible { opacity: 1; pointer-events: auto; }
+
+        .modal-card {
+            background: linear-gradient(160deg, rgba(24, 31, 40, 0.96), rgba(15, 23, 32, 0.92));
+            border-radius: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.09);
+            box-shadow: var(--soft-shadow);
+            transform: translateY(18px);
+            transition: transform 0.35s ease;
+        }
+
+        .modal-backdrop.visible .modal-card { transform: translateY(0); }
+
+        .q-count-btn {
+            border-radius: 999px;
+            padding: 0.75rem 1.75rem;
+            font-weight: 700;
+            color: var(--muted-text);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: background 0.3s ease, color 0.3s ease, border 0.3s ease;
+        }
+
+        .q-count-btn.selected {
+            background: rgba(108, 124, 95, 0.35);
+            color: var(--accent-cream);
+            border-color: rgba(195, 163, 93, 0.5);
+        }
+
+        #progress-bar-inner {
+            background: linear-gradient(90deg, rgba(108, 124, 95, 0.9), rgba(195, 163, 93, 0.9));
+            transition: width 0.5s ease-out;
+        }
+
+        .quiz-option {
+            transition: transform 0.3s ease, border 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-4px);
+            border-color: rgba(195, 163, 93, 0.45);
+            box-shadow: 0 15px 30px rgba(15, 23, 32, 0.2);
+        }
+
+        .glow {
+            border-color: rgba(108, 124, 95, 0.65) !important;
+            background: rgba(108, 124, 95, 0.12) !important;
+            color: var(--accent-amber) !important;
+            transform: scale(1.02);
+            box-shadow: 0 0 0 3px rgba(108, 124, 95, 0.18);
+        }
+
+        .shake { animation: shake 0.5s ease-in-out; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+
+        .spinner {
+            border: 6px solid rgba(255, 255, 255, 0.1);
+            border-top-color: rgba(108, 124, 95, 0.65);
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .rating-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.45rem 1.1rem;
+            border-radius: 999px;
+            background: rgba(108, 124, 95, 0.2);
+            color: var(--accent-cream);
+            font-weight: 600;
+        }
+
+        .rating-pill svg { width: 16px; height: 16px; color: var(--accent-amber); }
+    </style>
 </head>
 <body>
-  <div class="floating-hub">
-    <button id="api-btn" title="API"><i class="fas fa-key"></i></button>
-    <div class="floating-tip" data-i18n="apiHint">আপনার কাস্টম API Key সেট করুন</div>
-    <button id="history-btn" title="History"><i class="fas fa-history"></i></button>
-    <div class="floating-tip" data-i18n="historyHint">কুইজ পারফরম্যান্স হিস্টোরি</div>
-  </div>
-  <main class="shell">
-    <section class="glass header">
-      <div class="brand">
-        <div class="brand-icon"><i class="fas fa-bolt"></i></div>
-        <div>
-          <h1 class="brand-title" data-i18n="brandTitle">গ্লোরি • স্মার্ট প্রস্তুতি</h1>
-          <p class="text-slate-300" data-i18n="brandSubtitle">লো কোয়ালিটি টেক্সট থেকেও প্রিমিয়াম কুইজ প্রস্তুতি</p>
-        </div>
-      </div>
-      <div class="flex flex-wrap gap-3">
-        <span class="status-chip" data-i18n="statusRealtime"><i class="fas fa-sparkles"></i>রিয়েলটাইম এআই</span>
-        <span class="status-chip" data-i18n="statusTeacher"><i class="fas fa-chalkboard-teacher"></i>ভার্চুয়াল শিক্ষক</span>
-      </div>
-      <div class="lang-switch">
-        <button class="lang-btn active" data-lang="bn">বাংলা</button>
-        <button class="lang-btn" data-lang="en">English</button>
-        <button class="lang-btn" data-lang="hi">हिन्दी</button>
-      </div>
-    </section>
-    <section class="glass hero" id="hero">
-      <div>
-        <h2 data-i18n="heroHeading">আপনার অধ্যয়ন পেজকে রূপ দিন গেমিফাইড কুইজে</h2>
-        <p data-i18n="heroSubheading">গ্লোরি AI নিম্নমানের ছবিকেও বিশ্লেষণ করে গুরুত্বপূর্ণ তথ্য বের করে আনে, এনিমেটেড শিক্ষক ও পয়েন্ট সিস্টেমসহ অনুপ্রেরণাদায়ক কুইজ অভিজ্ঞতা তৈরি করে।</p>
-      </div>
-      <div class="hero-grid">
-        <article class="hero-card">
-          <i class="fas fa-camera-rotate"></i>
-          <h3 data-i18n="cardCaptureTitle">ক্যাপচার • আপলোড</h3>
-          <p data-i18n="cardCaptureDesc">গ্যালারি অথবা ক্যামেরা থেকে বইয়ের পেজ তুলে দিন, বাকি দায়িত্ব গ্লোরির।</p>
-        </article>
-        <article class="hero-card">
-          <i class="fas fa-wand-magic-sparkles"></i>
-          <h3 data-i18n="cardAnalysisTitle">মাল্টি-স্টেজ বিশ্লেষণ</h3>
-          <p data-i18n="cardAnalysisDesc">OCR → সারাংশ → কুইজ। প্রতিটি ধাপেই আপনি আপডেট পাবেন।</p>
-        </article>
-        <article class="hero-card">
-          <i class="fas fa-gamepad"></i>
-          <h3 data-i18n="cardPlayTitle">গেমিফাইড মেন্টর</h3>
-          <p data-i18n="cardPlayDesc">শিক্ষক চরিত্রের ইঙ্গিত, শব্দ ও আলোতে প্রতিটি উত্তরে জীবন্ত ফিডব্যাক।</p>
-        </article>
-        <article class="hero-card">
-          <i class="fas fa-chart-line"></i>
-          <h3 data-i18n="cardProgressTitle">লাইভ স্কোরবোর্ড</h3>
-          <p data-i18n="cardProgressDesc">পয়েন্ট কাউন্টার, ইতিহাস লগ ও অনুপ্রেরণামূলক বার্তা একসাথে।</p>
-        </article>
-      </div>
-    </section>
-    <section class="glass upload">
-      <div class="dock">
-        <div class="flex items-center gap-3">
-          <button class="icon-btn" id="gallery-btn" data-i18n-title="galleryBtn" title="Gallery"><i class="fas fa-image"></i></button>
-          <input type="file" id="gallery-input" accept="image/*" multiple class="hidden" />
-          <button class="icon-btn camera" id="camera-btn" data-i18n-title="cameraBtn" title="Camera"><i class="fas fa-camera"></i></button>
-          <input type="file" id="camera-input" accept="image/*" capture="environment" class="hidden" />
-        </div>
-        <p class="hint" data-i18n="uploadHint">অধ্যায়ন পেজ নির্বাচন করুন, তারপর পাঠানোর আইকনে ট্যাপ করুন।</p>
-        <button class="icon-btn send" id="send-btn"><i class="fas fa-paper-plane"></i></button>
-      </div>
-      <div class="preview" id="preview"></div>
-      <p id="error-text" class="text-rose-400 font-semibold hidden"></p>
-    </section>
-  </main>
-  <div class="modal" id="question-modal">
-    <div class="card">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-2xl font-bold" data-i18n="questionModalTitle">কতগুলো প্রশ্ন তৈরি করতে চান?</h3>
-        <button id="question-close" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
-      </div>
-      <p class="text-slate-300 mb-3" data-i18n="questionModalDesc">সর্বোচ্চ ৬০টি প্রশ্ন। সংখ্যা যত বেশি, অনুশীলন তত গভীর।</p>
-      <div class="range-status"></div>
-      <div class="flex items-center gap-4 mb-6">
-        <input type="range" min="3" max="60" value="10" id="question-range" class="w-full accent-indigo-400" />
-        <span class="text-3xl font-black text-indigo-200" id="question-value">10</span>
-      </div>
-      <div class="grid gap-3">
-        <button class="px-5 py-3 rounded-full text-white font-semibold shimmer-button" id="question-continue" data-i18n="questionContinue">চালিয়ে যান</button>
-        <button class="px-4 py-2 rounded-full border border-slate-600 text-slate-300 hover:border-indigo-400" id="quick-five" data-i18n="questionQuickFive">দ্রুত ৫ প্রশ্ন</button>
-      </div>
+    <div class="floating-spark spark-1"></div>
+    <div class="floating-spark spark-2"></div>
+    <div class="floating-spark spark-3"></div>
+
+    <div class="page-shell">
+        <header class="container mx-auto px-6 pt-8 flex flex-col gap-6 lg:gap-10" data-animate>
+            <nav class="glass-header flex items-center justify-between px-5 py-3">
+                <button onclick="toggleMenuModal(true)" class="menu-button" aria-label="মেনু">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6 text-[var(--muted-text)]">
+                        <path d="M5 7h14M5 12h10M5 17h14" stroke-linecap="round"/>
+                    </svg>
+                </button>
+                <div class="text-center">
+                    <div class="brand-mark">
+                        <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 1.667A8.333 8.333 0 1018.333 10 8.344 8.344 0 0010 1.667zm0 15A6.667 6.667 0 1116.667 10 6.675 6.675 0 0110 16.667z"/><path d="M10 5a5 5 0 105 5 5 5 0 00-5-5zm0 8.333A3.333 3.333 0 1113.333 10 3.337 3.337 0 0110 13.333z"/></svg>
+                        <span class="text-xs uppercase tracking-[0.35em] text-[var(--muted-text)]">smart readiness</span>
+                    </div>
+                </div>
+                <button onclick="toggleCreatorModal(true)" class="profile-button relative" aria-label="ক্রিয়েটর তথ্য">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6 text-[var(--muted-text)]">
+                        <path d="M12 12a4 4 0 10-4-4 4 4 0 004 4z"/><path d="M4 21a7.994 7.994 0 0116 0" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="absolute top-1 right-1 block h-2.5 w-2.5 rounded-full bg-[#d46b6b]"></span>
+                </button>
+            </nav>
+        </header>
+
+        <main class="container mx-auto px-6 pb-36 lg:pb-48">
+            <section class="hero-card mt-12 lg:mt-16 grid gap-10 lg:grid-cols-[1.05fr_0.95fr] items-center p-8 lg:p-12" data-animate>
+                <div class="space-y-6">
+                    <div class="info-chip text-sm">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v6l4 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        তাৎক্ষণিক কুইজ প্রস্তুতি
+                    </div>
+                    <div>
+                        <span class="inline-flex items-center gap-2 text-sm text-[var(--muted-text)] mb-3">
+                            <span class="px-3 py-1 rounded-full border border-white/10 bg-white/5 font-semibold tracking-[0.25em] text-xs uppercase">আল্লাহু আকবার</span>
+                        </span>
+                        <h1 class="hero-title font-extrabold text-[var(--accent-cream)]">স্মার্ট প্রস্তুতি</h1>
+                        <p class="hero-subtitle leading-relaxed">
+                            আসসালামু আলাইকুম ওয়া রাহমাতুল্লাহি ওয়া বারাকাতুহু। আপনার দৈনন্দিন পাঠ, প্রেজেন্টেশন বা অনলাইন শ্রেণির জন্য দ্রুত কুইজ তৈরি করুন। ছবি আপলোড করুন আর অটোমেশন-নির্ভর বিশ্লেষণে মুহূর্তেই প্রশ্ন হাজির।
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="info-chip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            কন্টেন্ট অক্ষুণ্ণ থাকে
+                        </div>
+                        <div class="info-chip">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 6v6l4 2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            রিয়েল টাইম প্রগ্রেস
+                        </div>
+                    </div>
+                    <div class="grid gap-6 lg:grid-cols-2" data-animate>
+                        <div class="feature-card">
+                            <span class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 4.5h18M3 9h18M3 13.5h18M3 18h18" stroke-linecap="round"/></svg>
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-semibold text-[var(--accent-cream)]">প্রিমিয়াম ডিজাইন</h3>
+                                <p class="text-sm text-[var(--muted-text)] leading-relaxed">
+                                    নরম নিরপেক্ষ প্যালেট, প্রশস্ত হোয়াইট স্পেস ও অসমমিত গঠন আপনার কুইজ প্রস্তুতিকে করে তোলে আধুনিক ও আরামদায়ক।
+                                </p>
+                            </div>
+                        </div>
+                        <div class="feature-card">
+                            <span class="feature-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a9 9 0 019 9v1.5l1.5 1.5-1.5 1.5V18a9 9 0 11-18 0v-1.5L2.5 15 4 13.5V12a9 9 0 018-9z" stroke-linejoin="round"/></svg>
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-semibold text-[var(--accent-cream)]">অ্যানিমেটেড ইন্টারঅ্যাকশন</h3>
+                                <p class="text-sm text-[var(--muted-text)] leading-relaxed">
+                                    স্ক্রল-ট্রিগার, হোভার ও স্নিগ্ধ ট্রানজিশন ব্যবহারকে করে আরও জীবন্ত—তবু সম্পূর্ণ নিয়ন্ত্রণে।
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="video-frame" data-animate>
+                        <div id="video-overlay" class="absolute inset-0 flex flex-col items-center justify-center gap-4 transition cursor-pointer" onclick="mockVideoPlay()">
+                            <div class="video-overlay-button">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="#0f1723" stroke-width="1.5"><circle cx="12" cy="12" r="10" fill="rgba(245,239,230,0.28)"/><path d="M10 8l6 4-6 4V8z" fill="#0f1723"/></svg>
+                            </div>
+                            <div class="text-center space-y-1">
+                                <p class="text-xl font-semibold text-[var(--accent-cream)]">ভিডিও টিউটোরিয়াল</p>
+                                <p class="text-sm text-[var(--muted-text)]">দ্রুত শুরু করার নির্দেশিকা</p>
+                            </div>
+                        </div>
+                        <div id="video-player" class="absolute inset-0 hidden bg-black">
+                            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=0&enablejsapi=1" title="ভিডিও নির্দেশিকা" allow="autoplay; encrypted-media" allowfullscreen class="h-full w-full"></iframe>
+                        </div>
+                        <img src="https://public.youware.com/users-website-assets/prod/5887666e-a93b-4ff0-bf54-25d64b790326/25d3f1bf17c2438994d0377f2960dd54" alt="ইসলামিক শিক্ষার্থীদের কর্মশালা পরিবেশ" class="h-full w-full object-cover opacity-45" loading="lazy">
+                    </div>
+                    <div class="bg-white/5 border border-white/10 rounded-2xl p-6 space-y-4" data-animate>
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="rating-pill">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                                4.9 অভিজ্ঞতা স্কোর
+                            </div>
+                            <span class="text-xs uppercase tracking-[0.35em] text-[var(--muted-text)]">কমিউনিটি অনুমোদিত</span>
+                        </div>
+                        <p class="text-sm text-[var(--muted-text)] leading-relaxed">
+                            মাদরাসা, স্কুল ও ব্যক্তিগত প্রশিক্ষক সবাই একই ইন্টারফেস ব্যবহার করেন যাতে বিষয়বস্তু সর্বদা অক্ষুণ্ণ থাকে। কুইজ শুরু করার আগে নিচের নির্দেশিকা দেখে নিন।
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mt-16 lg:mt-24" data-animate>
+                <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-10 items-start">
+                    <div class="space-y-6">
+                        <h2 class="text-3xl lg:text-4xl font-semibold text-[var(--accent-cream)]">আপনার প্রস্তুতির সাথে তাল মিলিয়ে চলা ড্যাশবোর্ড</h2>
+                        <p class="text-[var(--muted-text)] leading-relaxed">
+                            শিক্ষার্থী কিংবা প্রশিক্ষক—সবাই নির্ভুল ভিজ্যুয়াল ফিডব্যাকের মাধ্যমে সহজেই বুঝতে পারবেন কোন বিষয় পুনরাবৃত্তি প্রয়োজন। প্রত্যেকটি পদক্ষেপে ধাপে ধাপে নির্দেশনা থাকায় অনভিজ্ঞ ব্যবহারকারীরাও আত্মবিশ্বাসী।
+                        </p>
+                        <div class="insight-grid">
+                            <article class="insight-card">
+                                <strong>১. বিষয়বস্তুর বিশ্লেষণ</strong>
+                                <p class="text-sm text-[var(--muted-text)]">ছবিতে থাকা উপাদানগুলো শনাক্ত করে কুইজের জন্য মূল ধারণা সংগ্রহ করা হয়।</p>
+                            </article>
+                            <article class="insight-card">
+                                <strong>২. প্রশ্ন নির্মাণ</strong>
+                                <p class="text-sm text-[var(--muted-text)]">প্রতিটি প্রশ্নে চারটি বিকল্প সহ স্পষ্ট উত্তর গঠন করা হয় যাতে শিক্ষাগত মান বজায় থাকে।</p>
+                            </article>
+                            <article class="insight-card">
+                                <strong>৩. প্রগ্রেস ট্র্যাকিং</strong>
+                                <p class="text-sm text-[var(--muted-text)]">লাইভ প্রগ্রেস বারের মাধ্যমে সবসময় জানা যায় কতদূর অগ্রগতি হয়েছে।</p>
+                            </article>
+                        </div>
+                    </div>
+                    <div class="space-y-8">
+                        <div class="bg-white/5 border border-white/10 rounded-3xl p-6 lg:p-8">
+                            <h3 class="text-xl font-semibold text-[var(--accent-cream)] mb-5">প্রস্তুতির ধাপগুলো</h3>
+                            <div class="timeline-step">
+                                <span class="timeline-bullet">১</span>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-[var(--accent-cream)]">ছবি যুক্ত করুন</h4>
+                                    <p class="text-sm text-[var(--muted-text)]">মোবাইল ক্যামেরা বা গ্যালারি থেকে নির্ভরযোগ্য ভিজ্যুয়াল যুক্ত করুন।</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-bullet">২</span>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-[var(--accent-cream)]">প্রশ্ন সংখ্যা নির্ধারণ</h4>
+                                    <p class="text-sm text-[var(--muted-text)]">নির্দিষ্ট কুইজ গঠনের জন্য প্রিয় সংখ্যাটি বেছে নিন।</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-bullet">৩</span>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-[var(--accent-cream)]">এআই প্রসেসিং</h4>
+                                    <p class="text-sm text-[var(--muted-text)]">গুরুত্বপূর্ণ তথ্য বিশ্লেষণে কয়েক মুহূর্ত অপেক্ষা করুন।</p>
+                                </div>
+                            </div>
+                            <div class="timeline-step">
+                                <span class="timeline-bullet">৪</span>
+                                <div>
+                                    <h4 class="text-lg font-semibold text-[var(--accent-cream)]">স্কোর ও প্রতিক্রিয়া</h4>
+                                    <p class="text-sm text-[var(--muted-text)]">পরিমার্জিত ফলাফলে নিজস্ব উন্নয়নের দিকনির্দেশনা পান।</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-[var(--bg-800)] border border-white/5 rounded-3xl p-6 lg:p-8 space-y-4">
+                            <h3 class="text-xl font-semibold text-[var(--accent-cream)]">বিশ্বাসযোগ্য প্রযুক্তি</h3>
+                            <p class="text-sm text-[var(--muted-text)] leading-relaxed">
+                                প্রযুক্তি ব্যবহারের প্রতিটি স্তর ইসলামী মূল্যবোধের সাথে সামঞ্জস্যপূর্ণ রাখতে কন্টেন্ট সুরক্ষা নিশ্চিত করা হয়েছে। প্রশ্ন, বিকল্প ও উত্তরসমূহ সম্পূর্ণ বাংলায় উপস্থাপিত হয় যাতে শিখন অভিজ্ঞতা সর্বোচ্চ মান বজায় রাখে।
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
     </div>
-  </div>
-  <div class="modal" id="processing-modal">
-    <div class="card" id="processing-card">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-2xl font-bold" data-i18n="processingTitle">এআই বিশ্লেষণ চলছে...</h3>
-        <span class="text-sm text-slate-400" id="processing-status" data-i18n="processingStatus">স্টেপ ১ / ৩</span>
-      </div>
-      <div class="processing-steps" id="processing-steps"></div>
-      <p class="text-sm text-slate-300 mt-5" data-i18n="processingFooter">গুরুত্বপূর্ণ তথ্য খুঁজে বের করা হচ্ছে ও কুইজে রূপান্তর করা হচ্ছে। দয়া করে ট্যাব বন্ধ করবেন না।</p>
-    </div>
-  </div>
-  <div class="modal" id="quiz-modal">
-    <div class="card quiz-card">
-      <div class="flex items-center justify-between mb-5">
-        <div>
-          <h3 class="text-xl font-bold" data-i18n="quizTitle">গ্লোরি কুইজ অ্যারেনা</h3>
-          <p class="text-sm text-slate-400" id="quiz-progress">0 / 0</p>
-        </div>
-        <span class="status-chip uppercase" data-i18n="quizChip">তোমাকে পারতেই হবে</span>
-      </div>
-      <div class="quiz-grid">
-        <div class="mentor-zone">
-          <div class="mentor-display">
-            <div class="mentor-body">
-              <div class="face"></div>
-              <div class="eyes"><span></span><span></span></div>
-              <div class="smile"></div>
-              <div class="hat"></div>
+
+    <!-- Bottom Input Bar -->
+    <div id="input-wrapper" class="fixed bottom-0 left-0 right-0 p-4 md:p-6 shadow-2xl z-40">
+        <div class="container mx-auto">
+            <div id="input-container" class="px-4 sm:px-6 py-3 flex flex-col gap-4">
+                <div id="main-controls" class="flex items-center justify-between w-full h-16">
+                    <div class="flex items-center gap-3">
+                        <button onclick="document.getElementById('gallery-upload').click()" class="p-3 rounded-full bg-white/5 text-[var(--accent-cream)]" title="গ্যালারি থেকে ছবি">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5">
+                                <path d="M12 5v14m7-7H5" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                        <input type="file" id="gallery-upload" accept="image/*" multiple class="hidden" onchange="addFilesAndUpdate(this.files, this)">
+                        <button onclick="document.getElementById('camera-upload').click()" class="p-3 rounded-full bg-white/10 text-[var(--accent-cream)]" title="ক্যামেরা থেকে ছবি">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-5 h-5">
+                                <path d="M4 8h4l2-3h4l2 3h4v11H4z" stroke-linejoin="round"/>
+                                <circle cx="12" cy="13" r="3"/>
+                            </svg>
+                        </button>
+                        <input type="file" id="camera-upload" accept="image/*" capture="environment" class="hidden" onchange="addFilesAndUpdate(this.files, this)">
+                    </div>
+                    <div class="flex-grow mx-4 text-center text-[var(--muted-text)] italic text-sm">ছবি আপলোড করে কুইজ তৈরি করুন...</div>
+                    <button id="start-quiz-button" onclick="showQuestionCountModal()" class="py-3 px-6 rounded-full text-sm uppercase tracking-[0.32em] disabled:cursor-not-allowed" disabled>Start Quiz</button>
+                </div>
+                <div id="image-previews-container" class="flex flex-wrap gap-3 overflow-y-auto"></div>
+                <p id="error-message" class="text-center text-red-400 font-semibold hidden"></p>
             </div>
-            <div class="stick"></div>
-            <div class="target" data-i18n="pointerLabel">ফোকাস জোন</div>
-          </div>
-          <div class="scoreboard">
-            <div class="scorebox">
-              <div>
-                <p class="text-xs text-slate-400 uppercase tracking-[0.2em]" data-i18n="scoreTotal">মোট পয়েন্ট</p>
-                <h4 class="text-3xl font-black" id="score-points">0000</h4>
-              </div>
-              <div class="text-right">
-                <p class="text-xs text-slate-400 uppercase tracking-[0.2em]" data-i18n="scoreQuestions">উত্তর</p>
-                <h4 class="text-lg font-semibold text-indigo-200" id="score-answered">0</h4>
-              </div>
-            </div>
-            <div>
-              <p class="text-xs text-slate-400 uppercase tracking-[0.2em] mb-2" data-i18n="scoreProgress">অগ্রগতি</p>
-              <div class="progress"><span id="progress-bar"></span></div>
-            </div>
-          </div>
         </div>
-        <div class="question-panel">
-          <div class="question-number"><span id="question-label">Q1</span><span id="question-topic" class="text-indigo-200">GLORY</span></div>
-          <div class="question-text" id="question-text">---</div>
-          <div class="options" id="options"></div>
-          <div class="feedback" id="feedback">
-            <div>
-              <p class="font-semibold" id="feedback-main">...</p>
-              <p class="text-sm text-slate-300" id="feedback-sub">...</p>
+    </div>
+
+    <!-- MODALS & POP-UPS -->
+    <div id="menu-modal" class="modal-backdrop">
+        <div class="modal-card w-full max-w-md p-8">
+            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-6">
+                <h3 class="text-xl font-semibold text-[var(--accent-cream)]">প্রস্তুতি যাচাই কুইজ</h3>
+                <button onclick="toggleMenuModal(false)" class="text-[var(--muted-text)]" aria-label="বন্ধ করুন">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+                        <path d="M6 6l12 12M6 18L18 6" stroke-linecap="round"/>
+                    </svg>
+                </button>
             </div>
-            <button class="px-5 py-2 rounded-full shimmer-button text-sm font-semibold" id="next-question" data-i18n="feedbackNext">পরবর্তী প্রশ্ন</button>
-          </div>
+            <ul class="space-y-3">
+                <li onclick="resetApp()" class="flex items-center gap-3 p-3 rounded-2xl bg-white/5 border border-white/10 cursor-pointer hover:border-[rgba(195,163,93,0.45)]">
+                    <span class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h7M4 9h7M4 14h7M4 19h7" stroke-linecap="round"/><path d="M14 4h6M14 20h6M14 12h6" stroke-linecap="round"/></svg>
+                    </span>
+                    <div>
+                        <p class="text-[var(--accent-cream)] font-semibold">New Start</p>
+                        <p class="text-[var(--muted-text)] text-sm">সমস্ত আপলোড ও ফলাফল রিসেট করুন</p>
+                    </div>
+                </li>
+            </ul>
         </div>
-      </div>
     </div>
-  </div>
-  <div class="modal" id="result-modal">
-    <div class="card result-card" id="result-card">
-      <div class="confetti"></div>
-      <h3 class="status-chip mb-4" id="result-title">অভিনন্দন!</h3>
-      <div class="text-5xl font-black text-emerald-300 mb-2" id="result-score">0%</div>
-      <p class="text-slate-200 mb-5" id="result-message">---</p>
-      <div class="grid gap-3 max-w-sm mx-auto">
-        <button class="px-5 py-3 rounded-full shimmer-button text-white font-semibold" id="result-retry" data-i18n="resultReplay">আবার অনুশীলন করুন</button>
-        <button class="px-5 py-2 rounded-full border border-slate-600 text-slate-300 hover:border-indigo-400" id="result-home" data-i18n="resultClose">হোমে ফিরে যান</button>
-      </div>
+
+    <div id="creator-modal" class="modal-backdrop">
+        <div class="modal-card bg-[var(--accent-cream)] text-[#1f2832] w-full max-w-xs p-8 text-center relative">
+            <button onclick="toggleCreatorModal(false)" class="absolute top-4 right-4 text-[#4f5d6b]" aria-label="বন্ধ করুন">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+                    <path d="M6 6l12 12M6 18L18 6" stroke-linecap="round"/>
+                </svg>
+            </button>
+            <div class="mx-auto w-16 h-16 rounded-full bg-[#d7c7a5] flex items-center justify-center text-2xl font-bold tracking-tight text-[#374352]">MD</div>
+            <h3 class="text-xl font-semibold mt-4 mb-1">ক্রিয়েটরের তথ্য</h3>
+            <p class="text-sm text-[#4f5d6b]">নির্মাতা:</p>
+            <p class="text-lg font-semibold text-[#1f2832] mb-1">Md. Developer</p>
+            <p class="text-sm text-[#4f5d6b]">Version: 2.0.0</p>
+            <button onclick="toggleCreatorModal(false)" class="mt-6 w-full py-3 rounded-full bg-[#1f2832] text-[var(--accent-cream)] font-semibold">বন্ধ করুন</button>
+        </div>
     </div>
-  </div>
-  <div class="modal" id="api-modal">
-    <div class="card">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-2xl font-bold" data-i18n="apiTitle">API Key সেটআপ</h3>
-        <button id="api-close" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
-      </div>
-      <p class="text-sm text-slate-300 mb-4" data-i18n="apiDescription">গুগল AI স্টুডিও থেকে প্রাপ্ত কী যুক্ত করলে নিজের কোটায় কুইজ তৈরি করতে পারবেন। খালি রাখলে ডিফল্ট কী ব্যবহৃত হবে।</p>
-      <label class="text-sm font-semibold text-slate-300 mb-2 block" data-i18n="apiLabel">Google AI Studio Key</label>
-      <input id="api-input" class="w-full api-input mb-4" placeholder="AIzaSy..." data-i18n-placeholder="apiPlaceholder" />
-      <div class="grid grid-cols-2 gap-3">
-        <button class="px-4 py-2 rounded-full shimmer-button text-white font-semibold" id="api-save" data-i18n="apiSave">সংরক্ষণ</button>
-        <button class="px-4 py-2 rounded-full border border-slate-600 text-slate-300 hover:border-rose-400" id="api-clear" data-i18n="apiClear">মুছুন</button>
-      </div>
+
+    <div id="question-count-modal" class="modal-backdrop">
+        <div class="modal-card w-full max-w-md p-8 text-center space-y-6">
+            <h3 class="text-2xl font-semibold text-[var(--accent-cream)]">কতগুলো প্রশ্ন তৈরি করতে চান?</h3>
+            <div class="flex flex-wrap justify-center items-center gap-3">
+                <button onclick="selectQuestionCount(5, this)" class="q-count-btn selected">৫</button>
+                <button onclick="selectQuestionCount(10, this)" class="q-count-btn">১০</button>
+                <button onclick="selectQuestionCount(15, this)" class="q-count-btn">১৫</button>
+                <input id="custom-q-count" type="number" min="1" max="20" class="w-24 text-center bg-white/5 border border-white/10 rounded-full px-3 py-2 text-[var(--accent-cream)]" placeholder="অন্যান্য" oninput="selectQuestionCount(this.value, this)">
+            </div>
+            <input type="hidden" id="question-count" value="5">
+            <button onclick="handleStart()" class="w-full py-3 rounded-full font-semibold text-[#0f1720]" style="background: linear-gradient(135deg, rgba(108, 124, 95, 0.9), rgba(195, 163, 93, 0.9));">চালিয়ে যান</button>
+        </div>
     </div>
-  </div>
-  <div class="modal" id="history-modal">
-    <div class="card" style="max-width:620px;">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-2xl font-bold" data-i18n="historyTitle">কুইজ হিস্টোরি</h3>
-        <button id="history-close" class="text-slate-400 hover:text-white"><i class="fas fa-times"></i></button>
-      </div>
-      <div class="grid gap-3" id="history-list"></div>
-      <button class="mt-4 px-4 py-2 rounded-full border border-rose-500 text-rose-300 hover:bg-rose-500 hover:text-white text-sm" id="history-clear" data-i18n="historyClear">সমস্ত হিস্টোরি মুছুন</button>
+
+    <div id="game-modal" class="modal-backdrop">
+        <div id="processing-screen" class="modal-card w-full max-w-2xl hidden flex-col rounded-3xl overflow-hidden">
+            <div class="p-8 border-b border-white/5">
+                <div class="rounded-2xl border border-white/10 p-6 bg-white/5">
+                    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                        <div class="space-y-2 text-[var(--accent-cream)]">
+                            <h3 class="text-xl font-semibold">আপনার বিজ্ঞাপন এখানে</h3>
+                            <p class="text-[var(--muted-text)] text-sm">আপনার ব্যবসাকে প্রসারিত করুন</p>
+                        </div>
+                        <div class="rounded-xl overflow-hidden border border-white/10">
+                            <img src="https://placehold.co/300x120/344150/FFFFFF?text=AD" alt="Advertisement" class="object-cover h-full w-full">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-grow flex items-center justify-center p-10 text-center space-y-6">
+                <div>
+                    <div class="spinner mx-auto mb-6"></div>
+                    <h2 class="text-2xl font-semibold text-[var(--accent-cream)]">⚡ AI পেজ বিশ্লেষণ করছে...</h2>
+                    <p class="text-[var(--muted-text)]">অনুগ্রহ করে অপেক্ষা করুন...</p>
+                </div>
+            </div>
+        </div>
+        <div id="quiz-screen" class="modal-card w-full max-w-3xl hidden flex-col rounded-3xl p-6 md:p-8 text-[#1f2832] bg-[var(--accent-cream)]">
+            <div class="flex justify-between items-center mb-4">
+                <p class="text-lg font-semibold text-[#374352]">প্রশ্ন <span id="current-q-index">1</span> / <span id="total-q-count">5</span></p>
+                <button onclick="resetApp()" class="text-[#7c8796]" aria-label="বন্ধ করুন">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="w-6 h-6">
+                        <path d="M6 6l12 12M6 18L18 6" stroke-linecap="round"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="w-full bg-[#d9d4cb] rounded-full h-2.5 mb-5">
+                <div id="progress-bar-inner" class="h-2.5 rounded-full" style="width: 0;"></div>
+            </div>
+            <p id="question-text" class="text-xl md:text-2xl font-semibold text-[#1f2832] p-5 mb-6 bg-[#f7f2e6] rounded-2xl shadow-inner"></p>
+            <div id="options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </div>
+        <div id="results-screen" class="modal-card w-full max-w-md hidden flex-col items-center rounded-3xl p-8 text-center bg-[var(--accent-cream)] text-[#1f2832]">
+            <h2 id="results-title" class="text-3xl font-bold text-[#6c7c5f] mb-4">অভিনন্দন! 🎉</h2>
+            <p class="text-lg mb-4">আপনার চূড়ান্ত স্কোর:</p>
+            <div class="inline-flex items-center justify-center bg-white p-6 rounded-full border-4 border-[#6c7c5f] mb-6">
+                <p class="text-6xl font-extrabold text-[#6c7c5f]"><span id="final-score-percent">0</span><span class="text-3xl">%</span></p>
+            </div>
+            <p id="performance-message" class="text-lg font-semibold mb-8 text-[#374352]"></p>
+            <button onclick="resetApp()" class="w-full py-3 rounded-full font-semibold text-[#0f1720]" style="background: linear-gradient(135deg, rgba(108, 124, 95, 0.9), rgba(195, 163, 93, 0.9));">আবার চেষ্টা করুন</button>
+        </div>
     </div>
-  </div>
-  <div class="toast" id="toast"><i class="fas fa-circle-check text-emerald-400"></i><span id="toast-text">Saved</span></div>
-  <script src="https://lib.youware.com/youware-ai-4.3.16.js"></script>
-  <script src="https://lib.youware.com/youware-openai-1.3.22.js"></script>
-  <script src="https://lib.youware.com/youware-zod-3.25.67.js"></script>
-  <script type="module">
-    const $ = (s) => document.querySelector(s);
-    const $$ = (s) => document.querySelectorAll(s);
-    const state = {lang: localStorage.getItem('gloryLang') || 'bn', files: [], previews: [], base64: [], mime: [], quiz: [], index: 0, score: 0, points: 0, answered: 0, questionCount: 10, history: JSON.parse(localStorage.getItem('gloryHistory') || '[]'), customKey: localStorage.getItem('gloryGeminiKey') || '', processingStepIndex: 0, feedbackWaiting: false};
-    const DEFAULT_KEY = 'AIzaSyBUd0XZUgyHUMU40IoTqf_RY7JaSXANLBo';
-    const translations = {
-      bn: {appTitle:'গ্লোরি কুইজ স্যুট', brandTitle:'গ্লোরি • স্মার্ট প্রস্তুতি', brandSubtitle:'লো কোয়ালিটি টেক্সট থেকেও প্রিমিয়াম কুইজ প্রস্তুতি', statusRealtime:'রিয়েলটাইম এআই', statusTeacher:'ভার্চুয়াল শিক্ষক', heroHeading:'আপনার অধ্যয়ন পেজকে রূপ দিন গেমিফাইড কুইজে', heroSubheading:'গ্লোরি AI নিম্নমানের ছবিকেও বিশ্লেষণ করে গুরুত্বপূর্ণ তথ্য বের করে আনে, এনিমেটেড শিক্ষক ও পয়েন্ট সিস্টেমসহ অনুপ্রেরণাদায়ক কুইজ অভিজ্ঞতা তৈরি করে।', cardCaptureTitle:'ক্যাপচার • আপলোড', cardCaptureDesc:'গ্যালারি অথবা ক্যামেরা থেকে বইয়ের পেজ তুলে দিন, বাকি দায়িত্ব গ্লোরির।', cardAnalysisTitle:'মাল্টি-স্টেজ বিশ্লেষণ', cardAnalysisDesc:'OCR → সারাংশ → কুইজ। প্রতিটি ধাপেই আপনি আপডেট পাবেন।', cardPlayTitle:'গেমিফাইড মেন্টর', cardPlayDesc:'শিক্ষক চরিত্রের ইঙ্গিত, শব্দ ও আলোতে প্রতিটি উত্তরে জীবন্ত ফিডব্যাক।', cardProgressTitle:'লাইভ স্কোরবোর্ড', cardProgressDesc:'পয়েন্ট কাউন্টার, ইতিহাস লগ ও অনুপ্রেরণামূলক বার্তা একসাথে।', uploadHint:'অধ্যায়ন পেজ নির্বাচন করুন, তারপর পাঠানোর আইকনে ট্যাপ করুন।', apiHint:'আপনার কাস্টম API Key সেট করুন', historyHint:'কুইজ পারফরম্যান্স হিস্টোরি', questionModalTitle:'কতগুলো প্রশ্ন তৈরি করতে চান?', questionModalDesc:'সর্বোচ্চ ৬০টি প্রশ্ন। সংখ্যা যত বেশি, অনুশীলন তত গভীর।', questionContinue:'চালিয়ে যান', questionQuickFive:'দ্রুত ৫ প্রশ্ন', processingTitle:'এআই বিশ্লেষণ চলছে...', processingStatus:'স্টেপ ১ / ৩', processingFooter:'গুরুত্বপূর্ণ তথ্য খুঁজে বের করা হচ্ছে ও কুইজে রূপান্তর করা হচ্ছে। দয়া করে ট্যাব বন্ধ করবেন না।', processingSteps:['লো-কোয়ালিটি ছবি স্পষ্ট করা ও টেক্সট সংগ্রহ','মূল সূত্র শনাক্ত করা','নির্ধারিত সংখ্যক কুইজ নির্মাণ'], quizTitle:'গ্লোরি কুইজ অ্যারেনা', quizChip:'তোমাকে পারতেই হবে', pointerLabel:'ফোকাস জোন', scoreTotal:'মোট পয়েন্ট', scoreQuestions:'উত্তর', scoreProgress:'অগ্রগতি', feedbackNext:'পরবর্তী প্রশ্ন', resultReplay:'আবার অনুশীলন করুন', resultClose:'হোমে ফিরে যান', apiTitle:'API Key সেটআপ', apiDescription:'গুগল AI স্টুডিও থেকে প্রাপ্ত কী যুক্ত করলে নিজের কোটায় কুইজ তৈরি করতে পারবেন। খালি রাখলে ডিফল্ট কী ব্যবহৃত হবে।', apiLabel:'Google AI Studio Key', apiPlaceholder:'AIzaSy...', apiSave:'সংরক্ষণ', apiClear:'মুছুন', historyTitle:'কুইজ হিস্টোরি', historyClear:'সমস্ত হিস্টোরি মুছুন', galleryBtn:'গ্যালারি থেকে ছবি', cameraBtn:'ক্যামেরা থেকে ছবি', toastSaved:'সাফল্যের সাথে সংরক্ষিত', toastCleared:'ডেটা মুছে ফেলা হয়েছে', toastError:'কিছু ভুল হয়েছে', questionsLabel:'প্রশ্ন', scoreLabel:'স্কোর', justNow:'এইমাত্র', minutesAgo:'মিনিট আগে', hoursAgo:'ঘণ্টা আগে', daysAgo:'দিন আগে', emptyHistory:'কোনো হিস্টোরি নেই। আজই গ্লোরি কুইজ শুরু করুন।', encouragementWrong:['তোমাকে পারতেই হবে! আবার চেষ্টা করো।','ভুল হলেও শেখার নতুন রাস্তা খুলল।','মনোযোগ বাড়াও, সফলতা সামনে।'], encouragementRight:['গৌরবময়! তোমার উত্তরে জ্বলজ্বল করছে বুদ্ধি।','দারুণ! এই ধারাবাহিকতা ধরে রাখো।','মেন্টর তোমার অগ্রগতিতে খুশি।'], subWrong:['নির্ভয়ে আবার দেখো, শিক্ষক তোমার পাশে।','ইঙ্গিতগুলো পড়ে একবার পুনরায় ভাবো।','চিন্তা নেই, অনুশীলনেই দক্ষতা।'], subRight:['পয়েন্ট কাউন্টার ঝলমল করছে।','এই গতি বজায় রাখো।','আরো এক ধাপ এগিয়ে গেলে।'], resultPerfect:'মেগা গ্লোরিয়াস!', resultGreat:'গৌরবময় সফলতা!', resultGood:'অসাধারণ অগ্রগতি!', resultTry:'চেষ্টা অব্যাহত রাখো!', resultPerfectMsg:'সব প্রশ্নে নিখুঁত! এখন তুমি গ্লোরির মেন্টরদের সমপর্যায়ে।', resultGreatMsg:'দারুণ প্রস্তুতি—মাত্র কয়েক ধাপ দূরে পূর্ণতা।', resultGoodMsg:'খুবই ভালো! একটু অনুশীলনেই শীর্ষে উঠে যাবে।', resultTryMsg:'প্রতিটি ভুলই শক্তিশালী পাঠ। আজ নয় তো কাল তুমি পারবেই।', historyScore:'স্কোর', historyDate:'তারিখ', historyQuestions:'প্রশ্ন'},
-      en: {appTitle:'Glory Quiz Suite', brandTitle:'Glory • Smart Preparation', brandSubtitle:'Premium quizzes even from low quality study photos', statusRealtime:'Realtime AI', statusTeacher:'Virtual Mentor', heroHeading:'Transform study pages into gamified quizzes', heroSubheading:'Glory AI reads low quality captures, extracts insights and builds an inspiring quiz with mentor-style feedback.', cardCaptureTitle:'Capture • Upload', cardCaptureDesc:'Pick textbook pages from gallery or camera—Glory handles the rest.', cardAnalysisTitle:'Multi-stage analysis', cardAnalysisDesc:'OCR → Synthesis → Quiz with live progress indicators.', cardPlayTitle:'Gamified mentor', cardPlayDesc:'Animated teacher, audio cues and glowing highlights elevate every attempt.', cardProgressTitle:'Live scoreboard', cardProgressDesc:'Points, history and motivational phrases in one panel.', uploadHint:'Choose study pages then tap send to begin.', apiHint:'Set your custom API key', historyHint:'Quiz performance history', questionModalTitle:'How many questions do you need?', questionModalDesc:'Up to 60 questions. Higher count unlocks deeper mastery.', questionContinue:'Continue', questionQuickFive:'Quick 5 Questions', processingTitle:'AI is working...', processingStatus:'Step 1 / 3', processingFooter:'Extracting insights and composing your quiz. Keep this tab open.', processingSteps:['Enhancing photo & reading text','Detecting core concepts','Composing your adaptive quiz'], quizTitle:'Glory Quiz Arena', quizChip:'You must conquer', pointerLabel:'Focus Zone', scoreTotal:'Total Points', scoreQuestions:'Answered', scoreProgress:'Progress', feedbackNext:'Next Question', resultReplay:'Practice Again', resultClose:'Return Home', apiTitle:'API Key Setup', apiDescription:'Use your Google AI Studio key to rely on personal quota. Leave empty for default.', apiLabel:'Google AI Studio Key', apiPlaceholder:'AIzaSy...', apiSave:'Save', apiClear:'Clear', historyTitle:'Quiz History', historyClear:'Clear history', galleryBtn:'Select from gallery', cameraBtn:'Open camera', toastSaved:'Saved successfully', toastCleared:'Data cleared', toastError:'Something went wrong', questionsLabel:'Questions', scoreLabel:'Score', justNow:'just now', minutesAgo:'minutes ago', hoursAgo:'hours ago', daysAgo:'days ago', emptyHistory:'No history yet. Start your Glory quiz today.', encouragementWrong:['You must conquer! Try again.','Mistakes build mastery.','Reset focus and strike back.'], encouragementRight:['Glorious insight!','Excellent response.','Mentor applauds your brilliance.'], subWrong:['Mentor will guide you again.','Check the clues and retry.','Review the concept carefully.'], subRight:['Point counter glows brighter.','Keep this momentum.','Another stride toward mastery.'], resultPerfect:'Mega Glorious!', resultGreat:'Triumphant!', resultGood:'Great Progress!', resultTry:'Keep pushing!', resultPerfectMsg:'You conquered every question flawlessly!', resultGreatMsg:'Phenomenal performance—just shy of perfection.', resultGoodMsg:'Solid progress! A bit more practice seals the deal.', resultTryMsg:'Every attempt teaches new tactics. Stay determined.', historyScore:'Score', historyDate:'Date', historyQuestions:'Questions'},
-      hi: {appTitle:'ग्लोरी क्विज़ सूट', brandTitle:'Glory • स्मार्ट तैयारी', brandSubtitle:'कम गुणवत्ता वाली तस्वीरों से भी प्रीमियम क्विज़', statusRealtime:'रीयलटाइम एआई', statusTeacher:'वर्चुअल गुरु', heroHeading:'अपनी पढ़ाई को गेमिफाइड क्विज़ में बदलें', heroSubheading:'Glory AI धुंधली तस्वीरों से भी ज्ञान निकालकर गुरु शैली में क्विज़ तैयार करता है.', cardCaptureTitle:'कैप्चर • अपलोड', cardCaptureDesc:'गैलरी या कैमरा से पेज लें, बाकी काम Glory करेगा.', cardAnalysisTitle:'बहु-चरण विश्लेषण', cardAnalysisDesc:'OCR → सार → क्विज़ तैयार, चरण दर चरण अपडेट.', cardPlayTitle:'गेमिफाइड गुरु', cardPlayDesc:'एनीमेटेड शिक्षक, ध्वनि प्रभाव और चमकदार हाइलाइट हर उत्तर को यादगार बनाते हैं.', cardProgressTitle:'लाइव स्कोरबोर्ड', cardProgressDesc:'पॉइंट काउंटर, इतिहास और प्रेरणादायक संवाद एक साथ.', uploadHint:'पढ़ा गया पेज चुनें और भेजें आइकन दबाएँ.', apiHint:'अपना कस्टम API Key सेट करें', historyHint:'क्विज़ प्रदर्शन इतिहास', questionModalTitle:'कितने प्रश्न बनाए जाएँ?', questionModalDesc:'अधिकतम 60 प्रश्न। संख्या जितनी अधिक, तैयारी उतनी गहरी.', questionContinue:'जारी रखें', questionQuickFive:'जल्दी 5 प्रश्न', processingTitle:'एआई विश्लेषण कर रहा है...', processingStatus:'चरण 1 / 3', processingFooter:'महत्वपूर्ण जानकारी खोजी जा रही है। टैब बंद न करें.', processingSteps:['कम गुणवत्ता वाली छवि से स्पष्ट पाठ निकालना','मुख्य बिंदु समझना','अनुकूल क्विज़ तैयार करना'], quizTitle:'Glory क्विज़ एरीना', quizChip:'जीतना ही होगा', pointerLabel:'फोकस ज़ोन', scoreTotal:'कुल पॉइंट', scoreQuestions:'उत्तर', scoreProgress:'प्रगति', feedbackNext:'अगला प्रश्न', resultReplay:'फिर से अभ्यास करें', resultClose:'होम लौटें', apiTitle:'API Key सेटअप', apiDescription:'Google AI Studio Key जोड़ें या डिफॉल्ट पर থাকুন.', apiLabel:'Google AI Studio Key', apiPlaceholder:'AIzaSy...', apiSave:'सेव', apiClear:'हटाएँ', historyTitle:'क्विज़ इतिहास', historyClear:'इतिहास साफ़ करें', galleryBtn:'गैलरी से चुनें', cameraBtn:'कैमरा खोलें', toastSaved:'सफलतापूर्वक सहेजा गया', toastCleared:'डेटा हटाया गया', toastError:'कुछ त्रुटि हुई', questionsLabel:'प्रश्न', scoreLabel:'स्कोर', justNow:'अभी', minutesAgo:'मिनट पहले', hoursAgo:'घंटे पहले', daysAgo:'दिन पहले', emptyHistory:'अभी कोई इतिहास नहीं। आज ही Glory क्विज़ शुरू करें.', encouragementWrong:['तुम्हें जीतना ही होगा! फिर प्रयास करो.','गलतियां सफलता का रास्ता खोलती हैं.','ध्यान केंद्रित करो, गुरु साथ है.'], encouragementRight:['गौरवशाली उत्तर!','उत्कृष्ट विचार.','गुरु तुम्हारी तारीफ़ कर रहा है.'], subWrong:['गुरु फिर समझाएगा, हिम्मत रखो.','सुराग पढ़ो और फिर प्रयास करो.','अवधारणा दोबारा देखें.'], subRight:['पॉइंट काउंटर चमक उठा.','ये लय बनाए रखो.','महारत के करीब हो.'], resultPerfect:'मेगा ग्लोरियस!', resultGreat:'शानदार विजय!', resultGood:'उत्कृष्ट प्रगति!', resultTry:'हिम्मत मत हारो!', resultPerfectMsg:'तुमने हर प्रश्न को फतह किया!', resultGreatMsg:'असाधारण प्रदर्शन, लगभग पूर्णता.', resultGoodMsg:'मजबूत प्रगति! थोड़ा अभ्यास और.', resultTryMsg:'हर प्रयास सीख बनता है, डटे रहो.', historyScore:'स्कोर', historyDate:'तारीख', historyQuestions:'प्रश्न'} };
-    function applyTranslations(){const t=translations[state.lang];document.title=t.appTitle;$$("[data-i18n]").forEach(el=>{const key=el.getAttribute('data-i18n');if(t[key]) el.textContent=t[key];});$$("[data-i18n-title]").forEach(el=>{const key=el.getAttribute('data-i18n-title');if(t[key]) el.title=t[key];});$$("[data-i18n-placeholder]").forEach(el=>{const key=el.getAttribute('data-i18n-placeholder');if(t[key]) el.placeholder=t[key];});$$('.lang-btn').forEach(btn=>{btn.classList.toggle('active',btn.dataset.lang===state.lang);});}
-    function showModal(id, show){const modal=$(id);if(!modal) return;modal.classList.toggle('visible',show);} const questionModal="#question-modal"; const processingModal="#processing-modal"; const quizModal="#quiz-modal"; const resultModal="#result-modal"; const apiModal="#api-modal"; const historyModal="#history-modal";
-    function toast(message, positive=true){const el=$('#toast');$('#toast-text').textContent=message;el.classList.toggle('visible',true);el.style.borderColor=positive?'rgba(34,197,94,.45)':'rgba(248,113,113,.5)';setTimeout(()=>el.classList.remove('visible'),2500);}
-    function readFiles(fileList){const incoming=[...fileList].filter(f=>f.type.startsWith('image/'));const existing=new Set(state.files.map(f=>`${f.name}-${f.size}`));incoming.forEach(f=>{const key=`${f.name}-${f.size}`;if(!existing.has(key)) state.files.push(f);});renderPreviews();}
-    function renderPreviews(){const container=$('#preview');container.innerHTML='';state.base64=[];state.mime=[];if(!state.files.length){$('#send-btn').disabled=true;return;}$('#send-btn').disabled=false;state.files.forEach((file,idx)=>{const card=document.createElement('div');card.className='preview-card';const img=document.createElement('img');img.src=URL.createObjectURL(file);card.appendChild(img);const remove=document.createElement('button');remove.innerHTML='<i class="fas fa-times"></i>';remove.onclick=()=>{state.files.splice(idx,1);URL.revokeObjectURL(img.src);renderPreviews();};card.appendChild(remove);container.appendChild(card);const reader=new FileReader();reader.onload=()=>{const base=reader.result.split(',')[1];state.base64[idx]=base;state.mime[idx]=file.type||'image/jpeg';};reader.readAsDataURL(file);});}
-    function formatRelative(date){const t=translations[state.lang];const diff=(Date.now()-date)/1000;if(diff<60) return t.justNow;if(diff<3600) return `${Math.round(diff/60)} ${t.minutesAgo}`;if(diff<86400) return `${Math.round(diff/3600)} ${t.hoursAgo}`;return `${Math.round(diff/86400)} ${t.daysAgo}`;}
-    function updateHistory(){const list=$('#history-list');const t=translations[state.lang];if(!state.history.length){list.innerHTML=`<div class="text-slate-400 text-center py-6">${t.emptyHistory}</div>`;return;}list.innerHTML=state.history.map(item=>`<div class="glass p-4 rounded-2xl border border-slate-600/40 bg-slate-900/70"> <div class="flex justify-between items-center mb-2"><span class="font-semibold">${item.percentage}%</span><span class="text-xs text-slate-400">${formatRelative(item.date)}</span></div><div class="text-sm text-slate-300">${t.questionsLabel}: ${item.total} • ${t.scoreLabel}: ${item.score}</div></div>`).join('');}
-    function saveHistory(entry){state.history.unshift(entry);state.history=state.history.slice(0,40);localStorage.setItem('gloryHistory',JSON.stringify(state.history));}
-    function resetQuizState(){state.quiz=[];state.index=0;state.score=0;state.points=0;state.answered=0;state.feedbackWaiting=false;$('#score-points').textContent='0000';$('#score-answered').textContent='0';$('#progress-bar').style.transform='scaleX(0)';$('#question-text').textContent='---';$('#options').innerHTML='';$('#feedback').style.display='none';$('#quiz-progress').textContent='0 / 0';}
-    function updateProcessingSteps(){const stepsContainer=$('#processing-steps');const steps=translations[state.lang].processingSteps;stepsContainer.innerHTML='';steps.forEach((step,idx)=>{const div=document.createElement('div');div.className='step';div.innerHTML=`<div class="badge">${idx+1}</div><div><p class="font-semibold">${step}</p><p class="text-slate-400 text-sm" id="step-note-${idx}"></p></div>`;stepsContainer.appendChild(div);});}
-    function setStepStatus(current,total){const status=$('#processing-status');status.textContent=`${translations[state.lang].processingStatus.split('স্টেপ')[0]||'Step'} ${current} / ${total}`;$('#processing-steps').querySelectorAll('.step').forEach((step,idx)=>{step.classList.remove('active','done');if(idx<current-1) step.classList.add('done');else if(idx===current-1) step.classList.add('active');});}
-    function speak(text){try{const utter=new SpeechSynthesisUtterance(text);utter.lang=state.lang==='bn'?'bn-BD':state.lang==='hi'?'hi-IN':'en-US';utter.pitch=1;utter.rate=1;window.speechSynthesis.cancel();window.speechSynthesis.speak(utter);}catch(e){console.warn('speech error',e);}}
-    function correctTone(){if(!window.AudioContext) return;state.audioCtx=state.audioCtx||new AudioContext();const ctx=state.audioCtx;const osc=ctx.createOscillator();const gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='sine';osc.frequency.setValueAtTime(440,ctx.currentTime);osc.frequency.linearRampToValueAtTime(659.25,ctx.currentTime+.2);gain.gain.setValueAtTime(0,ctx.currentTime);gain.gain.linearRampToValueAtTime(.5,ctx.currentTime+.02);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.4);osc.start();osc.stop(ctx.currentTime+.4);} function wrongTone(){if(!window.AudioContext) return;state.audioCtx=state.audioCtx||new AudioContext();const ctx=state.audioCtx;const osc=ctx.createOscillator();const gain=ctx.createGain();osc.connect(gain);gain.connect(ctx.destination);osc.type='square';osc.frequency.setValueAtTime(180,ctx.currentTime);gain.gain.setValueAtTime(.4,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.25);osc.start();osc.stop(ctx.currentTime+.25);} document.body.addEventListener('click',()=>{try{state.audioCtx?.resume();}catch{}} ,{once:true});
-    async function generateQuiz(){const apiKey=state.customKey||DEFAULT_KEY;const endpoint=`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;const langLabel=state.lang==='en'?'English':state.lang==='hi'?'Hindi':'Bengali';const parts=[{text:`You are an elite ${langLabel} teacher. Carefully read every provided textbook photo even if it is noisy, blurred, tilted or low-light. Step 1: enhance and OCR each image and return the clean text internally. Step 2: synthesise the core concepts, formulas and definitions that a student must know. Step 3: create ${state.questionCount} MCQ questions in ${langLabel}. Each question must have exactly four options. Provide the data strictly as valid JSON with the shape {"summary":"...","key_points":["..."],"questions":[{"question":"...","options":["...","...","...","..."],"answer":"...","explanation":"..."}]}. The answer field must exactly match one option string.`},...state.base64.map((data,i)=>({inlineData:{mimeType:state.mime[i]||'image/jpeg',data}}))];const payload={contents:[{parts}]};console.log('🤖 Gemini Request:',{questions:state.questionCount,language:state.lang,images:state.base64.length});const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});if(!res.ok){throw new Error(`API Error - Gemini status ${res.status}`);}const json=await res.json();const text=json.candidates?.[0]?.content?.parts?.[0]?.text;if(!text) throw new Error('API Error - Empty model response');const cleaned=text.replace(/```json|```/g,'').trim();let parsed;try{parsed=JSON.parse(cleaned);}catch(err){console.error('❌ JSON parse error',err,cleaned);throw new Error('API Error - Invalid JSON payload');}console.log('✅ Gemini Response:',{questions:parsed.questions?.length});return parsed;}
-    function renderQuestion(){const current=state.quiz[state.index];if(!current){showResults();return;}$('#quiz-progress').textContent=`${state.index+1} / ${state.quiz.length}`;$('#question-label').textContent=`Q${state.index+1}`;$('#question-text').textContent=current.question;$('#options').innerHTML='';const letters=['A','B','C','D'];current.options.forEach((opt,idx)=>{const btn=document.createElement('button');btn.className='option';btn.innerHTML=`<span class="marker">${letters[idx]}</span><span>${opt}</span>`;btn.onclick=()=>selectOption(btn,opt,current.answer,current.explanation||'');$('#options').appendChild(btn);});$('#feedback').style.display='none';state.feedbackWaiting=false;}
-    function selectOption(btn,opt,answer,explanation){if(state.feedbackWaiting) return;state.feedbackWaiting=true;const options=$$('#options .option');options.forEach(b=>b.disabled=true);const correctBtn=[...options].find(b=>b.textContent.replace(/[A-D]\s?/,'').trim()===answer.trim());const t=translations[state.lang];if(opt===answer){btn.classList.add('correct');correctTone();state.score++;state.points+=100;$('#score-points').textContent=String(state.points).padStart(4,'0');spawnPoints(btn,'+100');const msg=t.encouragementRight[Math.floor(Math.random()*t.encouragementRight.length)];const sub=t.subRight[Math.floor(Math.random()*t.subRight.length)];showFeedback(msg,sub,true,explanation);}else{btn.classList.add('wrong');wrongTone();if(correctBtn) correctBtn.classList.add('correct');const msg=t.encouragementWrong[Math.floor(Math.random()*t.encouragementWrong.length)];const sub=t.subWrong[Math.floor(Math.random()*t.subWrong.length)];showFeedback(msg,sub,false,explanation);}state.answered++;$('#score-answered').textContent=state.answered;const progress=state.answered/state.quiz.length;$('#progress-bar').style.transform=`scaleX(${progress})`;}
-    function showFeedback(main,sub,positive,explanation){const banner=$('#feedback');$('#feedback-main').textContent=main;$('#feedback-sub').textContent=explanation||sub;banner.style.display='flex';banner.dataset.state=positive?'success':'error';}
-    function spawnPoints(target,text){const floating=document.createElement('div');floating.className='points-float';floating.textContent=text;const rect=target.getBoundingClientRect();floating.style.left=`${rect.left + rect.width/2}px`;floating.style.top=`${rect.top - 10}px`;floating.style.position='fixed';document.body.appendChild(floating);setTimeout(()=>floating.remove(),700);} function nextQuestion(){state.index++;renderQuestion();}
-    function showResults(){showModal(quizModal,false);showModal(resultModal,true);const total=state.quiz.length;const percent=Math.round((state.score/total)*100)||0;const t=translations[state.lang];let title,desc;if(percent===100){title=t.resultPerfect;desc=t.resultPerfectMsg;}else if(percent>=80){title=t.resultGreat;desc=t.resultGreatMsg;}else if(percent>=50){title=t.resultGood;desc=t.resultGoodMsg;}else{title=t.resultTry;desc=t.resultTryMsg;}$('#result-title').textContent=title;$('#result-score').textContent=`${percent}%`;$('#result-message').textContent=desc;$('#result-card').classList.add('show-confetti');setTimeout(()=>$('#result-card').classList.remove('show-confetti'),1800);speak(desc);saveHistory({score:state.score,total,percentage:percent,date:Date.now()});}
-    async function startPipeline(){try{state.index=0;state.score=0;state.points=0;state.answered=0;state.quiz=[];showModal(questionModal,false);updateProcessingSteps();showModal(processingModal,true);setStepStatus(1,3);const aiResult=await generateQuiz();setStepStatus(2,3);const questions=(aiResult.questions||[]).slice(0,state.questionCount);state.quiz=questions.map(q=>({question:q.question,options:q.options,answer:q.answer?.trim?.()||'',explanation:q.explanation||''}));if(!state.quiz.length) throw new Error('API Error - No questions generated');setStepStatus(3,3);setTimeout(()=>{showModal(processingModal,false);showModal(quizModal,true);renderQuestion();},400);}catch(err){console.error('❌ API Error - Quiz generation failed',err);showModal(processingModal,false);toast(translations[state.lang].toastError,false);$('#error-text').textContent=err.message;$('#error-text').classList.remove('hidden');}}
-    $('#gallery-btn').onclick=()=>$('input#gallery-input').click();$('#camera-btn').onclick=()=>$('input#camera-input').click();$('#gallery-input').onchange=(e)=>readFiles(e.target.files);$('#camera-input').onchange=(e)=>readFiles(e.target.files);
-    $('#send-btn').onclick=()=>{if(!state.files.length){toast(translations[state.lang].toastError,false);return;}if(state.base64.length!==state.files.length){toast('Preparing files...',false);return;}showModal(questionModal,true);};
-    $('#question-close').onclick=()=>showModal(questionModal,false);$('#quick-five').onclick=()=>{state.questionCount=5;$('#question-value').textContent='5';startPipeline();};$('#question-continue').onclick=()=>{state.questionCount=parseInt($('#question-range').value,10);startPipeline();};$('#question-range').oninput=e=>{state.questionCount=parseInt(e.target.value,10);$('#question-value').textContent=e.target.value;};
-    $('#next-question').onclick=()=>{state.feedbackWaiting=false;nextQuestion();};$('#result-retry').onclick=()=>{showModal(resultModal,false);showModal(questionModal,true);};$('#result-home').onclick=()=>{showModal(resultModal,false);resetQuizState();};
-    $('#api-btn').onclick=()=>{showModal(apiModal,true);$('#api-input').value=state.customKey;};$('#api-close').onclick=()=>showModal(apiModal,false);$('#api-save').onclick=()=>{state.customKey=$('#api-input').value.trim();localStorage.setItem('gloryGeminiKey',state.customKey);toast(translations[state.lang].toastSaved);showModal(apiModal,false);};$('#api-clear').onclick=()=>{state.customKey='';localStorage.removeItem('gloryGeminiKey');$('#api-input').value='';toast(translations[state.lang].toastCleared);};
-    $('#history-btn').onclick=()=>{updateHistory();showModal(historyModal,true);};$('#history-close').onclick=()=>showModal(historyModal,false);$('#history-clear').onclick=()=>{state.history=[];localStorage.removeItem('gloryHistory');updateHistory();toast(translations[state.lang].toastCleared);};
-    $('#result-modal').addEventListener('click',e=>{if(e.target.id==='result-modal') showModal(resultModal,false);});$('#quiz-modal').addEventListener('click',e=>{if(e.target.id==='quiz-modal') showModal(quizModal,false);});
-    $$('.lang-btn').forEach(btn=>btn.onclick=()=>{state.lang=btn.dataset.lang;localStorage.setItem('gloryLang',state.lang);applyTranslations();updateProcessingSteps();updateHistory();});
-    applyTranslations();updateProcessingSteps();renderPreviews();resetQuizState();
-  </script>
+
+    <script type="module">
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${"AIzaSyBUd0XZUgyHUMU40IoTqf_RY7JaSXANLBo"}`;
+        let quizData = [], currentQuestionIndex = 0, score = 0, filesArray = [], base64Images = [], imageMimeTypes = [];
+        let audioCtx, correctSound, incorrectSound;
+
+        const dom = {
+            mainWrapper: document.body,
+            inputWrapper: document.getElementById('input-wrapper'),
+            inputContainer: document.getElementById('input-container'),
+            previews: document.getElementById('image-previews-container'),
+            startBtn: document.getElementById('start-quiz-button'),
+            errorMsg: document.getElementById('error-message'),
+            qCountModal: document.getElementById('question-count-modal'),
+            gameModal: document.getElementById('game-modal'),
+            processingScreen: document.getElementById('processing-screen'),
+            quizScreen: document.getElementById('quiz-screen'),
+            resultsScreen: document.getElementById('results-screen'),
+            qCountInput: document.getElementById('question-count'),
+            customQCount: document.getElementById('custom-q-count'),
+            progressBar: document.getElementById('progress-bar-inner'),
+            videoOverlay: document.getElementById('video-overlay'),
+            videoPlayer: document.getElementById('video-player'),
+        };
+
+        function initAudio() {
+            if (audioCtx) return;
+            try {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                correctSound = () => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    oscillator.type = 'sine';
+                    gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+                    gainNode.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.01);
+                    oscillator.frequency.setValueAtTime(440, audioCtx.currentTime);
+                    oscillator.frequency.linearRampToValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.2);
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.2);
+                };
+                incorrectSound = () => {
+                    const oscillator = audioCtx.createOscillator();
+                    const gainNode = audioCtx.createGain();
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioCtx.destination);
+                    oscillator.type = 'square';
+                    gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                    oscillator.frequency.setValueAtTime(160, audioCtx.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioCtx.currentTime + 0.15);
+                    oscillator.start(audioCtx.currentTime);
+                    oscillator.stop(audioCtx.currentTime + 0.15);
+                };
+            } catch (e) {
+                console.error('Web Audio API is not supported in this browser.');
+            }
+        }
+        document.body.addEventListener('click', initAudio, { once: true });
+
+        const scrollTargets = document.querySelectorAll('[data-animate]');
+        if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.12 });
+            scrollTargets.forEach(target => observer.observe(target));
+        } else {
+            scrollTargets.forEach(target => target.classList.add('is-visible'));
+        }
+
+        const showModal = (modal, show) => modal.classList.toggle('visible', show);
+        const showGameScreen = (screen) => {
+            dom.processingScreen.classList.add('hidden');
+            dom.quizScreen.classList.add('hidden');
+            dom.resultsScreen.classList.add('hidden');
+            if (screen) screen.classList.remove('hidden');
+        };
+
+        window.toggleMenuModal = (show) => showModal(document.getElementById('menu-modal'), show);
+        window.toggleCreatorModal = (show) => showModal(document.getElementById('creator-modal'), show);
+
+        window.mockVideoPlay = () => {
+            dom.videoOverlay.classList.add('hidden');
+            dom.videoPlayer.classList.remove('hidden');
+            const iframe = dom.videoPlayer.querySelector('iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+            }
+        };
+
+        const stopVideo = () => {
+            const iframe = dom.videoPlayer.querySelector('iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage('{"event":"command","func":"stopVideo","args":""}', '*');
+            }
+            dom.videoOverlay.classList.remove('hidden');
+            dom.videoPlayer.classList.add('hidden');
+        };
+
+        async function updateImagePreviews() {
+            dom.previews.innerHTML = '';
+            if (filesArray.length === 0) {
+                dom.inputContainer.classList.remove('expanded');
+                dom.startBtn.disabled = true;
+                return;
+            }
+            dom.inputContainer.classList.add('expanded');
+            dom.startBtn.disabled = false;
+            const toBase64 = (file) => new Promise(resolve => {
+                const reader = new FileReader();
+                reader.onload = () => resolve(reader.result);
+                reader.readAsDataURL(file);
+            });
+            const urls = await Promise.all(filesArray.map(toBase64));
+            base64Images = urls.map(url => url.split(',')[1]);
+            imageMimeTypes = filesArray.map(file => file.type);
+            urls.forEach((url, index) => {
+                const tile = document.createElement('div');
+                tile.className = 'preview-tile';
+                tile.innerHTML = `
+                    <img src="${url}" alt="আপলোডকৃত ছবি ${index + 1}" class="w-full h-full object-cover">
+                    <button class="preview-remove" type="button" aria-label="ছবি মুছে ফেলুন">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                            <path d="M7 7l10 10M7 17L17 7" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <span class="preview-index">${index + 1}</span>`;
+                tile.querySelector('.preview-remove').onclick = (event) => {
+                    event.stopPropagation();
+                    filesArray.splice(index, 1);
+                    updateImagePreviews();
+                };
+                dom.previews.appendChild(tile);
+            });
+        }
+
+        window.addFilesAndUpdate = (newFiles, input) => {
+            const additions = Array.from(newFiles).filter(file => !filesArray.some(existing => existing.name === file.name && existing.size === file.size));
+            if (additions.length) {
+                filesArray.push(...additions);
+                updateImagePreviews();
+            }
+            if (input) input.value = null;
+        };
+
+        window.showQuestionCountModal = () => showModal(dom.qCountModal, true);
+
+        window.selectQuestionCount = (count, el) => {
+            document.querySelectorAll('.q-count-btn').forEach(btn => btn.classList.remove('selected'));
+            if (el && el.classList && el.classList.contains('q-count-btn')) {
+                el.classList.add('selected');
+                dom.customQCount.value = '';
+            }
+            const numericValue = parseInt(count, 10);
+            if (!Number.isNaN(numericValue) && numericValue > 0 && numericValue <= 20) {
+                dom.qCountInput.value = numericValue;
+            }
+        };
+
+        window.handleStart = async () => {
+            if (filesArray.length === 0) return;
+            showModal(dom.qCountModal, false);
+            showModal(dom.gameModal, true);
+            showGameScreen(dom.processingScreen);
+
+            const questionCount = dom.qCountInput.value;
+            const prompt = `You are an expert Bengali educator. Analyze all provided images. Synthesize the information to generate ${questionCount} insightful MCQs. Response MUST be a valid JSON array of objects: {"question": "...", "options": ["...", "...", "...", "..."], "answer": "..."}.`;
+            const payload = {
+                contents: [{
+                    parts: [
+                        { text: prompt },
+                        ...base64Images.map((img, i) => ({ inlineData: { mimeType: imageMimeTypes[i], data: img } }))
+                    ]
+                }]
+            };
+
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                if (!response.ok) throw new Error(`API Error: ${response.status}`);
+                const result = await response.json();
+                const text = result.candidates?.[0]?.content?.parts?.[0]?.text ?? '';
+                quizData = JSON.parse(text.replace(/```json|```/g, '').trim());
+                if (!Array.isArray(quizData) || quizData.length === 0) {
+                    throw new Error('AI প্রশ্ন তৈরি করতে পারেনি।');
+                }
+                displayQuestion();
+            } catch (error) {
+                dom.errorMsg.textContent = `ত্রুটি: ${error.message}`;
+                dom.errorMsg.classList.remove('hidden');
+                resetApp();
+            }
+        };
+
+        function displayQuestion() {
+            showGameScreen(dom.quizScreen);
+            if (currentQuestionIndex >= quizData.length) {
+                showResults();
+                return;
+            }
+            const currentQuestion = quizData[currentQuestionIndex];
+            document.getElementById('current-q-index').textContent = currentQuestionIndex + 1;
+            document.getElementById('total-q-count').textContent = quizData.length;
+            document.getElementById('question-text').textContent = currentQuestion.question;
+            dom.progressBar.style.width = `${(currentQuestionIndex / quizData.length) * 100}%`;
+
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            const shuffled = [...currentQuestion.options].sort(() => Math.random() - 0.5);
+            shuffled.forEach(option => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.type = 'button';
+                button.className = 'quiz-option p-4 text-left font-semibold text-[#1f2832] bg-white rounded-2xl border-2 border-[#d9d4cb]';
+                button.onclick = () => selectAnswer(option, currentQuestion.answer, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function selectAnswer(selected, correct, button) {
+            const buttons = document.querySelectorAll('.quiz-option');
+            buttons.forEach(btn => btn.disabled = true);
+            const isCorrect = selected === correct;
+            if (isCorrect) {
+                if (correctSound) correctSound();
+                button.classList.add('glow');
+                score++;
+            } else {
+                if (incorrectSound) incorrectSound();
+                button.classList.add('shake');
+                button.style.backgroundColor = '#f9e5e5';
+                buttons.forEach(btn => {
+                    if (btn.textContent === correct) {
+                        btn.classList.add('glow');
+                    }
+                });
+            }
+            currentQuestionIndex++;
+            setTimeout(displayQuestion, 2000);
+        }
+
+        function showResults() {
+            showGameScreen(dom.resultsScreen);
+            const percentage = Math.round((score / quizData.length) * 100);
+            document.getElementById('final-score-percent').textContent = percentage;
+            let title, message;
+            if (percentage === 100) {
+                title = 'অবিশ্বাস্য!';
+                message = 'আপনি সবগুলো প্রশ্নের সঠিক উত্তর দিয়েছেন!';
+            } else if (percentage >= 80) {
+                title = 'চমৎকার!';
+                message = 'আপনার প্রস্তুতি প্রায় নিখুঁত।';
+            } else if (percentage >= 50) {
+                title = 'খুব ভালো!';
+                message = 'অনুশীলন চালিয়ে যান, আপনি সফল হবেনই।';
+            } else {
+                title = 'আবার চেষ্টা করুন!';
+                message = 'প্রতিটি ভুলই নতুন কিছু শেখার সুযোগ।';
+            }
+            document.getElementById('results-title').textContent = title;
+            document.getElementById('performance-message').textContent = message;
+        }
+
+        window.resetApp = () => {
+            quizData = [];
+            currentQuestionIndex = 0;
+            score = 0;
+            filesArray = [];
+            document.getElementById('gallery-upload').value = null;
+            document.getElementById('camera-upload').value = null;
+            updateImagePreviews();
+            showModal(dom.gameModal, false);
+            dom.errorMsg.classList.add('hidden');
+            selectQuestionCount(5, document.querySelector('.q-count-btn'));
+            stopVideo();
+        };
+
+        resetApp();
+    </script>
 </body>
 </html>
